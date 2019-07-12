@@ -4,8 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         id_sensor: {
             allowNull: false,
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
+            type: DataTypes.INTEGER(11)
         },
         sensor: {
             type: DataTypes.STRING,
@@ -31,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Sensor.associate = function (models) {
-        Sensor.belongsTo(models.Maquina,{as:'idMaquina',foreignKey:'id_maquina'});
+        Sensor.belongsTo(models.Maquina,{as:'maquina',foreignKey:'fk_sensor_maq'});
     };
     return Sensor;
 }

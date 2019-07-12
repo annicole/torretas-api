@@ -1,11 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Cia = sequelize.define('Cia', {
-        id_cia: {
+        idcia: {
             allowNull: false,
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
+            type: DataTypes.INTEGER(11)
         },
         razon: {
             type: DataTypes.STRING,
@@ -59,7 +58,8 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Cia.associate = function (models) {
-        Cia.hasMany(models.Departamento,{as:'departamento',foreignKey:'id_departamento'});
+        Cia.hasMany(models.Departamento);
+        Cia.hasMany(models.Area);
     };
     return Cia;
 }

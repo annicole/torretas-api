@@ -1,18 +1,18 @@
 {
     "development": {
       "username": "root",
-      "password": "",
-      "database": "torretas",
-      "host": "10.101.15.53",
+      "password": "password",
+      "database": "torreta",
+      "host": "127.0.0.1",
       "dialect": "mysql",
       "define": {
         "timestamps": true
       }
     },
     "test": {
-      "username": "postgres",
-      "password": "admin",
-      "database": "cool_test",
+      "username": "root",
+      "password": null,
+      "database": "torreta",
       "host": "127.0.0.1",
       "dialect": "mysql",
       "define": {

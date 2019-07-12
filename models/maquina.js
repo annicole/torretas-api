@@ -1,11 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Maquina = sequelize.define('Maquina', {
-        id_maquina: {
+        idmaquina: {
             allowNull: false,
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
+            type: DataTypes.INTEGER(11)
         },
         maquina: {
             type: DataTypes.STRING,
@@ -15,11 +14,15 @@ module.exports = (sequelize, DataTypes) => {
             defaultScope: {
                 attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
             },
-            paranoid: true
+            timestamps: false,
+            paranoid: false,
+            underscored: false,
+            freezeTableName: true,
+            tableName: 'maquina'
         });
 
     Maquina.associate = function (models) {
-        Maquina.belongsTo(models.Area,{as:'idArea',foreignKey:'id_area'});
+        Maquina.belongsTo(models.Area,{as:'area',foreignKey: 'fk_maquina_Area1'});
         Maquina.hasMany(models.Sensor,{as:'sensor',foreignKey:'id_sensor'});
     };
     return Maquina;

@@ -1,11 +1,10 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Area = sequelize.define('Area', {
-        id_area: {
+        idarea: {
             allowNull: false,
             primaryKey: true,
-            type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
+            type: DataTypes.INTEGER(11)
         },
         area: {
             type: DataTypes.STRING,
@@ -19,8 +18,8 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Area.associate = function (models) {
-       Area.hasMany(models.Maquina,{as:'maquina',foreignKey:'id_maquina'});
-       Area.belongsTo(models.Departamento,{as:'idDepartamento',foreignKey:'id_departamento'});
+       Area.hasMany(models.Maquina);
+       Area.belongsTo(models.Cia,{as:'cia',foreignKey: 'fk_area_cia'});
     };
     return Area;
 }

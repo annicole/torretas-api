@@ -21,9 +21,11 @@ models.sequelize.sync().then(function () {
   });
 });
 
-/*app.listen(port, () => {
- console.log('list RESTful API server started on: ' + port);
-});*/
+
+// // if no PostgreSQL database is needed
+ /*app.listen(app.get('port'), function () {
+   console.log('Node app is running on port', app.get('port'));
+ });*/
 
 
 
