@@ -1,9 +1,9 @@
 {
     "development": {
-      "username": "postgres",
-      "password": "admin",
-      "database": "medmax_database",
-      "host": "127.0.0.1",
+      "username": "root",
+      "password": "",
+      "database": "torretas",
+      "host": "10.101.15.53",
       "dialect": "mysql",
       "define": {
         "timestamps": true
