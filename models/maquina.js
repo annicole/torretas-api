@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
         maquina: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        idarea:{
+            type: DataTypes.INTEGER(11),
+            references:{
+            model:'area',
+            key: 'idarea'
+            }
         }
     }, {
             defaultScope: {
@@ -22,8 +29,8 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Maquina.associate = function (models) {
-        Maquina.belongsTo(models.Area,{as:'area',foreignKey: 'fk_maquina_Area1'});
-        Maquina.hasMany(models.Sensor,{as:'sensor',foreignKey:'id_sensor'});
+        Maquina.belongsTo(models.Area);
+        Maquina.hasMany(models.Sensor);
     };
     return Maquina;
 }

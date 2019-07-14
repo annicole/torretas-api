@@ -1,11 +1,11 @@
     
 'use strict'
 
-const Maquina = require('../models').Maquina
+const Sensor = require('../models').Sensor
 const models = require('../models')
 
 
-const MAQUINA_ERROR = {
+const SENSOR_ERROR = {
     ERROR: {
       status: 500,
       message: 'Something Went Wrong'
@@ -20,7 +20,7 @@ const MAQUINA_ERROR = {
       message: 'Auth Failed',
       code: 'AUTH_FAILED'
     },
-    MAQUINA_NOT_FOUND: {
+    SENSOR_NOT_FOUND: {
       status: 404,
       message: 'Doctor not Found',
       code: 'DOCTOR_NOT_FOUND'
@@ -57,7 +57,7 @@ const MAQUINA_ERROR = {
     }
   }
   
-  function MaquinaError(error) {
+  function SensorError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -65,41 +65,42 @@ const MAQUINA_ERROR = {
   }
 
 module.exports={
-    getMaquinas: async function (req,res){
+    getSensores: async function (req,res){
         try{          
-          const maquina = await Maquina.findAll({
-            attributes : ['idmaquina', 'maquina', 'idarea']
+          const sensor = await Sensor.findAll({
+            attributes : ['idsensor', 'sensor', 'idmaquina','color','intermitente','tipo']
           })
-          if (maquina){
+          if (sensor){
               res.status(200).send({
-                  maquina
+                  sensor
               })
           } else{
-              throw new MaquinaError(MAQUINA_ERROR.MAQUINA_NOT_FOUND)
+              throw new SensorError(SENSOR_ERROR.SENSOR_NOT_FOUND)
           }
 
         }
           catch (error) {
               console.error(error)
-              if (error instanceof MaquinaError) {
+              if (error instanceof SensorError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...MAQUINA_ERROR.ERROR })
+                res.status(500).send({ ...SENSOR_ERROR.ERROR })
           }
             
         }
     },
 
-    createMaquina: async function (req,res){
+    createSensor: async function (req,res){
       try{
-           var new_maquina = new Maquina(req.body);
-           const response= await new_maquina.save();
+           var new_Sensor = new Sensor(req.body);
+           const response= await new_Sensor.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){
            console.error(error)
-           if (error instanceof MaquinaError)  {
+           if (error instanceof SensorError)  {
               res.status(error.status).send(error)
             }else{        
+                console.log(error);
                res.status(500).send({code:500, message: 'Something Went Wrong' })
             }
        }

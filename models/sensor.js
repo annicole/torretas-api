@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
     var Sensor = sequelize.define('Sensor', {
-        id_sensor: {
+        idsensor: {
             allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
@@ -21,16 +21,27 @@ module.exports = (sequelize, DataTypes) => {
         tipo:{
             type: DataTypes.INTEGER,
             allowNull: false
+        },
+        idmaquina:{
+            type: DataTypes.INTEGER(11),
+            references:{
+            model:'maquina',
+            key: 'idmaquina'
+            }
         }
     }, {
             defaultScope: {
                 attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
             },
-            paranoid: true
+            timestamps: false,
+            paranoid: false,
+            underscored: false,
+            freezeTableName: true,
+            tableName: 'sensor'
         });
 
     Sensor.associate = function (models) {
-        Sensor.belongsTo(models.Maquina,{as:'maquina',foreignKey:'fk_sensor_maq'});
+        Sensor.belongsTo(models.Maquina);
     };
     return Sensor;
 }

@@ -1,11 +1,10 @@
-    
 'use strict'
 
-const Maquina = require('../models').Maquina
+const Evento = require('../models').Evento8
 const models = require('../models')
 
 
-const MAQUINA_ERROR = {
+const EVENTO_ERROR = {
     ERROR: {
       status: 500,
       message: 'Something Went Wrong'
@@ -20,7 +19,7 @@ const MAQUINA_ERROR = {
       message: 'Auth Failed',
       code: 'AUTH_FAILED'
     },
-    MAQUINA_NOT_FOUND: {
+    EVENTO_NOT_FOUND: {
       status: 404,
       message: 'Doctor not Found',
       code: 'DOCTOR_NOT_FOUND'
@@ -57,7 +56,7 @@ const MAQUINA_ERROR = {
     }
   }
   
-  function MaquinaError(error) {
+  function EventoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -65,43 +64,26 @@ const MAQUINA_ERROR = {
   }
 
 module.exports={
-    getMaquinas: async function (req,res){
+    getEventos: async function (req,res){
         try{          
-          const maquina = await Maquina.findAll({
-            attributes : ['idmaquina', 'maquina', 'idarea']
-          })
-          if (maquina){
+          const evento = await Evento.findAll({ })
+          if (evento){
               res.status(200).send({
-                  maquina
+                evento
               })
           } else{
-              throw new MaquinaError(MAQUINA_ERROR.MAQUINA_NOT_FOUND)
+              throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
           }
 
         }
           catch (error) {
               console.error(error)
-              if (error instanceof MaquinaError) {
+              if (error instanceof EventoError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...MAQUINA_ERROR.ERROR })
+                res.status(500).send({ ...EVENTO_ERROR.ERROR })
           }
             
         }
-    },
-
-    createMaquina: async function (req,res){
-      try{
-           var new_maquina = new Maquina(req.body);
-           const response= await new_maquina.save();
-           res.status(200).send({code:200, status:response.status});
-      }catch(error){
-           console.error(error)
-           if (error instanceof MaquinaError)  {
-              res.status(error.status).send(error)
-            }else{        
-               res.status(500).send({code:500, message: 'Something Went Wrong' })
-            }
-       }
     }
 }

@@ -54,7 +54,11 @@ module.exports = (sequelize, DataTypes) => {
             defaultScope: {
                 attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
             },
-            paranoid: true
+            timestamps: false,
+            paranoid: false,
+            underscored: false,
+            freezeTableName: true,
+            tableName: 'cia'
         });
 
     Cia.associate = function (models) {

@@ -1,21 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    var Departamento = sequelize.define('Departamento', {
-        iddep: {
+    var Color = sequelize.define('Color', {
+        idcolor: {
             allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },
-        departamento: {
+        color: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        idcia:{
-            type: DataTypes.INTEGER(11),
-            references:{
-            model:'cia',
-            key: 'idcia'
-            }
+        numcolor:{
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }, {
             defaultScope: {
@@ -25,11 +22,8 @@ module.exports = (sequelize, DataTypes) => {
             paranoid: false,
             underscored: false,
             freezeTableName: true,
-            tableName: 'departamentos'
+            tableName: 'color'
         });
 
-    Departamento.associate = function (models) {
-        Departamento.belongsTo(models.Cia,{as:'idCia',foreignKey:'fk_dep_cia'});
-    };
-    return Departamento;
+    return Color;
 }

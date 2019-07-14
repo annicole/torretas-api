@@ -1,11 +1,11 @@
     
 'use strict'
 
-const Maquina = require('../models').Maquina
+const Color = require('../models').Color
 const models = require('../models')
 
 
-const MAQUINA_ERROR = {
+const COLOR_ERROR = {
     ERROR: {
       status: 500,
       message: 'Something Went Wrong'
@@ -20,7 +20,7 @@ const MAQUINA_ERROR = {
       message: 'Auth Failed',
       code: 'AUTH_FAILED'
     },
-    MAQUINA_NOT_FOUND: {
+    COLOR_NOT_FOUND: {
       status: 404,
       message: 'Doctor not Found',
       code: 'DOCTOR_NOT_FOUND'
@@ -57,7 +57,7 @@ const MAQUINA_ERROR = {
     }
   }
   
-  function MaquinaError(error) {
+  function ColorError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -65,41 +65,42 @@ const MAQUINA_ERROR = {
   }
 
 module.exports={
-    getMaquinas: async function (req,res){
+    getColores: async function (req,res){
         try{          
-          const maquina = await Maquina.findAll({
-            attributes : ['idmaquina', 'maquina', 'idarea']
+          const color = await Color.findAll({
+            attributes : ['idcolor', 'color', 'numcolor']
           })
-          if (maquina){
+          if (color){
               res.status(200).send({
-                  maquina
+                color
               })
           } else{
-              throw new MaquinaError(MAQUINA_ERROR.MAQUINA_NOT_FOUND)
+              throw new ColorError(COLOR_ERROR.COLOR_NOT_FOUND)
           }
 
         }
           catch (error) {
               console.error(error)
-              if (error instanceof MaquinaError) {
+              if (error instanceof ColorError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...MAQUINA_ERROR.ERROR })
+                res.status(500).send({ ...COLOR_ERROR.ERROR, doctor })
           }
             
         }
     },
 
-    createMaquina: async function (req,res){
+    createColor: async function (req,res){
       try{
-           var new_maquina = new Maquina(req.body);
-           const response= await new_maquina.save();
+           var new_COLOR = new Color(req.body);
+           const response= await new_COLOR.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){
            console.error(error)
-           if (error instanceof MaquinaError)  {
+           if (error instanceof ColorError)  {
               res.status(error.status).send(error)
             }else{        
+                console.log(error);
                res.status(500).send({code:500, message: 'Something Went Wrong' })
             }
        }

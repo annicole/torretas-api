@@ -9,17 +9,28 @@ module.exports = (sequelize, DataTypes) => {
         area: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        idcia:{
+            type: DataTypes.INTEGER(11),
+            references:{
+            model:'cia',
+            key: 'idcia'
+            }
         }
     }, {
             defaultScope: {
                 attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
             },
-            paranoid: true
+            timestamps: false,
+            paranoid: false,
+            underscored: false,
+            freezeTableName: true,
+            tableName: 'area'
         });
 
     Area.associate = function (models) {
        Area.hasMany(models.Maquina);
-       Area.belongsTo(models.Cia,{as:'cia',foreignKey: 'fk_area_cia'});
+       Area.belongsTo(models.Cia);
     };
     return Area;
 }
