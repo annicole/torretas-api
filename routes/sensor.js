@@ -3,7 +3,7 @@
 const router = require('express').Router({ mergeParams: true })
 const sensor = require('../controllers/sensor')
 
-router.route('/sensor')
+router.route('/sensores')
 .get(sensor.getSensores)
 .post(sensor.createSensor)
 
