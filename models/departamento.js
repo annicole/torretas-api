@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Departamento = sequelize.define('Departamento', {
         iddep: {
-            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },

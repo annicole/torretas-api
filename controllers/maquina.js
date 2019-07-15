@@ -71,8 +71,7 @@ module.exports={
             attributes : ['idmaquina', 'maquina', 'idarea']
           })
           if (maquina){
-              res.status(200).send({
-                  maquina
+              res.status(200).send({code:200,  maquina
               })
           } else{
               throw new MaquinaError(MAQUINA_ERROR.MAQUINA_NOT_FOUND)

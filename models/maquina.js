@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Maquina = sequelize.define('Maquina', {
         idmaquina: {
-            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },

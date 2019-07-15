@@ -71,8 +71,7 @@ module.exports={
             attributes : ['idarea', 'area', 'idcia']
           })
           if (area){
-              res.status(200).send({
-                  area
+              res.status(200).send({code:200,area
               })
           } else{
               throw new AreaError(AREA_ERROR.AREA_NOT_FOUND)

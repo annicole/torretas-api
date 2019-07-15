@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Area = sequelize.define('Area', {
         idarea: {
-            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },

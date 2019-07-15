@@ -71,8 +71,7 @@ module.exports={
             attributes : ['idcolor', 'color', 'numcolor']
           })
           if (color){
-              res.status(200).send({
-                color
+              res.status(200).send({code:200,color
               })
           } else{
               throw new ColorError(COLOR_ERROR.COLOR_NOT_FOUND)
@@ -80,7 +79,7 @@ module.exports={
 
         }
           catch (error) {
-              console.error(error)
+              console.error(error);
               if (error instanceof ColorError) {
                 res.status(error.status).send(error)
               } else {
@@ -96,7 +95,7 @@ module.exports={
            const response= await new_COLOR.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){
-           console.error(error)
+           console.error(error);
            if (error instanceof ColorError)  {
               res.status(error.status).send(error)
             }else{        

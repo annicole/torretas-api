@@ -68,8 +68,7 @@ module.exports={
         try{          
           const evento = await Evento.findAll({ })
           if (evento){
-              res.status(200).send({
-                evento
+              res.status(200).send({code:200, evento
               })
           } else{
               throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)

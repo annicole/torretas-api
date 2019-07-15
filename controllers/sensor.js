@@ -71,8 +71,7 @@ module.exports={
             attributes : ['idsensor', 'sensor', 'idmaquina','color','intermitente','tipo']
           })
           if (sensor){
-              res.status(200).send({
-                  sensor
+              res.status(200).send({code:200, sensor
               })
           } else{
               throw new SensorError(SENSOR_ERROR.SENSOR_NOT_FOUND)

@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Cia = sequelize.define('Cia', {
         idcia: {
-            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },

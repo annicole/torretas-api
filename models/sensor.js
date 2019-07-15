@@ -2,7 +2,6 @@
 module.exports = (sequelize, DataTypes) => {
     var Sensor = sequelize.define('Sensor', {
         idsensor: {
-            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },

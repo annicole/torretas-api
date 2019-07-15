@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             paranoid: false,
             underscored: false,
             freezeTableName: true,
-            tableName: 'color'
+            tableName: 'colores'
         });
 
     return Color;
