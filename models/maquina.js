@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        descripcion:{
+            type:DataTypes.STRING
+        },
         idarea:{
             type: DataTypes.INTEGER(11),
             references:{
