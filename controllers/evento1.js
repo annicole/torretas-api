@@ -65,8 +65,9 @@ const EVENTO_ERROR = {
 
 module.exports={
     getEventos: async function (req,res){
+      var maquina = req.query.maquina;
         try{          
-          const evento = await Evento.findAll({ })
+          const evento = await Evento.findAll({ where:{maquina:maquina} })
           if (evento){
               res.status(200).send({code:200, evento
               })
