@@ -69,8 +69,9 @@ module.exports = {
       var maquina = req.query.maquina;
       var fechaInicio = req.query.inicio;
       var fechaFin = req.query.fin;
-      const grafica =await sequelize.query('CALL grafica2(:maq,:fechaInicio,:fechaFinal)',
+      const grafica =await sequelize.query('CALL grafica(:maq,:fechaInicio,:fechaFinal)',
       {replacements: { maq: maquina, fechaInicio: fechaInicio, fechaFinal: fechaFin, }});
+      console.log("call procedure");
       if(grafica){
           res.status(200).send({code:200,grafica});
       }else{

@@ -2,6 +2,8 @@
 
 const Evento = require('../models').Evento1
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const EVENTO_ERROR = {
@@ -65,9 +67,36 @@ const EVENTO_ERROR = {
 
 module.exports={
     getEventos: async function (req,res){
-      var maquina = req.query.maquina;
-        try{          
-          const evento = await Evento.findAll({ where:{maquina:maquina} })
+        try{    
+          var maquina = req.query.maquina;
+          var fechaInicio = req.query.inicio;
+          var fechaFin = req.query.fin;
+          console.log(maquina,fechaInicio,fechaFin);      
+          const evento = await Evento.findAll({
+             where:{
+               maquina:maquina,
+               [op.and]:{
+                [op.or]: [{
+                  hri :{
+                    [op.gte]:fechaInicio
+                  }
+                 },{
+                  paroi:{
+                    [op.gte]:fechaInicio
+                  }
+                 }]
+               },
+                 [op.or]: [{
+                  hrf :{
+                    [op.lte]:fechaFin
+                  }
+                 },{
+                  parof:{
+                    [op.lte]:fechaFin
+                  }
+                 }]
+              } 
+            })
           if (evento){
               res.status(200).send({code:200, evento
               })
