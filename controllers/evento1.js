@@ -71,8 +71,14 @@ module.exports={
           var maquina = req.query.maquina;
           var fechaInicio = req.query.inicio;
           var fechaFin = req.query.fin;
+          var page = req.query.pagina;
+          var pageSize = req.query.paginaL;
+          var offset_ = page * pageSize;
+          var limit_ = offset_ + pageSize;
           console.log(maquina,fechaInicio,fechaFin);      
           const evento = await Evento.findAll({
+            offset: offset_, 
+            limit: limit_,
              where:{
                maquina:maquina,
                [op.and]:{
