@@ -10,11 +10,6 @@ const AREA_ERROR = {
       status: 500,
       message: 'Something Went Wrong'
     },
-    PASSWORD_FAIL:{
-      status: 406,
-      message: 'Password Failed',
-      code: 'PASSWORD_FAILED'
-    },
     AUTH_FAILED: {
       status: 401,
       message: 'Auth Failed',
@@ -22,8 +17,8 @@ const AREA_ERROR = {
     },
     AREA_NOT_FOUND: {
       status: 404,
-      message: 'Doctor not Found',
-      code: 'DOCTOR_NOT_FOUND'
+      message: 'area not Found',
+      code: 'AREA_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -31,29 +26,19 @@ const AREA_ERROR = {
     },
     DUPLICATE: {
       status: 403,
-      message: 'The machine already has an account'
+      message: 'The area already exists'
     },
     CODE_INVALID: {
       status: 403,
       message: 'Invalid Reference Code'
     },
-    INVALID_EMAIL: {
-      status: 403,
-      message: 'Invalid Email',
-      code: 'INVALID_EMAIL'
-    },
-    INVALID_PASSWORD: {
-      status: 403,
-      message: 'Invalid Password',
-      code: 'INVALID_PASSWORD'
-    },
     UNAUTHORIZED: {
       status: 401,
       message: 'Unauthorized'
     },
-    DOCTOR_REGISTERED: {
+    AREA_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'Area already has registered'
     }
   }
   

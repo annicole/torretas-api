@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Departamento.associate = function (models) {
-        Departamento.belongsTo(models.Cia,{as:'idCia',foreignKey:'fk_dep_cia'});
+        Departamento.belongsTo(models.Cia);
     };
     return Departamento;
 }

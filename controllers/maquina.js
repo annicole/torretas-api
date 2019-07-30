@@ -22,8 +22,8 @@ const MAQUINA_ERROR = {
   },
   MAQUINA_NOT_FOUND: {
     status: 404,
-    message: 'Doctor not Found',
-    code: 'DOCTOR_NOT_FOUND'
+    message: 'Maquina not Found',
+    code: 'MAQUINA_NOT_FOUND'
   },
   LIMIT: {
     status: 403,
@@ -51,9 +51,9 @@ const MAQUINA_ERROR = {
     status: 401,
     message: 'Unauthorized'
   },
-  DOCTOR_REGISTERED: {
+  MAQUINA_REGISTERED: {
     status: 403,
-    message: 'Doctor already has registered'
+    message: 'Maquina already has registered'
   }
 }
 

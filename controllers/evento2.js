@@ -21,8 +21,8 @@ const EVENTO_ERROR = {
     },
     EVENTO_NOT_FOUND: {
       status: 404,
-      message: 'Doctor not Found',
-      code: 'DOCTOR_NOT_FOUND'
+      message: 'Evento not Found',
+      code: 'EVENTO_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -50,9 +50,9 @@ const EVENTO_ERROR = {
       status: 401,
       message: 'Unauthorized'
     },
-    DOCTOR_REGISTERED: {
+    EVENTO_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'Evento already has registered'
     }
   }
   
@@ -63,18 +63,52 @@ const EVENTO_ERROR = {
    
   }
 
-module.exports={
+  module.exports={
     getEventos: async function (req,res){
-        try{          
-          const evento = await Evento.findAll({ })
+        try{    
+          var maquina = req.query.maquina;
+          var fechaInicio = req.query.inicio;
+          var fechaFin = req.query.fin;
+          var page = req.query.pagina;
+          var pageSize = +req.query.paginaL;
+          var offset_ = (page-1) * pageSize;
+          console.log(req.query.inicio);
+          console.log(req.query.fin);
+          const condicion ={
+            maquina:maquina,
+              [op.and]:{
+               [op.or]: [{
+                 hri :{
+                   [op.gte]:fechaInicio
+                 }
+                },{
+                 paroi:{
+                   [op.gte]:fechaInicio
+                 }
+                }]
+              },
+                [op.or]: [{
+                 hrf :{
+                   [op.lte]:fechaFin
+                 }
+                },{
+                 parof:{
+                   [op.lte]:fechaFin
+                 }
+                }]
+             } 
+          const count = await Evento.count({
+            where:condicion
+          });   
+          const evento = await Evento.findAll({
+            offset: offset_,limit: pageSize,
+             where:condicion
+            })
           if (evento){
-              res.status(200).send({
-                evento
-              })
+              res.status(200).send({code:200, evento, total: count});
           } else{
               throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
           }
-
         }
           catch (error) {
               console.error(error)
@@ -86,4 +120,4 @@ module.exports={
             
         }
     }
-}
+  }

@@ -74,6 +74,8 @@ module.exports={
           var page = req.query.pagina;
           var pageSize = +req.query.paginaL;
           var offset_ = (page-1) * pageSize;
+          console.log(req.query.inicio);
+          console.log(req.query.fin);
           const condicion ={
             maquina:maquina,
               [op.and]:{

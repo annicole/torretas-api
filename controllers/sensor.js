@@ -22,8 +22,8 @@ const SENSOR_ERROR = {
   },
   SENSOR_NOT_FOUND: {
     status: 404,
-    message: 'Doctor not Found',
-    code: 'DOCTOR_NOT_FOUND'
+    message: 'Sensor not Found',
+    code: 'SENSOR_NOT_FOUND'
   },
   LIMIT: {
     status: 403,
@@ -51,9 +51,9 @@ const SENSOR_ERROR = {
     status: 401,
     message: 'Unauthorized'
   },
-  DOCTOR_REGISTERED: {
+  SENSOR_REGISTERED: {
     status: 403,
-    message: 'Doctor already has registered'
+    message: 'Sensor already has registered'
   }
 }
 
