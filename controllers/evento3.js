@@ -2,6 +2,9 @@
 
 const Evento = require('../models').Evento3
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
+var moment = require('moment');
 
 
 const EVENTO_ERROR = {
@@ -67,13 +70,11 @@ const EVENTO_ERROR = {
     getEventos: async function (req,res){
         try{    
           var maquina = req.query.maquina;
-          var fechaInicio = req.query.inicio;
-          var fechaFin = req.query.fin;
           var page = req.query.pagina;
           var pageSize = +req.query.paginaL;
           var offset_ = (page-1) * pageSize;
-          console.log(req.query.inicio);
-          console.log(req.query.fin);
+          var fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
+          var fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
           const condicion ={
             maquina:maquina,
               [op.and]:{
