@@ -64,26 +64,23 @@ const EVENTO_ERROR = {
   }
 
 module.exports={
-    getEventos: async function (req,res){
-        try{          
+  getEventos: async function (req,res){      
+    try{    
           const evento = await Evento.findAll({ })
           if (evento){
-              res.status(200).send({
-                evento
-              })
-          } else{
-              throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
-          }
-
-        }
-          catch (error) {
-              console.error(error)
-              if (error instanceof EventoError) {
-                res.status(error.status).send(error)
-              } else {
-                res.status(500).send({ ...EVENTO_ERROR.ERROR })
-          }
-            
-        }
+          res.status(200).send({code:200, evento, total: count});
+      } else{
+          throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
+      }
     }
+      catch (error) {
+          console.error(error)
+          if (error instanceof EventoError) {
+            res.status(error.status).send(error)
+          } else {
+            res.status(500).send({ ...EVENTO_ERROR.ERROR })
+      }
+        
+    }
+}
 }
