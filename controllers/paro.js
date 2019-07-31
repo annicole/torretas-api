@@ -21,8 +21,8 @@ const PARO_ERROR = {
     },
     PARO_NOT_FOUND: {
       status: 404,
-      message: 'Doctor not Found',
-      code: 'DOCTOR_NOT_FOUND'
+      message: 'Paro not Found',
+      code: 'PARO_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -30,7 +30,7 @@ const PARO_ERROR = {
     },
     DUPLICATE: {
       status: 403,
-      message: 'The machine already has an account'
+      message: 'The paro already has an account'
     },
     CODE_INVALID: {
       status: 403,
@@ -50,9 +50,9 @@ const PARO_ERROR = {
       status: 401,
       message: 'Unauthorized'
     },
-    DOCTOR_REGISTERED: {
+    PARO_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'Paro already has registered'
     }
   }
   

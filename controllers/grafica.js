@@ -21,16 +21,12 @@ const GRAFICA_ERROR = {
   },
   AREA_NOT_FOUND: {
     status: 404,
-    message: 'Doctor not Found',
-    code: 'DOCTOR_NOT_FOUND'
+    message: 'Grafica not Found',
+    code: 'GRAFICA_NOT_FOUND'
   },
   LIMIT: {
     status: 403,
     message: 'Limit Reached'
-  },
-  DUPLICATE: {
-    status: 403,
-    message: 'The machine already has an account'
   },
   CODE_INVALID: {
     status: 403,
@@ -50,9 +46,9 @@ const GRAFICA_ERROR = {
     status: 401,
     message: 'Unauthorized'
   },
-  DOCTOR_REGISTERED: {
+  GRAFICA_REGISTERED: {
     status: 403,
-    message: 'Doctor already has registered'
+    message: 'Grafica already has registered'
   }
 }
 

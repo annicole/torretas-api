@@ -1,11 +1,10 @@
-    
 'use strict'
 
-const Color = require('../models').Color
+const Cia = require('../models').Cia
 const models = require('../models')
 
 
-const COLOR_ERROR = {
+const CIA_ERROR = {
     ERROR: {
       status: 500,
       message: 'Something Went Wrong'
@@ -20,10 +19,10 @@ const COLOR_ERROR = {
       message: 'Auth Failed',
       code: 'AUTH_FAILED'
     },
-    COLOR_NOT_FOUND: {
+    CIA_NOT_FOUND: {
       status: 404,
-      message: 'Color not Found',
-      code: 'COLOR_NOT_FOUND'
+      message: 'Cia not Found',
+      code: 'CIA_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -31,7 +30,7 @@ const COLOR_ERROR = {
     },
     DUPLICATE: {
       status: 403,
-      message: 'The color already has an account'
+      message: 'Register duplicated'
     },
     CODE_INVALID: {
       status: 403,
@@ -41,13 +40,13 @@ const COLOR_ERROR = {
       status: 401,
       message: 'Unauthorized'
     },
-    COLOR_REGISTERED: {
+    CIA_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'CIA already has registered'
     }
   }
   
-  function ColorError(error) {
+  function CiaError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -55,38 +54,36 @@ const COLOR_ERROR = {
   }
 
 module.exports={
-    getColores: async function (req,res){
+    getCias: async function (req,res){
         try{          
-          const color = await Color.findAll({
-            attributes : ['idcolor', 'color', 'numcolor']
-          })
-          if (color){
-              res.status(200).send({code:200,color
+          const cia = await Cia.findAll()
+          if (cia){
+              res.status(200).send({code:200,cia
               })
           } else{
-              throw new ColorError(COLOR_ERROR.COLOR_NOT_FOUND)
+              throw new CiaError(CIA_ERROR.CIA_NOT_FOUND)
           }
 
         }
           catch (error) {
-              console.error(error);
-              if (error instanceof ColorError) {
+              console.error(error)
+              if (error instanceof CiaError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...COLOR_ERROR.ERROR, doctor })
+                res.status(500).send({ ...CIA_ERROR.ERROR })
           }
             
         }
     },
 
-    createColor: async function (req,res){
+    createCia: async function (req,res){
       try{
-           var new_COLOR = new Color(req.body);
-           const response= await new_COLOR.save();
+           var new_cia = new Cia(req.body);
+           const response= await new_cia.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){
-           console.error(error);
-           if (error instanceof ColorError)  {
+           console.error(error)
+           if (error instanceof CiaError)  {
               res.status(error.status).send(error)
             }else{        
                 console.log(error);

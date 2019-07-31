@@ -1,29 +1,23 @@
-    
 'use strict'
 
-const Color = require('../models').Color
+const Departamento = require('../models').Departamento
 const models = require('../models')
 
 
-const COLOR_ERROR = {
+const DEPARTAMENTO_ERROR = {
     ERROR: {
       status: 500,
       message: 'Something Went Wrong'
-    },
-    PASSWORD_FAIL:{
-      status: 406,
-      message: 'Password Failed',
-      code: 'PASSWORD_FAILED'
     },
     AUTH_FAILED: {
       status: 401,
       message: 'Auth Failed',
       code: 'AUTH_FAILED'
     },
-    COLOR_NOT_FOUND: {
+    DEPARTAMENTO_NOT_FOUND: {
       status: 404,
-      message: 'Color not Found',
-      code: 'COLOR_NOT_FOUND'
+      message: 'DEPTO not Found',
+      code: 'DEPARTAMENTO_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -31,7 +25,7 @@ const COLOR_ERROR = {
     },
     DUPLICATE: {
       status: 403,
-      message: 'The color already has an account'
+      message: 'Register duplicated'
     },
     CODE_INVALID: {
       status: 403,
@@ -41,13 +35,13 @@ const COLOR_ERROR = {
       status: 401,
       message: 'Unauthorized'
     },
-    COLOR_REGISTERED: {
+    DEPARTAMENTO_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'departamento already has registered'
     }
   }
   
-  function ColorError(error) {
+  function DepartamentoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -55,38 +49,38 @@ const COLOR_ERROR = {
   }
 
 module.exports={
-    getColores: async function (req,res){
+    getDepartamentos: async function (req,res){
         try{          
-          const color = await Color.findAll({
-            attributes : ['idcolor', 'color', 'numcolor']
+          const depto = await Departamento.findAll({
+            attributes: ['iddep', 'departamento', 'idcia']
           })
-          if (color){
-              res.status(200).send({code:200,color
+          if (depto){
+              res.status(200).send({code:200,depto
               })
           } else{
-              throw new ColorError(COLOR_ERROR.COLOR_NOT_FOUND)
+              throw new DepartamentoError(DEPARTAMENTO_ERROR.DEPARTAMENTO_NOT_FOUND)
           }
 
         }
           catch (error) {
-              console.error(error);
-              if (error instanceof ColorError) {
+              console.error(error)
+              if (error instanceof DepartamentoError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...COLOR_ERROR.ERROR, doctor })
+                res.status(500).send({ ...CIA_ERROR.ERROR })
           }
             
         }
     },
 
-    createColor: async function (req,res){
+    createDepartamento: async function (req,res){
       try{
-           var new_COLOR = new Color(req.body);
-           const response= await new_COLOR.save();
+           var new_depto = new Departamento(req.body);
+           const response= await new_depto.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){
-           console.error(error);
-           if (error instanceof ColorError)  {
+           console.error(error)
+           if (error instanceof DepartamentoError)  {
               res.status(error.status).send(error)
             }else{        
                 console.log(error);

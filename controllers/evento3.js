@@ -2,6 +2,9 @@
 
 const Evento = require('../models').Evento3
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
+var moment = require('moment');
 
 
 const EVENTO_ERROR = {
@@ -21,8 +24,8 @@ const EVENTO_ERROR = {
     },
     EVENTO_NOT_FOUND: {
       status: 404,
-      message: 'Doctor not Found',
-      code: 'DOCTOR_NOT_FOUND'
+      message: 'evento not Found',
+      code: 'EVENTO_NOT_FOUND'
     },
     LIMIT: {
       status: 403,
@@ -30,7 +33,7 @@ const EVENTO_ERROR = {
     },
     DUPLICATE: {
       status: 403,
-      message: 'The machine already has an account'
+      message: 'The evento already has an account'
     },
     CODE_INVALID: {
       status: 403,
@@ -50,9 +53,9 @@ const EVENTO_ERROR = {
       status: 401,
       message: 'Unauthorized'
     },
-    DOCTOR_REGISTERED: {
+    EVENTO_REGISTERED: {
       status: 403,
-      message: 'Doctor already has registered'
+      message: 'Evento already has registered'
     }
   }
   
@@ -63,59 +66,59 @@ const EVENTO_ERROR = {
    
   }
 
-module.exports={
-  getEventos: async function (req,res){
-    try{    
-      var maquina = req.query.maquina;
-      var fechaInicio = req.query.inicio;
-      var fechaFin = req.query.fin;
-      var page = req.query.pagina;
-      var pageSize = +req.query.paginaL;
-      var offset_ = (page-1) * pageSize;
-      const condicion ={
-        maquina:maquina,
-          [op.and]:{
-           [op.or]: [{
-             hri :{
-               [op.gte]:fechaInicio
-             }
-            },{
-             paroi:{
-               [op.gte]:fechaInicio
-             }
-            }]
-          },
-            [op.or]: [{
-             hrf :{
-               [op.lte]:fechaFin
-             }
-            },{
-             parof:{
-               [op.lte]:fechaFin
-             }
-            }]
-         } 
-      const count = await Evento.count({
-        where:condicion
-      });   
-      const evento = await Evento.findAll({
-        offset: offset_,limit: pageSize,
-         where:condicion
-        })
-      if (evento){
-          res.status(200).send({code:200, evento, total: count});
-      } else{
-          throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
-      }
+  module.exports={
+    getEventos: async function (req,res){
+        try{    
+          var maquina = req.query.maquina;
+          var page = req.query.pagina;
+          var pageSize = +req.query.paginaL;
+          var offset_ = (page-1) * pageSize;
+          var fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
+          var fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
+          const condicion ={
+            maquina:maquina,
+              [op.and]:{
+               [op.or]: [{
+                 hri :{
+                   [op.gte]:fechaInicio
+                 }
+                },{
+                 paroi:{
+                   [op.gte]:fechaInicio
+                 }
+                }]
+              },
+                [op.or]: [{
+                 hrf :{
+                   [op.lte]:fechaFin
+                 }
+                },{
+                 parof:{
+                   [op.lte]:fechaFin
+                 }
+                }]
+             } 
+          const count = await Evento.count({
+            where:condicion
+          });   
+          const evento = await Evento.findAll({
+            offset: offset_,limit: pageSize,
+             where:condicion
+            })
+          if (evento){
+              res.status(200).send({code:200, evento, total: count});
+          } else{
+              throw new EventoError(EVENTO_ERROR.EVENTO_NOT_FOUND)
+          }
+        }
+          catch (error) {
+              console.error(error)
+              if (error instanceof EventoError) {
+                res.status(error.status).send(error)
+              } else {
+                res.status(500).send({ ...EVENTO_ERROR.ERROR })
+          }
+            
+        }
     }
-      catch (error) {
-          console.error(error)
-          if (error instanceof EventoError) {
-            res.status(error.status).send(error)
-          } else {
-            res.status(500).send({ ...EVENTO_ERROR.ERROR })
-      }
-        
-    }
-}
 }
