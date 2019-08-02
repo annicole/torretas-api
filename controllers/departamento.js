@@ -67,7 +67,7 @@ module.exports={
               if (error instanceof DepartamentoError) {
                 res.status(error.status).send(error)
               } else {
-                res.status(500).send({ ...CIA_ERROR.ERROR })
+                res.status(500).send({ ...DEPARTAMENTO_ERROR.ERROR })
           }
             
         }
