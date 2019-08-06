@@ -23,6 +23,6 @@ module.exports = function (app) {
     app.use('/grafica', grafica),
     app.use('/cia', cia),
     app.use('/departamento',depto),
-    app.use('/usuario')
+    app.use('/usuario',usuario),
   app.use(router)
 }
