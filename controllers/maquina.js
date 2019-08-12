@@ -95,7 +95,7 @@ module.exports = {
       var nombre_maquina = req.body.maquina;
       var maquina = await Maquina.findOne({ where: { maquina: nombre_maquina } });
       if (maquina) {
-        throw new MaquinaError(MaquinaError.DUPLICATE);
+        throw new MaquinaError(MAQUINA_ERROR.DUPLICATE);
       }
       var new_maquina = new Maquina(req.body);
       const response = await new_maquina.save();

@@ -7,4 +7,7 @@ router.route('/cias')
 .get(cia.getCias)
 .post(cia.createCia);
 
+router.route('/read')
+.get(cia.readCia);
+
 module.exports = router

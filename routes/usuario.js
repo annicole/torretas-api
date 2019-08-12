@@ -7,4 +7,7 @@ router.route('/usuarios')
 .get(usuario.getUsuarios)
 .post(usuario.createUsuario);
 
+router.route('/read')
+.get(usuario.readUsuario);
+
 module.exports = router
