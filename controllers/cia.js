@@ -80,7 +80,7 @@ module.exports = {
   createCia: async function (req, res) {
     try {
       var nombre_cia = req.body.nombre;
-      var cia = await Cia.findOne({ where: { cia: nombre_cia } });
+      var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
       if (cia) {
         throw new CiaError(CIA_ERROR.DUPLICATE);
       }
@@ -100,13 +100,13 @@ module.exports = {
 
   readCia:async function(req,res){
     try{
-      var cia = await Cia.findOne({where:{idcia:req.body.idcia}});
+      var cia = await Cia.findOne({where:{idcia:req.params.id}});
       if(cia){
         res.status(200).send({code:200,cia});
       }else{
         throw new CiaError(CIA_ERROR.CIA_NOT_FOUND);
       }
-    }catch(e){
+    }catch(error){
       console.error(error)
       if (error instanceof CiaError) {
         res.status(error.status).send(error)

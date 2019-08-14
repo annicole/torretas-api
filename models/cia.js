@@ -43,11 +43,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         logotipo: {
             type: DataTypes.BLOB,
-            allowNull: false
         },
         eslogan: {
             type: DataTypes.STRING,
-            allowNull: false
         }
     }, {
             defaultScope: {
