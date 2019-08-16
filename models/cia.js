@@ -46,6 +46,12 @@ module.exports = (sequelize, DataTypes) => {
         },
         eslogan: {
             type: DataTypes.STRING,
+        },
+        logotipo_nombre:{
+            type: DataTypes.STRING
+        },
+        logotipo_ext:{
+            type: DataTypes.STRING
         }
     }, {
             defaultScope: {
