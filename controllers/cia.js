@@ -81,13 +81,13 @@ module.exports = {
     try {
       var nombre_cia = req.body.nombre;
       console.log(req.body);
-      /*var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
+      var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
       if (cia) {
         throw new CiaError(CIA_ERROR.DUPLICATE);
       }
       var new_cia = new Cia(req.body);
       const response = await new_cia.save();
-      res.status(200).send({ code: 200, status: response.status });*/
+      res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
       console.error(error)
       if (error instanceof CiaError) {
