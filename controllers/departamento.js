@@ -76,6 +76,10 @@ module.exports = {
 
   createDepartamento: async function (req, res) {
     try {
+      var departamento = await Departamento.findOne({where:{departamento:req.body.departamento}});
+      if(departamento){
+        throw new Departamento(DEPARTAMENTO_ERROR.DUPLICATE)
+      }
       var new_depto = new Departamento(req.body);
       const response = await new_depto.save();
       res.status(200).send({ code: 200, status: response.status });

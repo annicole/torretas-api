@@ -80,7 +80,6 @@ module.exports = {
   createCia: async function (req, res) {
     try {
       var nombre_cia = req.body.nombre;
-      console.log(req.body);
       var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
       if (cia) {
         throw new CiaError(CIA_ERROR.DUPLICATE);
