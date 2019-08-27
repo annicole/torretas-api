@@ -76,7 +76,7 @@ module.exports = {
 
   createDepartamento: async function (req, res) {
     try {
-      var departamento = await Departamento.findOne({where:{departamento:req.body.departamento}});
+      var departamento = await Departamento.findOne({attributes: ['iddep', 'departamento', 'idcia'], where:{departamento:req.body.departamento}});
       if(departamento){
         throw new Departamento(DEPARTAMENTO_ERROR.DUPLICATE)
       }
