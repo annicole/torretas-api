@@ -109,5 +109,56 @@ module.exports = {
         res.status(500).send({ code: 500, message: 'Something Went Wrong' })
       }
     }
+  },
+  delete: async function (req, res) {
+    try {
+      const response = await Sensor.destroy({
+        where: { idsensor: req.params.id }
+      })
+      res.status(200).send({ code: 200, message: 'Sensor eliminado', response })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof SensorError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
+  },
+
+  update: async function (req, res) {
+    try {
+      const resp = await Sensor.update(req.body, {
+        where: { idsensor: req.params.id }
+      })
+      res.status(200).send({ code: 200, message: 'Sensor modificado', resp })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof SensorError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
+  },
+  readSensor: async function (req, res) {
+    try {
+      var sensor = await Sensor.findOne({ where: { idsensor: req.params.id } });
+      if (sensor) {
+        res.status(200).send({ code: 200, sensor });
+      } else {
+        throw new SensorError(SENSOR_ERROR.SENSOR_NOT_FOUND)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error instanceof SensorError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
   }
 }
