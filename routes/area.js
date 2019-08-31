@@ -7,4 +7,9 @@ router.route('/areas')
 .get(area.getAreas)
 .post(area.createArea);
 
+router.route('/read/:id')
+.put(area.update)
+.delete(area.delete)
+.get(area.readArea)
+
 module.exports = router

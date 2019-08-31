@@ -51,8 +51,14 @@ function DepartamentoError(error) {
 module.exports = {
   getDepartamentos: async function (req, res) {
     try {
+      let query={};
+      let departamento= req.query.departamento;
+      if(equipo != ''){""
+        query = {where:["departamento like ?",'%'+ departamento +'%']}
+      }
       const depto = await Departamento.findAll({
-        attributes: ['iddep', 'departamento', 'idcia']
+        attributes: ['iddep', 'departamento', 'idcia'],
+        where: query
       })
       if (depto) {
         res.status(200).send({
@@ -78,7 +84,7 @@ module.exports = {
     try {
       var departamento = await Departamento.findOne({attributes: ['iddep', 'departamento', 'idcia'], where:{departamento:req.body.departamento}});
       if(departamento){
-        throw new Departamento(DEPARTAMENTO_ERROR.DUPLICATE)
+        throw new DepartamentoError(DEPARTAMENTO_ERROR.DUPLICATE)
       }
       var new_depto = new Departamento(req.body);
       const response = await new_depto.save();

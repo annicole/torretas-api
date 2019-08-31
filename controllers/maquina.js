@@ -108,5 +108,56 @@ module.exports = {
         res.status(500).send({ code: 500, message: 'Something Went Wrong' })
       }
     }
+  },
+  delete: async function (req, res) {
+    try {
+      const response = await Maquina.destroy({
+        where: { idmaquina: req.params.id }
+      })
+      res.status(200).send({ code: 200, message: 'Máquina eliminada', response })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof MaquinaError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
+  },
+
+  update: async function (req, res) {
+    try {
+      const resp = await Maquina.update(req.body, {
+        where: { idmaquina: req.params.id }
+      })
+      res.status(200).send({ code: 200, message: 'Máquina modificada', resp })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof MaquinaError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
+  },
+  readMaquina: async function (req, res) {
+    try {
+      var maquina = await Maquina.findOne({ where: { idmaquina: req.params.id } });
+      if (maquina) {
+        res.status(200).send({ code: 200, maquina });
+      } else {
+        throw new MaquinaError(MAQUINA_ERROR.MAQUINA_NOT_FOUND)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error instanceof MaquinaError) {
+        res.status(error.status).send(error)
+      } else {
+        console.log(error);
+        res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+      }
+    }
   }
 }

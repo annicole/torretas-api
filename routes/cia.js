@@ -8,6 +8,7 @@ router.route('/cias')
 .post(cia.createCia);
 
 router.route('/read/:id')
-.get(cia.readCia);
+.get(cia.readCia)
+.put(cia.update);
 
 module.exports = router
