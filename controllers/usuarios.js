@@ -99,13 +99,45 @@ module.exports = {
             } else {
                 throw new UsuarioError(USUARIO_ERROR.USUARIO_NOT_FOUND);
             }
-        } catch (e) {
+        } catch (error) {
             console.error(error)
             if (error instanceof UsuarioError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
-                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+                res.status(500).send({ code: 500, message: 'Error al obtener el usuario' })
+            }
+        }
+    },
+    update: async function (req, res) {
+        try {
+            const resp = await Usuario.update(req.body, {
+                where: { id: req.params.id }
+            })
+            res.status(200).send({ code: 200, message: 'Usuario modificado', resp })
+        } catch (error) {
+            console.error(error)
+            if (error instanceof UsuarioError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Error al modificar el usuario' })
+            }
+        }
+    },
+    delete: async function (req, res) {
+        try {
+            const response = await Usuario.destroy({
+                where: { id: req.params.id }
+            })
+            res.status(200).send({ code: 200, message: 'Usuario eliminado', response })
+        } catch (error) {
+            console.error(error)
+            if (error instanceof UsuarioError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Error al eliminar el usuario' })
             }
         }
     }
