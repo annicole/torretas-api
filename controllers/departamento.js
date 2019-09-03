@@ -7,25 +7,25 @@ const models = require('../models')
 const DEPARTAMENTO_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Something Went Wrong'
+    message: 'Error'
   },
   AUTH_FAILED: {
     status: 401,
-    message: 'Auth Failed',
+    message: 'Fallo de autentificación',
     code: 'AUTH_FAILED'
   },
   DEPARTAMENTO_NOT_FOUND: {
     status: 404,
-    message: 'DEPTO not Found',
+    message: 'departamento no encontrado',
     code: 'DEPARTAMENTO_NOT_FOUND'
   },
   LIMIT: {
     status: 403,
-    message: 'Limit Reached'
+    message: 'Límite alcanzado'
   },
   DUPLICATE: {
     status: 403,
-    message: 'Register duplicated'
+    message: 'El departamento ya existe'
   },
   CODE_INVALID: {
     status: 403,
@@ -37,7 +37,7 @@ const DEPARTAMENTO_ERROR = {
   },
   DEPARTAMENTO_REGISTERED: {
     status: 403,
-    message: 'departamento already has registered'
+    message: 'El departamento ya se ha registrado'
   }
 }
 
