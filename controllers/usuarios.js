@@ -51,7 +51,9 @@ function UsuarioError(error) {
 module.exports = {
     getUsuarios: async function (req, res) {
         try {
-            const usuario = await Usuario.findAll()
+            const usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email','password','nivelseg','iddep']
+            })
             if (usuario) {
                 res.status(200).send({
                     code: 200, usuario

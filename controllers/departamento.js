@@ -53,7 +53,7 @@ module.exports = {
     try {
       let query={};
       let departamento= req.query.departamento;
-      if(equipo != ''){""
+      if(departamento != ''){""
         query = {where:["departamento like ?",'%'+ departamento +'%']}
       }
       const depto = await Departamento.findAll({
