@@ -52,8 +52,8 @@ module.exports = {
   getDepartamentos: async function (req, res) {
     try {
       let query={};
-      let departamento= req.query.departamento;
-      if(departamento != ''){""
+      let departamento= req.query.busqueda;
+      if(departamento != ''){
         query = {where:["departamento like ?",'%'+ departamento +'%']}
       }
       const depto = await Departamento.findAll({
