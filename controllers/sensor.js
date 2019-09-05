@@ -2,7 +2,10 @@
 'use strict'
 
 const Sensor = require('../models').Sensor
+const Maquina = require('../models').Maquina
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const SENSOR_ERROR = {
@@ -67,8 +70,23 @@ function SensorError(error) {
 module.exports = {
   getSensores: async function (req, res) {
     try {
+      let query = {};
+      let busqueda = req.query.busqueda;
+      if (busqueda != '') {
+        query = {
+          sensor: {
+            [op.substring]: busqueda
+          }
+        }
+      }
       const sensor = await Sensor.findAll({
-        attributes: ['idsensor', 'sensor', 'idmaquina', 'color', 'intermitente', 'tipo']
+        attributes: ['idsensor', 'sensor', 'idmaquina', 'color', 'intermitente', 'tipo'],
+        where: query,
+        include: [{
+          model: Maquina,
+          required: true,
+          attributes: ['idmaquina', 'maquina', 'descripcion']
+        }]
       })
       if (sensor) {
         res.status(200).send({
@@ -93,7 +111,7 @@ module.exports = {
   createSensor: async function (req, res) {
     try {
       var nombre_sensor = req.body.sensor;
-      var sensor = await Sensor.findOne({ where: { sensor: nombre_sensor } });
+      var sensor = await Sensor.findOne({ attributes: ['idsensor', 'sensor', 'idmaquina', 'color', 'intermitente', 'tipo'], where: { sensor: nombre_sensor } });
       if (sensor) {
         throw new SensorError(SENSOR_ERROR.DUPLICATE);
       }

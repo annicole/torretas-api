@@ -2,6 +2,8 @@
 
 const Departamento = require('../models').Departamento
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const DEPARTAMENTO_ERROR = {
@@ -54,7 +56,11 @@ module.exports = {
       let query={};
       let departamento= req.query.busqueda;
       if(departamento != ''){
-        query = {where:["departamento like ?",'%'+ departamento +'%']}
+        query = {
+          departamento:{
+            [op.substring]:departamento
+          }
+        }
       }
       const depto = await Departamento.findAll({
         attributes: ['iddep', 'departamento', 'idcia'],

@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11),
             references:{
             model:'departamento',
-            key: 'iddeo'
+            key: 'iddep'
             }
         }
     }, {
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
         Usuario.associate = function (models) {
-            Usuario.belongsTo(models.Departamento);
+            Usuario.belongsTo(models.Departamento,{foreignKey: 'iddep'});
     };
     return Usuario;
 }

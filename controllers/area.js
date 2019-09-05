@@ -3,6 +3,8 @@
 
 const Area = require('../models').Area
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const AREA_ERROR = {
@@ -52,8 +54,18 @@ function AreaError(error) {
 module.exports = {
   getAreas: async function (req, res) {
     try {
+      let query={};
+      let busqueda= req.query.busqueda;
+      if(busqueda != ''){
+        query = {
+          area:{
+            [op.substring]:busqueda
+          }
+        }
+      }
       const area = await Area.findAll({
-        attributes: ['idarea', 'area', 'idcia']
+        attributes: ['idarea', 'area', 'idcia'],
+        where:query
       })
       if (area) {
         res.status(200).send({
@@ -114,7 +126,7 @@ module.exports = {
 
   update: async function (req, res) {
     try {
-      const resp = await Departamento.update(req.body, {
+      const resp = await Area.update(req.body, {
         where: { idarea: req.params.id }
       })
       res.status(200).send({ code: 200, message: 'Área modificada', resp })

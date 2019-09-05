@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Sensor.associate = function (models) {
-        Sensor.belongsTo(models.Maquina);
+        Sensor.belongsTo(models.Maquina,{foreignKey: 'idmaquina'});
     };
     return Sensor;
 }

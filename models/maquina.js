@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
     Maquina.associate = function (models) {
-        Maquina.belongsTo(models.Area);
+        Maquina.belongsTo(models.Area, {foreignKey: 'idarea'});
         Maquina.hasMany(models.Sensor);
     };
     return Maquina;

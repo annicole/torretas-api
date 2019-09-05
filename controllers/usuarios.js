@@ -1,7 +1,10 @@
 'use strict'
 
 const Usuario = require('../models').Usuario
+const Departamento = require('../models').Departamento
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const USUARIO_ERROR = {
@@ -50,9 +53,24 @@ function UsuarioError(error) {
 
 module.exports = {
     getUsuarios: async function (req, res) {
+        let query = {};
+        let busqueda = req.query.busqueda;
+        if (busqueda != '') {
+            query = {
+                username: {
+                    [op.substring]: busqueda
+                }
+            }
+        }
         try {
             const usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email','password','nivelseg','iddep']
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep'],
+                where: query,
+                include: [{
+                    model: Departamento,
+                    required: true,
+                    attributes: ['iddep', 'departamento', 'idcia']
+                }]
             })
             if (usuario) {
                 res.status(200).send({

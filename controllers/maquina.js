@@ -2,7 +2,10 @@
 'use strict'
 
 const Maquina = require('../models').Maquina
+const Area = require('../models').Area
 const models = require('../models')
+var sequelize = models.Sequelize;
+var op = sequelize.Op;
 
 
 const MAQUINA_ERROR = {
@@ -67,8 +70,34 @@ function MaquinaError(error) {
 module.exports = {
   getMaquinas: async function (req, res) {
     try {
+      let query = {};
+      let busqueda = req.query.busqueda;
+      const area = req.query.area;
+      if (busqueda != '' && area != '') {
+        query = {
+          idarea:area,
+          maquina: {
+            [op.substring]: busqueda
+          }
+        }
+      }
+      else if (busqueda != '') {
+        query = {
+          maquina: {
+            [op.substring]: busqueda
+          }
+        }
+      } else if (area != '') {
+        query = { idarea: area }
+      }
       const maquina = await Maquina.findAll({
-        attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion']
+        attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion'],
+        where: query,
+        include: [{
+          model: Area,
+          required: true,
+          attributes: ['area', 'idarea']
+        }]
       })
       if (maquina) {
         res.status(200).send({
@@ -93,7 +122,7 @@ module.exports = {
   createMaquina: async function (req, res) {
     try {
       var nombre_maquina = req.body.maquina;
-      var maquina = await Maquina.findOne({ where: { maquina: nombre_maquina } });
+      var maquina = await Maquina.findOne({ attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion'], where: { maquina: nombre_maquina } });
       if (maquina) {
         throw new MaquinaError(MAQUINA_ERROR.DUPLICATE);
       }
