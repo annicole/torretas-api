@@ -2,6 +2,8 @@
 
 const Cia = require('../models').Cia
 const models = require('../models')
+var multer = require('multer')
+const IncomingForm = require('formidable').IncomingForm;
 
 
 const CIA_ERROR = {
@@ -53,6 +55,17 @@ function CiaError(error) {
 
 }
 
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now())
+  }
+});
+
+var upload = multer({ storage: storage }).single('file');
+
 module.exports = {
   getCias: async function (req, res) {
     try {
@@ -77,8 +90,30 @@ module.exports = {
     }
   },
 
-  createCia: async function (req, res) {
+  createCia: function (req, res) {
     try {
+      console.log('entro')
+     /*  upload(req, res, function (err) {
+         if (err) {
+             // An error occurred when uploading
+             console.log(err);
+ 
+         } else {
+           console.log(req.file);
+         }
+       });*/
+      /*var form = new IncomingForm();
+      form.uploadDir = 'uploads';
+      form.on('file', function (field, file) {
+        console.log("File incoming");
+      });
+      form.on('error', function (err) {
+        console.log('An error has occured: \n' + err);
+      });
+      form.on('end', function () {
+        res.end('success');
+      });
+*/
       var nombre_cia = req.body.nombre;
       var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
       if (cia) {

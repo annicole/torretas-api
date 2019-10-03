@@ -73,6 +73,8 @@ module.exports = {
       let query = {};
       let busqueda = req.query.busqueda;
       const area = req.query.area;
+      console.log(req.query);
+      console.log(req.query.busqueda);
       if (busqueda != '' && area != '') {
         query = {
           idarea:area,
