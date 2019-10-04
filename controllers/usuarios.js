@@ -5,7 +5,8 @@ const Departamento = require('../models').Departamento
 const models = require('../models')
 var sequelize = models.Sequelize;
 var op = sequelize.Op;
-
+var moment = require('moment');
+const bcrypt = require('bcryptjs');
 
 const USUARIO_ERROR = {
     ERROR: {
@@ -94,11 +95,15 @@ module.exports = {
 
     createUsuario: async function (req, res) {
         try {
-            var usuario = await Usuario.findOne({ where: { username: req.boy.username } });
+            var usuario = await Usuario.findOne({ where: { username: req.body.username } });
             if (usuario) {
                 throw new UsuarioError(USUARIO_ERROR.DUPLICATE);
             }
             var new_usuario = new Usuario(req.body);
+            new_usuario.password = bcrypt.hashSync(req.body.password);
+            new_usuario.nivelseg = 1;
+            new_usuario.create_time =moment().format();  
+            new_usuario.last_update =moment().format();  
             const response = await new_usuario.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
@@ -160,5 +165,40 @@ module.exports = {
                 res.status(500).send({ code: 500, message: 'Error al eliminar el usuario' })
             }
         }
+    },
+    login:async function(req,res){
+        try{
+            const usuario = await Usuario.findOne({email:req.body.email});
+              if(!usuario){
+                 throw new StatusError(STATUS_ENUM.STATUS_ERROR.INVALID_EMAIL);
+              }
+            const resultPassword = bcrypt.compareSync(req.body.password,usuario.password);
+            if(resultPassword){
+                 const expiresIn = 24*60*60;
+                 const accessToken  = jwt.sign({id: usuario._id},
+                 SECRET_KEY,{
+                   expiresIn :expiresIn
+                 });
+       
+                 const dataUser={
+                 name: usuario.nombre + usuario.apellido,
+                 email: usuario.email,
+                 id:usuario._id,
+                 username:usuario.username,
+                 accessToken: accessToken,
+                 expires:expiresIn
+               }
+               res.status(200).send({code:200,dataUser});
+            }else{
+                res.status(403).send({code:403,message:'Invalid Password'});
+            }
+         }catch(error){
+            if (error instanceof StatusError)  {
+                 res.status(error.status).send(error)
+               }else{
+                 console.log(error);
+             res.status(500).send({ message: 'Something Went Wrong' })
+             }
+          }
     }
 }
