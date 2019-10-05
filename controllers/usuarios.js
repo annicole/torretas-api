@@ -3,10 +3,10 @@
 const Usuario = require('../models').Usuario
 const Departamento = require('../models').Departamento
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
-var moment = require('moment');
-const bcrypt = require('bcryptjs');
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
+const moment = require('moment');
+const bcrypt = require('bcrypt');
 
 const USUARIO_ERROR = {
     ERROR: {
