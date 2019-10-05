@@ -12,4 +12,7 @@ router.route('/read/:id')
 .put(usuario.update)
 .delete(usuario.delete);
 
+router.route('/login')
+.post(usuario.loginUser);
+
 module.exports = router
