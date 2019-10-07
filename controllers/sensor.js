@@ -1,17 +1,18 @@
 
 'use strict'
 
-const Sensor = require('../models').Sensor
-const Maquina = require('../models').Maquina
-const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
+const Sensor = require('../models').Sensor;
+const Maquina = require('../models').Maquina;
+const Color = require('../models').Color;
+const models = require('../models');
+const sequelize = models.Sequelize;
+let op = sequelize.Op;
 
 
 const SENSOR_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Something Went Wrong'
+    message: 'No se pudo guardar el sensor '
   },
   PASSWORD_FAIL: {
     status: 406,
@@ -25,7 +26,7 @@ const SENSOR_ERROR = {
   },
   SENSOR_NOT_FOUND: {
     status: 404,
-    message: 'Sensor not Found',
+    message: 'No se pudo encontrar el sensor',
     code: 'SENSOR_NOT_FOUND'
   },
   LIMIT: {
@@ -40,23 +41,13 @@ const SENSOR_ERROR = {
     status: 403,
     message: 'Invalid Reference Code'
   },
-  INVALID_EMAIL: {
-    status: 403,
-    message: 'Invalid Email',
-    code: 'INVALID_EMAIL'
-  },
-  INVALID_PASSWORD: {
-    status: 403,
-    message: 'Invalid Password',
-    code: 'INVALID_PASSWORD'
-  },
   UNAUTHORIZED: {
     status: 401,
     message: 'Unauthorized'
   },
   SENSOR_REGISTERED: {
     status: 403,
-    message: 'Sensor already has registered'
+    message: 'Sensor ya existe'
   }
 }
 
@@ -86,6 +77,11 @@ module.exports = {
           model: Maquina,
           required: true,
           attributes: ['idmaquina', 'maquina', 'descripcion']
+        },
+        {
+          model:Color,
+          required: true,
+          attributes: ['idcolor', 'color', 'numcolor']
         }]
       })
       if (sensor) {

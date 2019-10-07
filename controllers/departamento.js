@@ -9,7 +9,7 @@ var op = sequelize.Op;
 const DEPARTAMENTO_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Error'
+    message: 'Error al guardar los cambios'
   },
   AUTH_FAILED: {
     status: 401,
@@ -18,7 +18,7 @@ const DEPARTAMENTO_ERROR = {
   },
   DEPARTAMENTO_NOT_FOUND: {
     status: 404,
-    message: 'departamento no encontrado',
+    message: 'Departamento no encontrado',
     code: 'DEPARTAMENTO_NOT_FOUND'
   },
   LIMIT: {

@@ -7,12 +7,19 @@ const sequelize = models.Sequelize;
 const op = sequelize.Op;
 const moment = require('moment');
 const bcrypt = require('bcrypt');
+const SECRET_KEY = 'secretkey1234';
+const jwt = require('jsonwebtoken');
 
 const USUARIO_ERROR = {
     ERROR: {
         status: 500,
-        message: 'Something Went Wrong'
+        message: 'Error al guardar el usuario'
     },
+    PASSWORD_FAIL: {
+        status: 406,
+        message: 'Contraseña incorrecta',
+        code: 'PASSWORD_FAILED'
+      },
     AUTH_FAILED: {
         status: 401,
         message: 'Auth Failed',
@@ -20,7 +27,7 @@ const USUARIO_ERROR = {
     },
     USUARIO_NOT_FOUND: {
         status: 404,
-        message: 'DEPTO not Found',
+        message: 'Usuario no existe',
         code: 'USUARIO_NOT_FOUND'
     },
     LIMIT: {
@@ -29,7 +36,7 @@ const USUARIO_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'Register duplicated'
+        message: 'Usuario y/o correo ya existen'
     },
     CODE_INVALID: {
         status: 403,
@@ -41,15 +48,23 @@ const USUARIO_ERROR = {
     },
     USUARIO_REGISTERED: {
         status: 403,
-        message: 'Usuario already has registered'
-    }
+        message: 'Usuario existente'
+    }, INVALID_EMAIL: {
+        status: 403,
+        message: 'Correo incorrecto',
+        code: 'INVALID_EMAIL'
+      },
+      INVALID_PASSWORD: {
+        status: 403,
+        message: 'Contraseña incorrecta',
+        code: 'INVALID_PASSWORD'
+      },
 }
 
 function UsuarioError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
-
 }
 
 module.exports = {
@@ -95,15 +110,26 @@ module.exports = {
 
     createUsuario: async function (req, res) {
         try {
-            var usuario = await Usuario.findOne({ where: { username: req.body.username } });
+            const usuario = await Usuario.findOne({ 
+                where: {              
+                    [op.or]:[
+                    {
+                        email:req.body.email
+                    },
+                    {
+                        username: req.body.username
+                    }]}
+             });
             if (usuario) {
                 throw new UsuarioError(USUARIO_ERROR.DUPLICATE);
             }
-            var new_usuario = new Usuario(req.body);
-            new_usuario.password = bcrypt.hashSync(req.body.password);
+            console.log(req.body);
+            let new_usuario = new Usuario(req.body);
+            new_usuario.password  = await bcrypt.hash(req.body.password, 5);
             new_usuario.nivelseg = 1;
             new_usuario.create_time =moment().format();  
             new_usuario.last_update =moment().format();  
+            console.log(new_usuario);
             const response = await new_usuario.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
@@ -112,13 +138,13 @@ module.exports = {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
-                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+                res.status(500).send({ code: 500, message: 'Error al guardar el usuario' })
             }
         }
     },
     readUsuario: async function (req, res) {
         try {
-            var usuario = await Usuario.findOne({ where: { id: req.boy.id } });
+            let usuario = await Usuario.findOne({ where: { id: req.boy.id } });
             if (usuario) {
                 res.status(200).send({ code: 200, usuario });
             } else {
@@ -168,9 +194,9 @@ module.exports = {
     },
     login:async function(req,res){
         try{
-            const usuario = await Usuario.findOne({email:req.body.email});
+            const usuario = await Usuario.findOne({where:{email:req.body.email}});
               if(!usuario){
-                 throw new StatusError(STATUS_ENUM.STATUS_ERROR.INVALID_EMAIL);
+                 throw new UsuarioError(USUARIO_ERROR.INVALID_EMAIL);
               }
             const resultPassword = bcrypt.compareSync(req.body.password,usuario.password);
             if(resultPassword){
@@ -181,23 +207,22 @@ module.exports = {
                  });
        
                  const dataUser={
-                 name: usuario.nombre + usuario.apellido,
                  email: usuario.email,
-                 id:usuario._id,
+                 id:usuario.id,
                  username:usuario.username,
-                 accessToken: accessToken,
+                 token: accessToken,
                  expires:expiresIn
                }
                res.status(200).send({code:200,dataUser});
             }else{
-                res.status(403).send({code:403,message:'Invalid Password'});
+                res.status(403).send({code:403,message:'Contraseña incorrecta'});
             }
          }catch(error){
-            if (error instanceof StatusError)  {
+            if (error instanceof UsuarioError)  {
                  res.status(error.status).send(error)
                }else{
                  console.log(error);
-             res.status(500).send({ message: 'Something Went Wrong' })
+                 res.status(500).send({ message: 'Error al iniciar sesión' })
              }
           }
     }

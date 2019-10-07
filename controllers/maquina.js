@@ -11,7 +11,7 @@ var op = sequelize.Op;
 const MAQUINA_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Something Went Wrong'
+    message: 'Error al guardar los cambios'
   },
   PASSWORD_FAIL: {
     status: 406,
@@ -25,7 +25,7 @@ const MAQUINA_ERROR = {
   },
   MAQUINA_NOT_FOUND: {
     status: 404,
-    message: 'Maquina not Found',
+    message: 'Máquina no encontrada',
     code: 'MAQUINA_NOT_FOUND'
   },
   LIMIT: {
@@ -40,23 +40,13 @@ const MAQUINA_ERROR = {
     status: 403,
     message: 'Invalid Reference Code'
   },
-  INVALID_EMAIL: {
-    status: 403,
-    message: 'Invalid Email',
-    code: 'INVALID_EMAIL'
-  },
-  INVALID_PASSWORD: {
-    status: 403,
-    message: 'Invalid Password',
-    code: 'INVALID_PASSWORD'
-  },
   UNAUTHORIZED: {
     status: 401,
     message: 'Unauthorized'
   },
   MAQUINA_REGISTERED: {
     status: 403,
-    message: 'Maquina already has registered'
+    message: 'La máquina ya existe'
   }
 }
 

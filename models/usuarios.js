@@ -34,6 +34,9 @@ module.exports = (sequelize, DataTypes) => {
             model:'departamento',
             key: 'iddep'
             }
+        },
+        celular:{
+            type: DataTypes.STRING
         }
     }, {
             defaultScope: {

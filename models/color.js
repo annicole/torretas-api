@@ -25,5 +25,8 @@ module.exports = (sequelize, DataTypes) => {
             tableName: 'colores'
         });
 
+        Color.associate = function (models) {           
+            Color.hasMany(models.Color);
+        };
     return Color;
 }

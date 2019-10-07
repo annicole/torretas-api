@@ -10,8 +10,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         color:{
-            type: DataTypes.INTEGER,
-            allowNull: false
+            type: DataTypes.INTEGER(11),
+            references:{
+            model:'color',
+            key: 'idcolor'
+            }
         },
         intermitente:{
             type: DataTypes.INTEGER,
@@ -41,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Sensor.associate = function (models) {
         Sensor.belongsTo(models.Maquina,{foreignKey: 'idmaquina'});
+        Sensor.belongsTo(models.Color, {foreignKey: 'color'});
     };
     return Sensor;
 }

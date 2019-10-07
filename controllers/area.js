@@ -10,7 +10,7 @@ var op = sequelize.Op;
 const AREA_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Something Went Wrong'
+    message: 'Error al guardar el área'
   },
   AUTH_FAILED: {
     status: 401,
@@ -19,7 +19,7 @@ const AREA_ERROR = {
   },
   AREA_NOT_FOUND: {
     status: 404,
-    message: 'area not Found',
+    message: 'Área no encontrada',
     code: 'AREA_NOT_FOUND'
   },
   LIMIT: {
@@ -28,7 +28,7 @@ const AREA_ERROR = {
   },
   DUPLICATE: {
     status: 403,
-    message: 'The area already exists'
+    message: 'El área ya existe'
   },
   CODE_INVALID: {
     status: 403,
@@ -40,7 +40,7 @@ const AREA_ERROR = {
   },
   AREA_REGISTERED: {
     status: 403,
-    message: 'Area already has registered'
+    message: 'El área ya existe'
   }
 }
 
