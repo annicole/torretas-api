@@ -7,7 +7,7 @@ const sequelize = models.Sequelize;
 const op = sequelize.Op;
 const moment = require('moment');
 const bcrypt = require('bcrypt');
-const SECRET_KEY = 'secretkey1234';
+const SECRET_KEY = 'SECRETKEY_ICMA_AUTOMATION1234';
 const jwt = require('jsonwebtoken');
 
 const USUARIO_ERROR = {
