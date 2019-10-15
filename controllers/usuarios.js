@@ -51,7 +51,7 @@ const USUARIO_ERROR = {
         message: 'Usuario existente'
     }, INVALID_EMAIL: {
         status: 403,
-        message: 'Correo incorrecto',
+        message: 'Correo no existe',
         code: 'INVALID_EMAIL'
       },
       INVALID_PASSWORD: {
