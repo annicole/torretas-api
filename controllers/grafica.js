@@ -62,11 +62,12 @@ function GraficaError(error) {
 module.exports = {
   getGrafica: async function (req, res) {
     try {
-      var maquina = req.query.maquina;
-      var fechaInicio = req.query.inicio;
-      var fechaFin = req.query.fin;
-      const grafica =await sequelize.query('CALL grafica(:maq,:fechaInicio,:fechaFinal)',
-      {replacements: { maq: maquina, fechaInicio: fechaInicio, fechaFinal: fechaFin, }});
+      const maquina = req.query.maquina;
+      const fechaInicio = req.query.inicio;
+      const fechaFin = req.query.fin;
+      const bandera = req.query.bandera;
+      const grafica =await sequelize.query('CALL grafica3(:maq,:fechaInicio,:fechaFinal,:tipo)',
+      {replacements: { maq: maquina, fechaInicio: fechaInicio, fechaFinal: fechaFin,tipo:bandera }});
       console.log(grafica);
       if(grafica){
           res.status(200).send({code:200,grafica});
