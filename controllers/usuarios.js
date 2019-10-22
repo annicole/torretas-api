@@ -123,13 +123,11 @@ module.exports = {
             if (usuario) {
                 throw new UsuarioError(USUARIO_ERROR.DUPLICATE);
             }
-            console.log(req.body);
             let new_usuario = new Usuario(req.body);
             new_usuario.password  = await bcrypt.hash(req.body.password, 5);
             new_usuario.nivelseg = 1;
             new_usuario.create_time =moment().format();  
             new_usuario.last_update =moment().format();  
-            console.log(new_usuario);
             const response = await new_usuario.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {

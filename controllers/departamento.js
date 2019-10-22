@@ -2,8 +2,8 @@
 
 const Departamento = require('../models').Departamento
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
 
 
 const DEPARTAMENTO_ERROR = {
@@ -88,11 +88,11 @@ module.exports = {
 
   createDepartamento: async function (req, res) {
     try {
-      var departamento = await Departamento.findOne({attributes: ['iddep', 'departamento', 'idcia'], where:{departamento:req.body.departamento}});
+      let departamento = await Departamento.findOne({attributes: ['iddep', 'departamento', 'idcia'], where:{departamento:req.body.departamento}});
       if(departamento){
         throw new DepartamentoError(DEPARTAMENTO_ERROR.DUPLICATE)
       }
-      var new_depto = new Departamento(req.body);
+      let new_depto = new Departamento(req.body);
       const response = await new_depto.save();
       res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
@@ -141,7 +141,7 @@ module.exports = {
   },
   readDepartamento:async function(req,res){
     try{
-      var depto = await Departamento.findOne({where:{iddep:req.params.id}});
+      let depto = await Departamento.findOne({where:{iddep:req.params.id}});
       if(depto){
         res.status(200).send({code:200,depto});
       }else{

@@ -1,8 +1,7 @@
 'use strict'
 
-var Sequelize = require('sequelize');
 const models = require('../models');
-var sequelize = models.sequelize;
+const sequelize = models.sequelize;
 
 const GRAFICA_ERROR = {
   ERROR: {

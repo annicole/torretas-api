@@ -2,14 +2,14 @@
 
 const Evento = require('../models').Evento1
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
-var moment = require('moment');
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
+const moment = require('moment');
 
 const EVENTO_ERROR = {
   ERROR: {
     status: 500,
-    message: 'Something Went Wrong'
+    message: 'Error '
   },
   PASSWORD_FAIL: {
     status: 406,
@@ -23,38 +23,20 @@ const EVENTO_ERROR = {
   },
   EVENTO_NOT_FOUND: {
     status: 404,
-    message: 'Doctor not Found',
+    message: 'Evento no encontrado',
     code: 'DOCTOR_NOT_FOUND'
   },
   LIMIT: {
     status: 403,
     message: 'Limit Reached'
   },
-  DUPLICATE: {
-    status: 403,
-    message: 'The machine already has an account'
-  },
   CODE_INVALID: {
     status: 403,
     message: 'Invalid Reference Code'
   },
-  INVALID_EMAIL: {
-    status: 403,
-    message: 'Invalid Email',
-    code: 'INVALID_EMAIL'
-  },
-  INVALID_PASSWORD: {
-    status: 403,
-    message: 'Invalid Password',
-    code: 'INVALID_PASSWORD'
-  },
   UNAUTHORIZED: {
     status: 401,
     message: 'Unauthorized'
-  },
-  DOCTOR_REGISTERED: {
-    status: 403,
-    message: 'Doctor already has registered'
   }
 }
 
@@ -68,12 +50,12 @@ function EventoError(error) {
 module.exports = {
   getEventos: async function (req, res) {
     try {
-      var maquina = req.query.maquina;
-      var page = req.query.pagina;
-      var pageSize = +req.query.paginaL;
-      var offset_ = (page - 1) * pageSize;
-      var fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
-      var fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
+      let maquina = req.query.maquina;
+      let page = req.query.pagina;
+      let pageSize = +req.query.paginaL;
+      let offset_ = (page - 1) * pageSize;
+      let fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
+      let fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
       const condicion = {
         maquina: maquina,
         [op.and]: {

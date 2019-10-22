@@ -3,8 +3,8 @@
 
 const Area = require('../models').Area
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
 
 
 const AREA_ERROR = {
@@ -93,7 +93,7 @@ module.exports = {
       if (area) {
         throw new AreaError(AREA_ERROR.DUPLICATE)
       }
-      var new_area = new Area(req.body);
+      let new_area = new Area(req.body);
       const response = await new_area.save();
       res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
@@ -142,7 +142,7 @@ module.exports = {
   },
   readArea: async function (req, res) {
     try {
-      var area = await Area.findOne({ where: { idarea: req.params.id } });
+      let area = await Area.findOne({ where: { idarea: req.params.id } });
       if (area) {
         res.status(200).send({ code: 200, area });
       } else {

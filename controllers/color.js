@@ -2,7 +2,6 @@
 'use strict'
 
 const Color = require('../models').Color
-const models = require('../models')
 
 
 const COLOR_ERROR = {
@@ -81,7 +80,7 @@ module.exports={
 
     createColor: async function (req,res){
       try{
-           var new_COLOR = new Color(req.body);
+           let new_COLOR = new Color(req.body);
            const response= await new_COLOR.save();
            res.status(200).send({code:200, status:response.status});
       }catch(error){

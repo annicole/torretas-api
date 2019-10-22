@@ -79,12 +79,12 @@ module.exports = {
 
   createCia: async function (req, res) {
     try {
-      var nombre_cia = req.body.nombre;
-      var cia = await Cia.findOne({ where: { nombre: nombre_cia } });
+      let nombre_cia = req.body.nombre;
+      let cia = await Cia.findOne({ where: { nombre: nombre_cia } });
       if (cia) {
         throw new CiaError(CIA_ERROR.DUPLICATE);
       }
-      var new_cia = new Cia(req.body);
+      let new_cia = new Cia(req.body);
       const response = await new_cia.save();
       res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
@@ -100,7 +100,7 @@ module.exports = {
 
   readCia: async function (req, res) {
     try {
-      var cia = await Cia.findOne({ where: { idcia: req.params.id } });
+      let cia = await Cia.findOne({ where: { idcia: req.params.id } });
       if (cia) {
         res.status(200).send({ code: 200, cia });
       } else {
@@ -118,7 +118,7 @@ module.exports = {
   },
   update: async function (req, res) {
     try {
-      var cia = await Cia.update(req.body, {
+      let cia = await Cia.update(req.body, {
         where: { idcia: req.params.id }
       });
       res.status(200).send({ code: 200, message: 'Cia modificada', cia })
