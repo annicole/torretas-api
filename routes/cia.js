@@ -7,11 +7,11 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/cias')
-.get(cia.getCias,ensureAuth)
-.post(cia.createCia,ensureAuth);
+.get(ensureAuth,cia.getCias)
+.post(ensureAuth,cia.createCia);
 
 router.route('/read/:id')
-.get(cia.readCia,ensureAuth)
-.put(cia.update,ensureAuth);
+.get(ensureAuth,cia.readCia)
+.put(ensureAuth,cia.update);
 
 module.exports = router

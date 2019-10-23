@@ -12,28 +12,28 @@ const e8 = require('../controllers/evento8')
 const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
-router.route('/e1',ensureAuth)
-.get(e1.getEventos);
+router.route('/e1')
+.get(ensureAuth,e1.getEventos);
 
-router.route('/e2',ensureAuth)
-.get(e2.getEventos);
+router.route('/e2')
+.get(ensureAuth,e2.getEventos);
 
-router.route('/e3',ensureAuth)
-.get(e3.getEventos);
+router.route('/e3')
+.get(ensureAuth,e3.getEventos);
 
-router.route('/e4',ensureAuth)
-.get(e4.getEventos);
+router.route('/e4')
+.get(ensureAuth,e4.getEventos);
 
-router.route('/e5',ensureAuth)
-.get(e5.getEventos);
+router.route('/e5')
+.get(ensureAuth,e5.getEventos);
 
-router.route('/e6',ensureAuth)
-.get(e6.getEventos)
+router.route('/e6')
+.get(ensureAuth,e6.getEventos)
 
-router.route('/e7',ensureAuth)
-.get(e7.getEventos);
+router.route('/e7')
+.get(ensureAuth,e7.getEventos);
 
-router.route('/e8',ensureAuth)
-.get(e8.getEventos);
+router.route('/e8')
+.get(ensureAuth,e8.getEventos);
 
 module.exports = router

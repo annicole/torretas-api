@@ -8,12 +8,12 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/sensores')
-.get(sensor.getSensores,ensureAuth)
-.post(sensor.createSensor,ensureAuth)
+.get(ensureAuth,sensor.getSensores)
+.post(ensureAuth,sensor.createSensor)
 
 router.route('/read/:id')
-.put(sensor.update,ensureAuth)
-.delete(sensor.delete,ensureAuth)
-.get(sensor.readSensor,ensureAuth)
+.put(ensureAuth,sensor.update)
+.delete(ensureAuth,ensor.delete)
+.get(ensureAuth,sensor.readSensor)
 
 module.exports = router

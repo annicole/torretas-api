@@ -8,13 +8,13 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/usuarios')
-.get(usuario.getUsuarios,ensureAuth)
-.post(usuario.createUsuario,ensureAuth);
+.get(ensureAuth,usuario.getUsuarios)
+.post(ensureAuth,usuario.createUsuario);
 
 router.route('/read/:id')
-.get(usuario.readUsuario,ensureAuth)
-.put(usuario.update,ensureAuth)
-.delete(usuario.delete,ensureAuth);
+.get(ensureAuth,usuario.readUsuario)
+.put(ensureAuth,usuario.update)
+.delete(ensureAuth,usuario.delete);
 
 router.route('/login')
 .post(usuario.login);

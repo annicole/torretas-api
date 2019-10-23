@@ -7,12 +7,12 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/areas')
-.get(area.getAreas,ensureAuth)
-.post(area.createArea,ensureAuth);
+.get(ensureAuth,area.getAreas)
+.post(ensureAuth,area.createArea);
 
 router.route('/read/:id')
-.put(area.update,ensureAuth)
-.delete(area.delete,ensureAuth)
-.get(area.readArea,ensureAuth)
+.put(ensureAuth,area.update)
+.delete(ensureAuth,area.delete)
+.get(ensureAuth,area.readArea)
 
 module.exports = router

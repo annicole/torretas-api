@@ -6,6 +6,6 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/graficaSensor')
-.get(grafica.getGrafica,ensureAuth);
+.get(ensureAuth,grafica.getGrafica);
 
 module.exports = router

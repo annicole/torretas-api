@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 const { ensureAuth } = auth;
 
 router.route('/colores')
-.get(color.getColores,ensureAuth)
-.post(color.createColor,ensureAuth);
+.get(ensureAuth,color.getColores)
+.post(ensureAuth,color.createColor);
 
 module.exports = router
