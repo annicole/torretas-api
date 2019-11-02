@@ -106,12 +106,12 @@ module.exports = {
 
   createSensor: async function (req, res) {
     try {
-      var nombre_sensor = req.body.sensor;
-      var sensor = await Sensor.findOne({ attributes: ['idsensor', 'sensor', 'idmaquina', 'color', 'intermitente', 'tipo'], where: { sensor: nombre_sensor } });
+      let nombre_sensor = req.body.sensor;
+      let sensor = await Sensor.findOne({ attributes: ['idsensor', 'sensor', 'idmaquina', 'color', 'intermitente', 'tipo'], where: { sensor: nombre_sensor } });
       if (sensor) {
         throw new SensorError(SENSOR_ERROR.DUPLICATE);
       }
-      var new_Sensor = new Sensor(req.body);
+      let new_Sensor = new Sensor(req.body);
       const response = await new_Sensor.save();
       res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
@@ -159,7 +159,7 @@ module.exports = {
   },
   readSensor: async function (req, res) {
     try {
-      var sensor = await Sensor.findOne({ where: { idsensor: req.params.id } });
+      let sensor = await Sensor.findOne({ where: { idsensor: req.params.id } });
       if (sensor) {
         res.status(200).send({ code: 200, sensor });
       } else {

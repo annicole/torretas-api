@@ -2,14 +2,17 @@
 
 const router = require('express').Router({ mergeParams: true })
 const area = require('../controllers/area')
+const auth = require('../middleware/auth');
+
+const { ensureAuth } = auth;
 
 router.route('/areas')
-.get(area.getAreas)
-.post(area.createArea);
+.get(ensureAuth,area.getAreas)
+.post(ensureAuth,area.createArea);
 
 router.route('/read/:id')
-.put(area.update)
-.delete(area.delete)
-.get(area.readArea)
+.put(ensureAuth,area.update)
+.delete(ensureAuth,area.delete)
+.get(ensureAuth,area.readArea)
 
 module.exports = router

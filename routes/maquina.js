@@ -1,15 +1,17 @@
 'use strict'
 
-const router = require('express').Router({ mergeParams: true })
-const maquina = require('../controllers/maquina')
+const router = require('express').Router({ mergeParams: true });
+const maquina = require('../controllers/maquina');
+const auth = require('../middleware/auth');
+const { ensureAuth } = auth;
 
 router.route('/maquinas')
-.get(maquina.getMaquinas)
-.post(maquina.createMaquina);
+.get(ensureAuth,maquina.getMaquinas)
+.post(maquina.createMaquina,ensureAuth);
 
 router.route('/read/:id')
-.put(maquina.update)
-.delete(maquina.delete)
-.get(maquina.readMaquina)
+.put(ensureAuth,maquina.update)
+.delete(ensureAuth,maquina.delete)
+.get(ensureAuth,maquina.readMaquina);
 
 module.exports = router

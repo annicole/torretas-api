@@ -2,8 +2,10 @@
 
 const router = require('express').Router({ mergeParams: true })
 const grafica = require('../controllers/grafica');
+const auth = require('../middleware/auth');
+const { ensureAuth } = auth;
 
 router.route('/graficaSensor')
-.get(grafica.getGrafica);
+.get(ensureAuth,grafica.getGrafica);
 
 module.exports = router

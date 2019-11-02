@@ -1,15 +1,19 @@
 'use strict'
 
-const router = require('express').Router({ mergeParams: true })
-const departamento = require('../controllers/departamento')
+const router = require('express').Router({ mergeParams: true });
+const departamento = require('../controllers/departamento');
+
+const auth = require('../middleware/auth');
+
+const { ensureAuth } = auth;
 
 router.route('/departamentos')
-.get(departamento.getDepartamentos)
-.post(departamento.createDepartamento);
+.get(ensureAuth,departamento.getDepartamentos)
+.post(ensureAuth,departamento.createDepartamento);
 
 router.route('/read/:id')
-.put(departamento.update)
-.delete(departamento.delete)
-.get(departamento.readDepartamento)
+.put(ensureAuth,departamento.update)
+.delete(ensureAuth,departamento.delete)
+.get(ensureAuth,departamento.readDepartamento)
 
 module.exports = router

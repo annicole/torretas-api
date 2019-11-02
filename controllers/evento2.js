@@ -2,9 +2,9 @@
 
 const Evento = require('../models').Evento2
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
-var moment = require('moment');
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
+const moment = require('moment');
 
 
 const EVENTO_ERROR = {
@@ -70,12 +70,12 @@ function EventoError(error) {
 module.exports = {
   getEventos: async function (req, res) {
     try {
-      var maquina = req.query.maquina;
-      var page = req.query.pagina;
-      var pageSize = +req.query.paginaL;
-      var offset_ = (page - 1) * pageSize;
-      var fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
-      var fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
+      let maquina = req.query.maquina;
+      let page = req.query.pagina;
+      let pageSize = +req.query.paginaL;
+      let offset_ = (page - 1) * pageSize;
+      let fechaFin = moment.utc(req.query.fin).local().format('YYYY-MM-DD HH:mm:ss');
+      let fechaInicio = moment.utc(req.query.inicio).local().format('YYYY-MM-DD HH:mm:ss');
       const condicion = {
         maquina: maquina,
         [op.and]: {

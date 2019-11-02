@@ -4,8 +4,8 @@
 const Maquina = require('../models').Maquina
 const Area = require('../models').Area
 const models = require('../models')
-var sequelize = models.Sequelize;
-var op = sequelize.Op;
+const sequelize = models.Sequelize;
+const op = sequelize.Op;
 
 
 const MAQUINA_ERROR = {
@@ -111,12 +111,12 @@ module.exports = {
 
   createMaquina: async function (req, res) {
     try {
-      var nombre_maquina = req.body.maquina;
-      var maquina = await Maquina.findOne({ attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion'], where: { maquina: nombre_maquina } });
+      let nombre_maquina = req.body.maquina;
+      let maquina = await Maquina.findOne({ attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion'], where: { maquina: nombre_maquina } });
       if (maquina) {
         throw new MaquinaError(MAQUINA_ERROR.DUPLICATE);
       }
-      var new_maquina = new Maquina(req.body);
+      let new_maquina = new Maquina(req.body);
       const response = await new_maquina.save();
       res.status(200).send({ code: 200, status: response.status });
     } catch (error) {
@@ -163,7 +163,7 @@ module.exports = {
   },
   readMaquina: async function (req, res) {
     try {
-      var maquina = await Maquina.findOne({ where: { idmaquina: req.params.id } });
+      let maquina = await Maquina.findOne({ where: { idmaquina: req.params.id } });
       if (maquina) {
         res.status(200).send({ code: 200, maquina });
       } else {

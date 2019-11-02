@@ -1,15 +1,19 @@
 'use strict'
 
-const router = require('express').Router({ mergeParams: true })
-const sensor = require('../controllers/sensor')
+const router = require('express').Router({ mergeParams: true });
+const sensor = require('../controllers/sensor');
+
+const auth = require('../middleware/auth');
+
+const { ensureAuth } = auth;
 
 router.route('/sensores')
-.get(sensor.getSensores)
-.post(sensor.createSensor)
+.get(ensureAuth,sensor.getSensores)
+.post(ensureAuth,sensor.createSensor)
 
 router.route('/read/:id')
-.put(sensor.update)
-.delete(sensor.delete)
-.get(sensor.readSensor)
+.put(ensureAuth,sensor.update)
+.delete(ensureAuth,ensor.delete)
+.get(ensureAuth,sensor.readSensor)
 
 module.exports = router
