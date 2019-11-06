@@ -13,7 +13,7 @@ router.route('/sensores')
 
 router.route('/read/:id')
 .put(ensureAuth,sensor.update)
-.delete(ensureAuth,ensor.delete)
+.delete(ensureAuth,sensor.delete)
 .get(ensureAuth,sensor.readSensor)
 
 module.exports = router

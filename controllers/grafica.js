@@ -81,6 +81,26 @@ module.exports = {
         res.status(500).send({ ...GRAFICA_ERROR.ERROR })
       }
     }
+  },
+  getEstadoReal: async function (req, res) {
+    try {
+      const id = req.query.id;
+      const tipo = req.query.tipo;
+      const grafica =await sequelize.query('CALL edoreal(:id,:tipo)',{replacements: { id: id,tipo:tipo }});
+      console.log(grafica);
+      if(grafica){
+          res.status(200).send({code:200,grafica});
+      }else{
+          throw new GraficaError(GRAFICA_ERROR.AREA_NOT_FOUND)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error instanceof GraficaError) {
+        res.status(error.status).send(error)
+      } else {
+        res.status(500).send({ ...GRAFICA_ERROR.ERROR })
+      }
+    }
   }
 
 

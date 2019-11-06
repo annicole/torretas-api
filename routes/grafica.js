@@ -8,4 +8,7 @@ const { ensureAuth } = auth;
 router.route('/graficaSensor')
 .get(ensureAuth,grafica.getGrafica);
 
+router.route('/graficaEstadoR')
+.get(ensureAuth,grafica.getEstadoReal);
+
 module.exports = router
