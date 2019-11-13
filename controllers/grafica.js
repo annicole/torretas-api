@@ -87,7 +87,6 @@ module.exports = {
       const id = req.query.id;
       const tipo = req.query.tipo;
       const grafica =await sequelize.query('CALL edoreal(:id,:tipo)',{replacements: { id: id,tipo:tipo }});
-      console.log(grafica);
       if(grafica){
           res.status(200).send({code:200,grafica});
       }else{
