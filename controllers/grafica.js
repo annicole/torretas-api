@@ -65,7 +65,7 @@ module.exports = {
       const fechaInicio = req.query.inicio;
       const fechaFin = req.query.fin;
       const bandera = req.query.bandera;
-      const grafica =await sequelize.query('CALL grafica3(:maq,:fechaInicio,:fechaFinal,:tipo)',
+      const grafica =await sequelize.query('CALL grafica(:maq,:fechaInicio,:fechaFinal,:tipo)',
       {replacements: { maq: maquina, fechaInicio: fechaInicio, fechaFinal: fechaFin,tipo:bandera }});
       console.log(grafica);
       if(grafica){
