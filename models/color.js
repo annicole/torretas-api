@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
         });
 
         Color.associate = function (models) {           
-            Color.hasMany(models.Color);
+            Color.hasMany(models.Sensor);
         };
     return Color;
 }

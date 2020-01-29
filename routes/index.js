@@ -9,6 +9,7 @@ const grafica = require('./grafica')
 const cia = require('./cia')
 const depto = require('./departamento')
 const usuario = require('./usuario')
+const tipoEquipo =  require('./tipoEquipo')
 //all of the routing will be done here
 
 
@@ -24,5 +25,6 @@ module.exports = function (app) {
     app.use('/cia', cia),
     app.use('/departamento',depto),
     app.use('/usuario',usuario),
+    app.use('/tipoEquipo',tipoEquipo)
   app.use(router)
 }

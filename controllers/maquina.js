@@ -3,6 +3,7 @@
 
 const Maquina = require('../models').Maquina
 const Area = require('../models').Area
+const TipoEquipo = require('../models').TipoEquipo
 const models = require('../models')
 const sequelize = models.Sequelize;
 const op = sequelize.Op;
@@ -65,7 +66,7 @@ module.exports = {
       const area = req.query.area;
       if (busqueda != '' && area != '') {
         query = {
-          idarea:area,
+          idarea: area,
           maquina: {
             [op.substring]: busqueda
           }
@@ -81,13 +82,19 @@ module.exports = {
         query = { idarea: area }
       }
       const maquina = await Maquina.findAll({
-        attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion'],
+        attributes: ['idmaquina', 'maquina', 'idarea', 'descripcion','torreta','tipoequipo'],
         where: query,
         include: [{
           model: Area,
           required: true,
           attributes: ['area', 'idarea']
-        }]
+        },
+        {
+          model: TipoEquipo,
+          require: true,
+          attributes: ['idtipo', 'tipoequipo']
+        }
+        ]
       })
       if (maquina) {
         res.status(200).send({

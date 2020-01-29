@@ -18,6 +18,13 @@ module.exports = (sequelize, DataTypes) => {
             model:'area',
             key: 'idarea'
             }
+        },
+        tipoequipo:{
+            type :DataTypes.INTEGER(11),
+            references:{
+                model:'tipoequipo',
+                key:'idtipo'
+            }
         }
     }, {
             defaultScope: {
@@ -33,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     Maquina.associate = function (models) {
         Maquina.belongsTo(models.Area, {foreignKey: 'idarea'});
         Maquina.hasMany(models.Sensor);
+        Maquina.belongsTo(models.TipoEquipo,{foreignKey:'tipoequipo'});
     };
     return Maquina;
 }
