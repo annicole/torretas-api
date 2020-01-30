@@ -67,7 +67,7 @@ module.exports = {
 
         } catch (error) {
             console.error(error)
-            if (error instanceof MaquinaError) {
+            if (error instanceof TipoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -78,16 +78,16 @@ module.exports = {
 
     createTipo: async function (req, res) {
         try {
-            const tipo_equipo = TipoEquipo.findOne({ attributes: ['idtipo', 'tipoequipo'], where: { tipo: req.body.tipo } })
+            let tipo_equipo = await TipoEquipo.findOne({ attributes: ['idtipo', 'tipoequipo'], where: { tipoequipo: req.body.tipoequipo } })
             if (tipo_equipo) {
                 throw new TipoError(TIPOEQUIPO_ERROR.DUPLICATE)
             }
-            let new_eqipo = new TipoEquipo();
+            let new_eqipo = new TipoEquipo(req.body);
             const response = await new_eqipo.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
-            if (error instanceof MaquinaError) {
+            if (error instanceof TipoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -103,7 +103,7 @@ module.exports = {
             res.status(200).send({ code: 200, message: 'Tipo de equipo eliminado', response })
         } catch (error) {
             console.error(error)
-            if (error instanceof SensorError) {
+            if (error instanceof TipoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -121,7 +121,7 @@ module.exports = {
 
         } catch (error) {
             console.error(error)
-            if (error instanceof MaquinaError) {
+            if (error instanceof TipoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -135,7 +135,7 @@ module.exports = {
           if (tipo) {
             res.status(200).send({ code: 200, tipo });
           } else {
-            throw new MaquinaError(TIPOEQUIPO_ERROR.NOT_FOUND)
+            throw new TipoError(TIPOEQUIPO_ERROR.NOT_FOUND)
           }
         } catch (error) {
           console.error(error)
