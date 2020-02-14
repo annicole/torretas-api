@@ -11,4 +11,10 @@ router.route('/graficaSensor')
 router.route('/graficaEstadoR')
 .get(ensureAuth,grafica.getEstadoReal);
 
+router.route('/graficaAnillo')
+.get(ensureAuth,grafica.getGraficaAnillo);
+
+router.route('/graficaSobrepuesta')
+.get(ensureAuth,grafica.getGraficaSobrepuesta)
+
 module.exports = router

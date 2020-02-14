@@ -67,7 +67,6 @@ module.exports = {
       const bandera = req.query.bandera;
       const grafica =await sequelize.query('CALL grafica(:maq,:fechaInicio,:fechaFinal,:tipo)',
       {replacements: { maq: maquina, fechaInicio: fechaInicio, fechaFinal: fechaFin,tipo:bandera }});
-      console.log(grafica);
       if(grafica){
           res.status(200).send({code:200,grafica});
       }else{
@@ -91,6 +90,51 @@ module.exports = {
           res.status(200).send({code:200,grafica});
       }else{
           throw new GraficaError(GRAFICA_ERROR.AREA_NOT_FOUND)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error instanceof GraficaError) {
+        res.status(error.status).send(error)
+      } else {
+        res.status(500).send({ ...GRAFICA_ERROR.ERROR })
+      }
+    }
+  },
+
+  getGraficaAnillo:async function(req,res){
+    try {
+      const maquina = req.query.maquina;
+      const fechaInicio = req.query.inicio;
+      const fechaFin = req.query.fin;
+      const tipo = req.query.tipo;
+      const grafica = await sequelize.query('CALL graficaanillo(:maq,:inicio,:final,:tipo)',
+      {replacements:{maq:maquina,inicio:fechaInicio,final:fechaFin,tipo:tipo }});
+      if(grafica){
+        res.status(200).send({grafica});
+      }else{
+        throw new GraficaError(GRAFICA_ERROR.AREA_NOT_FOUND)
+      }
+    } catch (error) {
+      console.error(error)
+      if (error instanceof GraficaError) {
+        res.status(error.status).send(error)
+      } else {
+        res.status(500).send({ ...GRAFICA_ERROR.ERROR })
+      }
+    }
+  },
+  getGraficaSobrepuesta:async function(req,res){
+    try {
+      const maquina = req.query.maquina;
+      const fechaInicio = req.query.inicio;
+      const fechaFin = req.query.fin;
+      const tipo = req.query.tipo;
+      const grafica = await sequelize.query('CALL graficasobre(:maq,:inicio,:final,:tipo)',
+      {replacements:{maq:maquina,inicio:fechaInicio,final:fechaFin,tipo:tipo }});
+      if(grafica){
+        res.status(200).send({code:200,grafica});
+      }else{
+        throw new GraficaError(GRAFICA_ERROR.AREA_NOT_FOUND)
       }
     } catch (error) {
       console.error(error)
