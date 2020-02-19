@@ -110,7 +110,7 @@ module.exports = {
       const grafica = await sequelize.query('CALL graficaanillo(:maq,:inicio,:final,:tipo)',
       {replacements:{maq:maquina,inicio:fechaInicio,final:fechaFin,tipo:tipo }});
       if(grafica){
-        res.status(200).send({grafica});
+        res.status(200).send({code:200,grafica});
       }else{
         throw new GraficaError(GRAFICA_ERROR.AREA_NOT_FOUND)
       }
