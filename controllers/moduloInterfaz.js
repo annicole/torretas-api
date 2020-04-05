@@ -57,10 +57,17 @@ function ModuloError(error) {
 
 }
 
+function ModuloError(error,modulo) {
+    const { status, message } = error
+    this.status = status
+    this.message = message
+    this.modulo = modulo;
+}
+
 module.exports = {
     getModulos: async function (req, res) {
         try {
-            let query = {};
+            let query = {activo:1};
             let busqueda = req.query.busqueda;
             if (busqueda) {
                 query = {
@@ -103,7 +110,7 @@ module.exports = {
             let serial = req.body.serial;
             let moduloI = await ModuloInterfaz.findOne({ attributes: ['idmodulo', 'serial', 'idperfil', 'activo'], where: { serial: serial } });
             if (moduloI) {
-                throw new ModuloError(MODULO_ERROR.DUPLICATE);
+                throw new ModuloError(MODULO_ERROR.DUPLICATE,moduloI);
             }
             let new_modulo = new ModuloInterfaz(req.body);
             const response = await new_modulo.save();
