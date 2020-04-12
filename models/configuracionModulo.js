@@ -27,6 +27,86 @@ module.exports = (sequelize, Datatypes) => {
                 model: 'perfilconfig',
                 key: 'idperfil'
             }
+        },
+        estacion_1:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '1'
+        },
+        estacion_2:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '2'
+        },
+        estacion_3:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '3'
+        },
+        estacion_4:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '4'
+        },
+        estacion_5:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '5'
+        },
+        estacion_6:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '6'
+        },
+        estacion_7:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '7'
+        },
+        estacion_8:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '8'
+        },
+        estacion_9:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '9'
+        },
+        estacion_10:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '10'
+        },
+        estacion_11:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '11'
+        },
+        estacion_12:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '12'
+        },
+        estacion_13:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '13'
+        },
+        estacion_14:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '14'
+        },
+        estacion_15:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '15'
+        },
+        estacion_16:{
+            type:Datatypes.BOOLEAN,
+            defaultValue: false,
+            field: '16'
         }
     }, {
         defaultScope: {

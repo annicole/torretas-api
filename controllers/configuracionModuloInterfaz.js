@@ -60,12 +60,12 @@ function ConfigModuloError(error) {
 module.exports = {
     get: async function (req, res) {
         try {
+            //    attributes: ['idconfiguracion', 'entrada', 'tipoentrada', 'idevento','idperfil'],
             const configuracionModulo = await ConfiguracionModulo.findAll({
-                attributes: ['idconfiguracion', 'entrada', 'tipoentrada', 'idevento','idperfil'],
-                include:[{
-                    model:Evento,
-                    require:true,
-                    attributes:['idevento','evento','color']
+                include: [{
+                    model: Evento,
+                    require: true,
+                    attributes: ['idevento', 'evento', 'color']
                 }]
             })
             if (configuracionModulo) {
@@ -90,8 +90,24 @@ module.exports = {
 
     create: async function (req, res) {
         try {
-            let new_perfil = new ConfiguracionModulo(req.body);
-            const response = await new_perfil.save();
+            let listConfig = req.body;
+            listConfig.forEach(element => {
+                let object = {
+                    entrada: element.entrada,
+                    tipoentrada: element.tipoentrada,
+                    idevento: element.idevento,
+                    idperfil: element.idperfil
+                }
+                element.listEstacion.forEach(estacion => {
+                    object[estacion.id] = estacion.checked;
+                });
+                console.log(object);
+                let new_config = new ConfiguracionModulo(object);
+                let response = await new_config.save();
+            });
+
+            //let new_config = new ConfiguracionModulo(req.body);
+            // const response = await new_config.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
