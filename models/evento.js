@@ -1,20 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-    var Area = sequelize.define('Area', {
-        idarea: {
+    var Evento = sequelize.define('Evento', {
+        idevento: {
+            allowNull: false,
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },
-        area: {
+        evento: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        idcia: {
-            type: DataTypes.INTEGER(11),
-            references: {
-                model: 'cia',
-                key: 'idcia'
-            }
+        color: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     }, {
         defaultScope: {
@@ -24,13 +22,11 @@ module.exports = (sequelize, DataTypes) => {
         paranoid: false,
         underscored: false,
         freezeTableName: true,
-        tableName: 'area'
+        tableName: 'evento'
     });
 
-    Area.associate = function (models) {
-        Area.hasMany(models.Maquina);
-        Area.belongsTo(models.Cia);
+    Evento.associate = function (models) {
+        Evento.hasOne(models.ConfiguracionModulo);
     };
-    //Relacion one To Many Cia
-    return Area;
+    return Evento;
 }
