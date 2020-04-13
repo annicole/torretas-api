@@ -91,6 +91,7 @@ module.exports = {
     create: async function (req, res) {
         try {
             let listConfig = req.body;
+            let response;
             listConfig.forEach(element => {
                 let object = {
                     entrada: element.entrada,
@@ -103,7 +104,7 @@ module.exports = {
                 });
                 console.log(object);
                 let new_config = new ConfiguracionModulo(object);
-                let response = await new_config.save();
+                response = new_config.save();
             });
 
             //let new_config = new ConfiguracionModulo(req.body);
