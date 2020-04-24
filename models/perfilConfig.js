@@ -30,7 +30,7 @@ module.exports = (sequelize, Datatypes) => {
 
     PerfilConfig.associate = function (models) {
         PerfilConfig.hasOne(models.ModuloInterfaz);
-        PerfilConfig.hasMany(models.ConfiguracionModulo);
+        PerfilConfig.hasMany(models.ConfiguracionModulo, { foreignKey: 'idperfil' });
     };
     //Relacion 1-1 con ModuloInterfaz
     //Rrlacion 1-muchos ConfiguracionModulo one-To-Many

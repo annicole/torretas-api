@@ -19,7 +19,8 @@ module.exports = (sequelize, Datatypes) => {
             references: {
                 model: 'evento',
                 key: 'idevento'
-            }
+            },
+            field: 'idevento'
         },
         idperfil: {
             type: Datatypes.INTEGER(11),

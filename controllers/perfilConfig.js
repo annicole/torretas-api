@@ -2,6 +2,7 @@
 'use strict'
 
 const PerfilConfig = require('../models').PerfilConfig;
+const ConfiguracionModulo = require('../models').ConfiguracionModulo
 const models = require('../models');
 const sequelize = models.Sequelize;
 let op = sequelize.Op;
@@ -60,7 +61,11 @@ module.exports = {
     get: async function (req, res) {
         try {
             const perfilConfig = await PerfilConfig.findAll({
-                attributes: ['idperfil', 'nombreperfil', 'descripcion', 'automanual']
+                attributes: ['idperfil', 'nombreperfil', 'descripcion', 'automanual'],
+                include: [{
+                    model: ConfiguracionModulo,
+                    required: true
+                  }]
             })
             if (perfilConfig) {
                 res.status(200).send({
