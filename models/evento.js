@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Evento.associate = function (models) {
-        Evento.hasOne(models.ConfiguracionModulo);
+        Evento.hasOne(models.ConfiguracionModulo,  { foreignKey: 'idevento' });
     };
     return Evento;
 }
