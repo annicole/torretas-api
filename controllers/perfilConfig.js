@@ -64,7 +64,7 @@ module.exports = {
                 attributes: ['idperfil', 'nombreperfil', 'descripcion', 'automanual'],
                 include: [{
                     model: ConfiguracionModulo,
-                    required: true
+                    required: false
                   }]
             })
             if (perfilConfig) {
@@ -89,6 +89,7 @@ module.exports = {
 
     create: async function (req, res) {
         try {
+            console.log(req.body)
             let new_perfil = new PerfilConfig(req.body);
             const response = await new_perfil.save();
             res.status(200).send({ code: 200, status: response.status });
