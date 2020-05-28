@@ -139,9 +139,24 @@ module.exports = {
 
     update: async function (req, res) {
         try {
-            const resp = await ConfiguracionModulo.update(req.body, {
-                where: { idconfiguracion: req.params.id }
-            })
+            let listConfig = req.body;
+            let response;
+            listConfig.forEach(element => {
+                let object = {
+                    entrada: element.entrada,
+                    tipoentrada: element.tipoentrada,
+                    idevento: element.idevento,
+                    idperfil: element.idperfil
+                }
+                element.listEstacion.forEach(estacion => {
+                    object[estacion.id] = estacion.checked;
+                });
+                console.log(object);
+                let resp =  ConfiguracionModulo.update(object, {
+                    where: { idconfiguracion: element.idconfiguracion }
+                })
+            });
+
             res.status(200).send({ code: 200, message: 'Perfil configuración modificado', resp })
         } catch (error) {
             console.error(error)
@@ -155,9 +170,16 @@ module.exports = {
     },
     read: async function (req, res) {
         try {
-            let ConfiguracionModulo = await ConfiguracionModulo.findOne({ where: { idconfiguracion: req.params.id } });
-            if (ConfiguracionModulo) {
-                res.status(200).send({ code: 200, ConfiguracionModulo });
+            let listaconfig = await ConfiguracionModulo.findAll(
+                { where: { idperfil: req.params.id } ,
+                include: [{
+                    model: Evento,
+                    require: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }]
+            });
+            if (listaconfig) {
+                res.status(200).send({ code: 200, listaconfig });
             } else {
                 throw new ConfigModuloError(CONFIG_ERROR.PERFIL_NOT_FOUND)
             }

@@ -4,6 +4,7 @@
 const PerfilConfig = require('../models').PerfilConfig;
 const ConfiguracionModulo = require('../models').ConfiguracionModulo
 const models = require('../models');
+const Evento = require('../models').Evento;
 const sequelize = models.Sequelize;
 let op = sequelize.Op;
 
@@ -64,7 +65,14 @@ module.exports = {
                 attributes: ['idperfil', 'nombreperfil', 'descripcion', 'automanual'],
                 include: [{
                     model: ConfiguracionModulo,
-                    required: false
+                    required: false,
+                    include:[
+                        {
+                            model: Evento,
+                            require: false,
+                            attributes: ['idevento', 'evento', 'color']
+                        }
+                    ]
                   }]
             })
             if (perfilConfig) {
