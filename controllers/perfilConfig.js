@@ -61,19 +61,32 @@ function PerfilConfigError(error) {
 module.exports = {
     get: async function (req, res) {
         try {
-            const perfilConfig = await PerfilConfig.findAll({
+            let query = {};
+            let busqueda = req.query.busqueda;
+            if (busqueda != '') {
+                query = {
+                    nombreperfil: {
+                    [op.substring]: busqueda
+                  }
+                }
+              }
+            let perfilConfig = await PerfilConfig.findAll({
                 attributes: ['idperfil', 'nombreperfil', 'descripcion', 'automanual'],
+                where: query,
                 include: [{
                     model: ConfiguracionModulo,
                     required: false,
-                    include:[
+                    include: [
                         {
                             model: Evento,
                             require: false,
                             attributes: ['idevento', 'evento', 'color']
                         }
+                    ],
+                    order: [
+                        ['entrada', 'DESC']
                     ]
-                  }]
+                }]
             })
             if (perfilConfig) {
                 res.status(200).send({

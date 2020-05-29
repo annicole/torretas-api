@@ -151,13 +151,12 @@ module.exports = {
                 element.listEstacion.forEach(estacion => {
                     object[estacion.id] = estacion.checked;
                 });
-                console.log(object);
-                let resp =  ConfiguracionModulo.update(object, {
+                response =  ConfiguracionModulo.update(object, {
                     where: { idconfiguracion: element.idconfiguracion }
                 })
             });
 
-            res.status(200).send({ code: 200, message: 'Perfil configuración modificado', resp })
+            res.status(200).send({ code: 200, message: 'Perfil configuración modificado', response })
         } catch (error) {
             console.error(error)
             if (error instanceof ConfigModuloError) {
@@ -176,7 +175,10 @@ module.exports = {
                     model: Evento,
                     require: true,
                     attributes: ['idevento', 'evento', 'color']
-                }]
+                }],
+                order: [
+                    ['entrada', 'ASC']
+                ]
             });
             if (listaconfig) {
                 res.status(200).send({ code: 200, listaconfig });
