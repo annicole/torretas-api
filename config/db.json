@@ -1,9 +1,9 @@
 {
     "development": {
-      "username": "osanchez",
-      "password": "szju40",
+      "username": "Nicole",
+      "password": "nicole",
       "database": "torretap",
-      "host": "icmamx.sytes.net",
+      "host": "icma-automation.ga",
       "dialect": "mysql",
       "define": {
         "timestamps": true
