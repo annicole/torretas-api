@@ -13,7 +13,10 @@ const tipoEquipo = require('./tipoEquipo')
 const moduloInterfaz = require('./moduloInterfaz')
 const perfilConfig = require('./perfilConfig')
 const configuracionModulo = require('./configuracionModulo')
-const respirador = require('./respirador')
+const raw = require('./raw')
+const subensamble = require('./subensamble')
+const producto = require('./producto')
+const um = require('./um')
 //all of the routing will be done here
 
 
@@ -33,6 +36,9 @@ module.exports = function (app) {
     app.use('/moduloInterfaz', moduloInterfaz),
     app.use('/perfilConfig', perfilConfig),
     app.use('/configuracionModulo', configuracionModulo),
-    app.use('/respirador', respirador)
+    app.use('/subensamble', subensamble),
+    app.use('/um', um),
+    app.use('/producto', producto),
+    app.use('/raw',raw)
   app.use(router)
 }
