@@ -13,5 +13,6 @@ router.route('/get')
 router.route('/read/:id')
 .put(ensureAuth,um.update)
 .get(ensureAuth,um.read)
+.delete(ensureAuth,um.delete);
 
 module.exports = router
