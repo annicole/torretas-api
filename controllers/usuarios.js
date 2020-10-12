@@ -192,7 +192,14 @@ module.exports = {
     },
     login:async function(req,res){
         try{
-            const usuario = await Usuario.findOne({where:{email:req.body.email}});
+            const usuario = await Usuario.findOne({
+                where:{email:req.body.email},
+                include: [{
+                    model: Departamento,
+                    required: true,
+                    attributes: ['idcia']
+                }]        
+            });
               if(!usuario){
                  throw new UsuarioError(USUARIO_ERROR.INVALID_EMAIL);
               }
@@ -209,7 +216,8 @@ module.exports = {
                  id:usuario.id,
                  username:usuario.username,
                  token: accessToken,
-                 expires:expiresIn
+                 expires:expiresIn,
+                 idcia:usuario.Departamento.idcia
                }
                res.status(200).send({code:200,dataUser});
             }else{
