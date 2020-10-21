@@ -17,6 +17,13 @@ const raw = require('./raw')
 const subensamble = require('./subensamble')
 const producto = require('./producto')
 const um = require('./um')
+const relcomp = require('./relcomp')
+const pais = require('./pais')
+const ciudad = require('./ciudad')
+const estado = require('./estado')
+const condpago = require('./condpago')
+const contemp = require('./contemp')
+const empresa = require('./empresa')
 //all of the routing will be done here
 
 
@@ -39,6 +46,13 @@ module.exports = function (app) {
     app.use('/subensamble', subensamble),
     app.use('/um', um),
     app.use('/producto', producto),
-    app.use('/raw',raw)
+    app.use('/raw', raw),
+    app.use('/relcomp', relcomp),
+    app.use('/pais', pais),
+    app.use('/ciudad', ciudad),
+    app.use('/estado', estado),
+    app.use('/condpago', condpago),
+    app.use('/contemp', contemp),
+    app.use('/empresa', empresa),
   app.use(router)
 }
