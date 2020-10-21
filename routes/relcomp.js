@@ -13,5 +13,6 @@ router.route('/relcomp')
 router.route('/read/:id')
     .put(ensureAuth, relcomp.update)
     .get(ensureAuth, relcomp.read)
+    .delete(ensureAuth, relcomp.delete);
 
 module.exports = router

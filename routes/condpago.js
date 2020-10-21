@@ -13,5 +13,6 @@ router.route('/condpago')
 router.route('/read/:id')
     .put(ensureAuth, condpago.update)
     .get(ensureAuth, condpago.read)
+    .delete(ensureAuth, condpago.delete);
 
 module.exports = router

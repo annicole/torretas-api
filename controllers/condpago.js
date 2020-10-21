@@ -100,7 +100,7 @@ module.exports = {
     delete: async function (req, res) {
         try {
             const response = await Condpago.destroy({
-                where: { idrelcomercial: req.params.id }
+                where: { idcondpago: req.params.id }
             })
             res.status(200).send({ code: 200, message: 'Registro eliminado', response })
         } catch (error) {
