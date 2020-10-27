@@ -1,16 +1,18 @@
-
 'use strict'
-
-const Estado = require('../models').Estado;
+const Wo = require('../models').Wo;
+const Empresa = require('../models').Empresa;
+const Contemp = require('../models').Contemp;
+const Usuario = require('../models').Usuario;
+const Statuswo = require('../models').Statuswo;
 const models = require('../models');
 const sequelize = models.Sequelize;
-let op = sequelize.Op;
+const op = sequelize.Op;
 
 
-const PERFIL_CONFIG_ERROR = {
+const WO_ERROR = {
     ERROR: {
         status: 500,
-        message: 'No se pudo guardar la relacion comercial '
+        message: 'Error al guardar los cambios'
     },
     PASSWORD_FAIL: {
         status: 406,
@@ -22,10 +24,10 @@ const PERFIL_CONFIG_ERROR = {
         message: 'Auth Failed',
         code: 'AUTH_FAILED'
     },
-    PERFIL_NOT_FOUND: {
+    WO_NOT_FOUND: {
         status: 404,
-        message: 'No se pudo encontrar la relacion comercial',
-        code: 'SENSOR_NOT_FOUND'
+        message: 'Contacto no encontrado',
+        code: 'WO_NOT_FOUND'
     },
     LIMIT: {
         status: 403,
@@ -33,7 +35,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'Esta relación ya existe'
+        message: 'El contacto ya existe'
     },
     CODE_INVALID: {
         status: 403,
@@ -43,13 +45,13 @@ const PERFIL_CONFIG_ERROR = {
         status: 401,
         message: 'Unauthorized'
     },
-    PERFIL_REGISTERED: {
+    WO_REGISTERED: {
         status: 403,
-        message: 'La relación ya existe'
+        message: 'El contacto ya existe'
     }
 }
 
-function PerfilConfigError(error) {
+function WoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -57,49 +59,77 @@ function PerfilConfigError(error) {
 }
 
 module.exports = {
+
     get: async function (req, res) {
         try {
             let query = {};
-            let estado = req.query.busqueda;
-            if (estado != '') {
+            let wo = req.query.busqueda;
+            if (wo != '') {
                 query = {
-                    idpais: {
-                        [op.substring]: estado
+                    idwo: {
+                        [op.substring]: wo
                     }
                 }
             }
-            let response = await Estado.findAll({
-                attributes: ['idestado', 'idpais', 'estado'],
+            let response = await Wo.findAll({
+                attributes: ['idwo', 'woasig', 'idempresa', 'idcontacto', 'idempleado', 'fechasol', 'ocliente', 'idstatuswo','fechavenoc'],
                 where: query,
+                include: [
+                    {
+                        model: Empresa,
+                        required: false,
+                        attributes: ['idempresa', 'nomemp'],
+                    },
+                    {
+                     model: Contemp,
+                    required: false,
+                    attributes: ['idcontemp', 'nomcontemp'],
+                    },
+                    {
+                        model: Usuario,
+                        required: false,
+                        attributes: ['id', 'username'],
+                    },
+                    {
+                        model: Statuswo,
+                        required: false,
+                        attributes: ['idstatuswo', 'statuswo'],
+                    },
+                    
+                ]
             })
             if (response) {
                 res.status(200).send({
                     code: 200, response
                 })
             } else {
-                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+                throw new (WO_ERROR.WO_NOT_FOUND)
             }
 
         }
         catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof WoError) {
                 res.status(error.status).send(error)
             } else {
-                res.status(500).send({ ...PERFIL_CONFIG_ERROR.ERROR })
+                res.status(500).send({ ...WO_ERROR.ERROR })
             }
 
         }
     },
-
     create: async function (req, res) {
         try {
-            let response_new = new Estado(req.body);
-            const response = await response_new.save();
+            let nombre_wo = req.body.ocliente ;
+            let wo = await Wo.findOne({ where: { ocliente: nombre_wo } });
+            if (wo) {
+                throw new WoError(WO_ERROR.DUPLICATE);
+            }
+            let new_wo = new Wo(req.body);
+            const response = await new_wo.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof WoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -107,15 +137,16 @@ module.exports = {
             }
         }
     },
+
     delete: async function (req, res) {
         try {
-            const response = await Estado.destroy({
-                where: { idrelcomercial: req.params.id }
+            const response = await Wo.destroy({
+                where: { idwo: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Registro eliminado', response })
+            res.status(200).send({ code: 200, message: 'Contacto eliminadao', response })
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof WoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -123,16 +154,17 @@ module.exports = {
             }
         }
     },
+
 
     update: async function (req, res) {
         try {
-            const resp = await Estado.update(req.body, {
-                where: { idrelcomercial: req.params.id }
-            })
-            res.status(200).send({ code: 200, message: 'Registro modificado', resp })
-        } catch (error) {
+            let wo = await Wo.update(req.body, {
+                where: { idwo: req.params.id }
+            });
+            res.status(200).send({ code: 200, message: 'Orden de Manufactura modificada', wo })
+        } catch (e) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof WoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -141,20 +173,21 @@ module.exports = {
         }
     },
 
-
     read: async function (req, res) {
         try {
-            let response = await Estado.findAll({
-                where: { idpais: req.params.id }
+            let response = await Wo.findOne({
+
+                where: { idwo: req.params.id }
+
             });
             if (response) {
                 res.status(200).send({ code: 200, response });
             } else {
-                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+                throw new WoError(WO_ERROR.WO_NOT_FOUND)
             }
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof WoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -162,4 +195,5 @@ module.exports = {
             }
         }
     }
+
 }

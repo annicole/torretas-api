@@ -113,7 +113,10 @@ module.exports = (sequelize, DataTypes) => {
         Empresa.belongsTo(models.Estado, { foreignKey: 'idestado' });
         Empresa.belongsTo(models.Ciudad, { foreignKey: 'idciudad' });
         Empresa.belongsTo(models.Condpago, { foreignKey: 'idcondpago' });
+
+        Empresa.hasOne(models.Wo, { foreignKey: 'idempresa' });
     };
+
 
     return Empresa;
 }

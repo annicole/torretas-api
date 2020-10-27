@@ -70,7 +70,7 @@ module.exports = {
             }
             let response = await Ciudad.findAll({
                 attributes: ['idciudad', 'idestado', 'ciudad'],
-
+                where: query,
             })
             if (response) {
                 res.status(200).send({

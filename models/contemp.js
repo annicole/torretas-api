@@ -58,6 +58,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Contemp.associate = function (models) {
         Contemp.hasOne(models.Empresa, { foreignKey: 'idempresa' });
+
+        //Contemp.hasOne(models.Wo);
     };
 
     return Contemp;

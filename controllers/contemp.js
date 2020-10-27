@@ -1,5 +1,7 @@
 'use strict'
 const Empresa = require('../models').Empresa;
+const Wo = require('../models').Wo;
+
 const Contemp = require('../models').Contemp;
 const models = require('../models');
 const sequelize = models.Sequelize;
@@ -68,9 +70,10 @@ module.exports = {
                     }
                 }
             }
+           
             let rescontemp = await Contemp.findAll({
                 attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp'],
-                where: query
+                where: query,
 
             })
             if (rescontemp) {
@@ -78,7 +81,7 @@ module.exports = {
                     code: 200, rescontemp
                 })
             } else {
-                throw new (Contemp_ERROR.CONTEMP_NOT_FOUND)
+                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
             }
 
         }
@@ -92,6 +95,9 @@ module.exports = {
 
         }
     },
+
+   
+
     create: async function (req, res) {
         try {
             let nombre_contemp = req.body.nomcontemp;

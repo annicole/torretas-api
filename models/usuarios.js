@@ -50,7 +50,8 @@ module.exports = (sequelize, DataTypes) => {
         });
 
         Usuario.associate = function (models) {
-            Usuario.belongsTo(models.Departamento,{foreignKey: 'iddep'});
+            Usuario.belongsTo(models.Departamento, { foreignKey: 'iddep' });
+            //Usuario.hasOne(models.Wo);
     };
     return Usuario;
 }
