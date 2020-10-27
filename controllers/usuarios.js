@@ -80,7 +80,7 @@ module.exports = {
         }
         try {
             const usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular'],
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'idevento', 'nip', 'Username_last'],
                 where: query,
                 include: [{
                     model: Departamento,
