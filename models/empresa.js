@@ -115,6 +115,7 @@ module.exports = (sequelize, DataTypes) => {
         Empresa.belongsTo(models.Condpago, { foreignKey: 'idcondpago' });
 
         Empresa.hasOne(models.Wo, { foreignKey: 'idempresa' });
+        Empresa.hasMany(models.Producto);
     };
 
 

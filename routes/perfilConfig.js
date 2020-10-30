@@ -13,5 +13,5 @@ router.route('/get')
 router.route('/read/:id')
 .put(ensureAuth,perfilConfig.update)
 .get(ensureAuth,perfilConfig.read)
-
+.delete(ensureAuth,perfilConfig.delete)
 module.exports = router

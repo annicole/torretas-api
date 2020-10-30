@@ -23,6 +23,13 @@ module.exports = (sequelize, DataTypes) => {
             model:'um',
             key: 'idum'
             }
+        },
+        idempresa:{
+            type:DataTypes.INTEGER(11),
+            references:{
+                model:'empresa',
+                key:'idempresa'
+            }
         }
     }, {
             defaultScope: {
@@ -37,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Producto.associate = function (models) {
         Producto.belongsTo(models.Um, { foreignKey: 'um_producto' });
+        Producto.belongsTo(models.Empresa,{foreignKey:'idempresa'});
     };
     return Producto;
 }
