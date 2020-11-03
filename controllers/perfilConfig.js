@@ -129,6 +129,9 @@ module.exports = {
             const response = await PerfilConfig.destroy({
                 where: { idperfil: req.params.id }
             })
+            const responseConfiguracion = await ConfiguracionModulo.destroy({
+                where: { idperfil: req.params.id }
+            })
             res.status(200).send({ code: 200, message: 'Perfil configuración eliminado', response })
         } catch (error) {
             console.error(error)
