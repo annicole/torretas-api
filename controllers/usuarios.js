@@ -87,15 +87,16 @@ module.exports = {
                     model: Departamento,
                     required: true,
                     attributes: ['iddep', 'departamento', 'idcia']
-                },
+                }]
                 // {
                 //     model: Evento,
                 //     required: true,
                 //     attributes: ['idevento', 'evento', 'color']
                 // }
-            ]
+            // ]
             })
             if (usuario) {
+                console.log(usuario)
                 res.status(200).send({
                     code: 200, usuario
                 })
