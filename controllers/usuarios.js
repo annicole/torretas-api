@@ -87,13 +87,13 @@ module.exports = {
                     model: Departamento,
                     required: true,
                     attributes: ['iddep', 'departamento', 'idcia']
-                }]
-                // {
-                //     model: Evento,
-                //     required: true,
-                //     attributes: ['idevento', 'evento', 'color']
-                // }
-            // ]
+                },
+                {
+                    model: Evento,
+                    required: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }
+            ]
             })
             if (usuario) {
                 console.log(usuario)
@@ -125,7 +125,7 @@ module.exports = {
                         email:req.body.email
                     },
                     {
-                        username: req.body.username
+                        //username: req.body.username
                     }]}
              });
             if (usuario) {

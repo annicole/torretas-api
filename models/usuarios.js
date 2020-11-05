@@ -39,20 +39,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING
         },
         nip:{
-            type: DataTypes.INTEGER(4),
-            // allowNull: false
+            type: DataTypes.INTEGER(4)
         },
         idevento:{
             type: DataTypes.INTEGER(3),
-            // references: { 
-            //     model:'evento',
-            //     key: 'idevento'
-            // },
-            // allowNull: false
+            references: { 
+                model:'evento',
+                key: 'idevento'
+            }
         },
         Username_last:{
             type: DataTypes.STRING,
-            // allowNull: false
         }
     }, {
             defaultScope: {
@@ -67,8 +64,8 @@ module.exports = (sequelize, DataTypes) => {
 
         Usuario.associate = function (models) {
             Usuario.belongsTo(models.Departamento, { foreignKey: 'iddep' });
-            //Usuario.hasOne(models.Wo);
-            //Usuario.belongsTo(models.Evento, { foreignKey: 'idevento' });
+            Usuario.hasOne(models.Wo);
+            Usuario.belongsTo(models.Evento, { foreignKey: 'idevento' });
         };
     return Usuario;
 }
