@@ -96,7 +96,6 @@ module.exports = {
             ]
             })
             if (usuario) {
-                console.log(usuario)
                 res.status(200).send({
                     code: 200, usuario
                 })
