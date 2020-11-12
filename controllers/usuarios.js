@@ -2,6 +2,7 @@
 
 const Usuario = require('../models').Usuario
 const Departamento = require('../models').Departamento
+const Evento = require('../models').Evento
 const models = require('../models')
 const sequelize = models.Sequelize;
 const op = sequelize.Op;
@@ -79,14 +80,20 @@ module.exports = {
             }
         }
         try {
-            const usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular'],
+            let usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
                 where: query,
                 include: [{
                     model: Departamento,
                     required: true,
                     attributes: ['iddep', 'departamento', 'idcia']
-                }]
+                },
+                // {
+                //     model: Evento,
+                //     required: true,
+                //     attributes: ['idevento', 'evento', 'color']
+                // }
+            ]
             })
             if (usuario) {
                 res.status(200).send({

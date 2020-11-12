@@ -29,6 +29,10 @@ module.exports = (sequelize, Datatypes) => {
                 key: 'idperfil'
             }
         },
+        intermitente:{
+            type: Datatypes.INTEGER(1),
+            allowNull:false
+        },
         estacion_1:{
             type:Datatypes.BOOLEAN,
             defaultValue: false,
