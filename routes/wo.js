@@ -1,18 +1,22 @@
 'use strict'
 
 const router = require('express').Router({ mergeParams: true });
-const wosub = require('../controllers/wosub');
+const wo = require('../controllers/wo');
 const auth = require('../middleware/auth');
 
 const { ensureAuth } = auth;
 
-router.route('/wosub')
-    .get(ensureAuth, wosub.get)
-    .post(ensureAuth, wosub.create);
+router.route('/wo')
+    .get(ensureAuth, wo.get)
+    .post(ensureAuth, wo.create);
+
+router.route('/buscar')
+    .get(ensureAuth, wo.get2)
+
 
 router.route('/read/:id')
-    .get(ensureAuth, wosub.read)
-    .put(ensureAuth, wosub.update)
-    .delete(ensureAuth, wosub.delete);
+    .get(ensureAuth, wo.read)
+    .put(ensureAuth, wo.update)
+    .delete(ensureAuth, wo.delete);
 
 module.exports = router
