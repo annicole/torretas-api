@@ -116,13 +116,13 @@ module.exports = {
     },
     create: async function (req, res) {
         try {
-            let nombre_statuswo = req.body.idwosub;
-            let statuswo = await Wosub.findOne({ where: { idwosub: nombre_statuswo } });
-            if (statuswo) {
+            let nombre_wosub = req.body.idwosub;
+            let wosub = await Wosub.findOne({ where: { idwosub: nombre_wosub } });
+            if (wosub) {
                 throw new StatuswoError(STATUSWO_ERROR.DUPLICATE);
             }
-            let new_statuswo = new Wosub(req.body);
-            const response = await new_statuswo.save();
+            let new_wosub = new Wosub(req.body);
+            const response = await new_wosub.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
