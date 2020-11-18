@@ -94,8 +94,8 @@ module.exports = {
     },
     create: async function (req, res) {
         try {
-            let nombre_statuswo = req.body.statuswo ;
-            let statuswo = await Statuswo.findOne({ where: { statuswo: nombre_statuswo } });
+            let nombre_statuswo = req.body.idstatuswo ;
+            let statuswo = await Statuswo.findOne({ where: { idstatuswo: nombre_statuswo } });
             if (statuswo) {
                 throw new StatuswoError(STATUSWO_ERROR.DUPLICATE);
             }
