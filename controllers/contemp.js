@@ -100,8 +100,8 @@ module.exports = {
 
     create: async function (req, res) {
         try {
-            let nombre_contemp = req.body.nomcontemp;
-            let contemp = await Contemp.findOne({ where: { nomcontemp: nombre_contemp } });
+            let nombre_contemp = req.body.idcontemp;
+            let contemp = await Contemp.findOne({ where: { idcontemp: nombre_contemp } });
             if (contemp) {
                 throw new ContempError(CONTEMP_ERROR.DUPLICATE);
             }
