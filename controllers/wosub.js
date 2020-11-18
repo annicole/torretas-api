@@ -140,7 +140,7 @@ module.exports = {
             const response = await Wosub.destroy({
                 where: { idwosub: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Contacto eliminadao', response })
+            res.status(200).send({ code: 200, message: 'Orden eliminadana', response })
         } catch (error) {
             console.error(error)
             if (error instanceof StatuswoError) {
@@ -156,9 +156,9 @@ module.exports = {
     update: async function (req, res) {
         try {
             let wosub = await Wosub.update(req.body, {
-                where: { idstwosub: req.params.id }
+                where: { idwosub: req.params.id }
             });
-            res.status(200).send({ code: 200, message: 'Orden de Manufactura modificada', wosub })
+            res.status(200).send({ code: 200, message: 'Orden modificada', wosub })
         } catch (e) {
             console.error(error)
             if (error instanceof StatuswoError) {
