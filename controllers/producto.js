@@ -2,6 +2,7 @@
 'use strict'
 
 const Um = require('../models').Um;
+const Empresa = require('../models').Empresa;
 const models = require('../models');
 const Producto = require('../models').Producto;
 const sequelize = models.Sequelize;
@@ -75,7 +76,11 @@ module.exports = {
                 include: [{
                     model: Um,
                     required: false,
-                }]
+                },{
+                    model:Empresa,
+                    required:false
+                }
+            ]
             })
             if (response) {
                 res.status(200).send({

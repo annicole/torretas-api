@@ -2,6 +2,7 @@
 
 const Usuario = require('../models').Usuario
 const Departamento = require('../models').Departamento
+const Evento = require('../models').Evento
 const models = require('../models')
 const sequelize = models.Sequelize;
 const op = sequelize.Op;
@@ -69,24 +70,60 @@ function UsuarioError(error) {
 
 module.exports = {
     getUsuarios: async function (req, res) {
+        // let query = {};
+        // let busqueda = req.query.busqueda;
+        // if (busqueda != '') {
+        //     query = {
+        //         username: {
+        //             [op.substring]: busqueda
+        //         }
+        //     }
+        // }
+        
         let query = {};
         let busqueda = req.query.busqueda;
-        if (busqueda != '') {
+        let evento = req.query.evento;
+        if (busqueda != '' &&  evento != '') {
+            query = {
+                idevento: evento,
+                username: {
+                    [op.substring]: busqueda
+                }
+            }
+        } else  if (busqueda != '' ) {
             query = {
                 username: {
                     [op.substring]: busqueda
                 }
             }
+        } else if (evento != '') {
+            query = { idevento: evento }
         }
+
+        
+        // let busquedaEvento = req.query.busquedaEvento;
+        // if (busquedaEvento != '') {
+        //     query = {
+        //         idevento: {
+        //             [op]: busquedaEvento
+        //         }
+        //     }
+        // }
         try {
-            const usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular'],
+            let usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
                 where: query,
                 include: [{
                     model: Departamento,
                     required: true,
                     attributes: ['iddep', 'departamento', 'idcia']
-                }]
+                },
+                {
+                    model: Evento,
+                    required: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }
+            ]
             })
             if (usuario) {
                 res.status(200).send({
@@ -117,7 +154,7 @@ module.exports = {
                         email:req.body.email
                     },
                     {
-                        username: req.body.username
+                        //username: req.body.username
                     }]}
              });
             if (usuario) {

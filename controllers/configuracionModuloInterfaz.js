@@ -97,7 +97,8 @@ module.exports = {
                     entrada: element.entrada,
                     tipoentrada: element.tipoentrada,
                     idevento: element.idevento,
-                    idperfil: element.idperfil
+                    idperfil: element.idperfil,
+                    intermitente: element.intermitente
                 }
                 element.listEstacion.forEach(estacion => {
                     object[estacion.id] = estacion.checked;
@@ -146,7 +147,8 @@ module.exports = {
                     entrada: element.entrada,
                     tipoentrada: element.tipoentrada,
                     idevento: element.idevento,
-                    idperfil: element.idperfil
+                    idperfil: element.idperfil,
+                    intermitente: element.intermitente
                 }
                 element.listEstacion.forEach(estacion => {
                     object[estacion.id] = estacion.checked;
