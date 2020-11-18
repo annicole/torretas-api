@@ -1,17 +1,19 @@
-
 'use strict'
 
-const Um = require('../models').Um;
-const models = require('../models');
+const Wosub = require('../models').Wosub;
 const Producto = require('../models').Producto;
+const Um = require('../models').Um;
+const Statuswosub = require('../models').Statuswosub;
+
+const models = require('../models');
 const sequelize = models.Sequelize;
-let op = sequelize.Op;
+const op = sequelize.Op;
 
 
-const PERFIL_CONFIG_ERROR = {
+const STATUSWO_ERROR = {
     ERROR: {
         status: 500,
-        message: 'No se pudo guardar el sensor '
+        message: 'Error al guardar los cambios'
     },
     PASSWORD_FAIL: {
         status: 406,
@@ -23,10 +25,10 @@ const PERFIL_CONFIG_ERROR = {
         message: 'Auth Failed',
         code: 'AUTH_FAILED'
     },
-    PERFIL_NOT_FOUND: {
+    STATUSWO_NOT_FOUND: {
         status: 404,
-        message: 'No se pudo encontrar el sensor',
-        code: 'SENSOR_NOT_FOUND'
+        message: 'Status no encontrado',
+        code: 'STATUSWO_NOT_FOUND'
     },
     LIMIT: {
         status: 403,
@@ -34,7 +36,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'El sensor ya existe'
+        message: 'El contacto ya existe'
     },
     CODE_INVALID: {
         status: 403,
@@ -44,13 +46,13 @@ const PERFIL_CONFIG_ERROR = {
         status: 401,
         message: 'Unauthorized'
     },
-    PERFIL_REGISTERED: {
+    STATUSWO_REGISTERED: {
         status: 403,
-        message: 'Sensor ya existe'
+        message: 'El contacto ya existe'
     }
 }
 
-function PerfilConfigError(error) {
+function StatuswoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -58,108 +60,73 @@ function PerfilConfigError(error) {
 }
 
 module.exports = {
+
     get: async function (req, res) {
         try {
             let query = {};
-            let busqueda = req.query.busqueda;
-            if (busqueda != '') {
+            let wosub = req.query.busqueda;
+            if (wosub != '') {
                 query = {
-                    producto: {
-                        [op.substring]: busqueda
+                    idwo: {
+                        [op.substring]: wosub
                     }
                 }
             }
-            let response = await Producto.findAll({
-                attributes: ['idproducto', 'producto', 'desc_producto', 'te_producto'],
+            let response = await Wosub.findAll({
+                attributes: ['idwosub', 'idwo', 'cantwosub', 'descwosub', 'idproducto', 'puwosub', 'descuentoemp', 'idstwosub'],
                 where: query,
                 include: [{
-                    model: Um,
+                    model: Producto,
                     required: false,
-                }]
+                    attributes: ['idproducto', 'producto', 'desc_producto', 'te_producto', 'um_producto'],
+
+                    include: [{
+                        model: Um,
+                        required: false,
+                        attributes: ['um'],
+                    }]
+                
+                },
+                {
+                    model: Statuswosub,
+                    required: false,
+                    attributes: ['idstwosub', 'stwosub'],
+                },
+                   
+                ],
             })
             if (response) {
                 res.status(200).send({
                     code: 200, response
                 })
             } else {
-                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+                throw new StatuswoError(STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
 
         }
         catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
-                res.status(500).send({ ...PERFIL_CONFIG_ERROR.ERROR })
+                res.status(500).send({ ...STATUSWO_ERROR.ERROR })
             }
 
         }
     },
-
-    get2: async function (req, res) {
-        try {
-            let query = {};
-            let emp = req.query.emp;
-            if (emp != '') {
-                query = {
-                    idempresa: {
-                        [op.substring]: emp
-                    }
-                }
-            }
-            let response = await Producto.findAll({
-                attributes: ['idproducto', 'producto', 'desc_producto', 'te_producto','idempresa','um_producto'],
-                where: query,
-                include: [{
-                    model: Um,
-                    required: false,
-                }]
-            })
-            if (response) {
-                res.status(200).send({
-                    code: 200, response
-                })
-            } else {
-                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
-            }
-
-        }
-        catch (error) {
-            console.error(error)
-            if (error instanceof PerfilConfigError) {
-                res.status(error.status).send(error)
-            } else {
-                res.status(500).send({ ...PERFIL_CONFIG_ERROR.ERROR })
-            }
-
-        }
-    },
-
     create: async function (req, res) {
         try {
-            let response_new = new Producto(req.body);
-            const response = await response_new.save();
+            let nombre_statuswo = req.body.idwosub ;
+            let statuswo = await Wosub.findOne({ where: { idwosub: nombre_statuswo } });
+            if (statuswo) {
+                throw new StatuswoError(STATUSWO_ERROR.DUPLICATE);
+            }
+            let new_statuswo = new Wosub(req.body);
+            const response = await new_statuswo.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
-                res.status(error.status).send(error)
-            } else {
-                console.log(error);
-                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
-            }
-        }
-    },
-    delete: async function (req, res) {
-        try {
-            const response = await Producto.destroy({
-                where: { idproducto: req.params.id }
-            })
-            res.status(200).send({ code: 200, message: 'Producto eliminado', response })
-        } catch (error) {
-            console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -168,15 +135,15 @@ module.exports = {
         }
     },
 
-    update: async function (req, res) {
+    delete: async function (req, res) {
         try {
-            const resp = await Producto.update(req.body, {
-                where: { idproducto: req.params.id }
+            const response = await Wosub.destroy({
+                where: { idwosub: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Producto modificado', resp })
+            res.status(200).send({ code: 200, message: 'Contacto eliminadao', response })
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -184,17 +151,40 @@ module.exports = {
             }
         }
     },
+
+
+    update: async function (req, res) {
+        try {
+            let wosub = await Wosub.update(req.body, {
+                where: { idstwosub: req.params.id }
+            });
+            res.status(200).send({ code: 200, message: 'Orden de Manufactura modificada', wosub })
+        } catch (e) {
+            console.error(error)
+            if (error instanceof StatuswoError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+            }
+        }
+    },
+
     read: async function (req, res) {
         try {
-            let response = await Producto.findOne({ where: { idproducto: req.params.id } });
+            let response = await Wosub.findOne({
+
+                where: { idwosub: req.params.id }
+
+            });
             if (response) {
                 res.status(200).send({ code: 200, response });
             } else {
-                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+                throw new StatuswoError(STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
         } catch (error) {
             console.error(error)
-            if (error instanceof PerfilConfigError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -202,4 +192,5 @@ module.exports = {
             }
         }
     }
+
 }

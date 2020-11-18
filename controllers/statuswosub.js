@@ -1,14 +1,12 @@
 'use strict'
-const Empresa = require('../models').Empresa;
-const Wo = require('../models').Wo;
 
-const Contemp = require('../models').Contemp;
+const Statuswosub = require('../models').Statuswosub;
 const models = require('../models');
 const sequelize = models.Sequelize;
 const op = sequelize.Op;
 
 
-const CONTEMP_ERROR = {
+const STATUSWO_ERROR = {
     ERROR: {
         status: 500,
         message: 'Error al guardar los cambios'
@@ -23,10 +21,10 @@ const CONTEMP_ERROR = {
         message: 'Auth Failed',
         code: 'AUTH_FAILED'
     },
-    CONTEMP_NOT_FOUND: {
+    STATUSWO_NOT_FOUND: {
         status: 404,
-        message: 'Contacto no encontrado',
-        code: 'CONTEMP_NOT_FOUND'
+        message: 'Status no encontrado',
+        code: 'STATUSWO_NOT_FOUND'
     },
     LIMIT: {
         status: 403,
@@ -44,13 +42,13 @@ const CONTEMP_ERROR = {
         status: 401,
         message: 'Unauthorized'
     },
-    CONTEMP_REGISTERED: {
+    STATUSWO_REGISTERED: {
         status: 403,
         message: 'El contacto ya existe'
     }
 }
 
-function ContempError(error) {
+function StatuswoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -59,58 +57,54 @@ function ContempError(error) {
 
 module.exports = {
 
-    getContemp: async function (req, res) {
+    get: async function (req, res) {
         try {
             let query = {};
-            let contemp = req.query.busqueda;
-            if (contemp != '') {
+            let statuswosub = req.query.busqueda;
+            if (statuswosub != '') {
                 query = {
-                    idempresa: {
-                        [op.substring]: contemp
+                    idstwosub: {
+                        [op.substring]: statuswosub
                     }
                 }
             }
-           
-            let rescontemp = await Contemp.findAll({
-                attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp'],
-                where: query,
+            let response = await Statuswosub.findAll({
+                attributes: ['idstwosub','stwosub'],
+                where: query
 
             })
-            if (rescontemp) {
+            if (response) {
                 res.status(200).send({
-                    code: 200, rescontemp
+                    code: 200, response
                 })
             } else {
-                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
+                throw new (STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
 
         }
         catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
-                res.status(500).send({ ...CONTEMP_ERROR.ERROR })
+                res.status(500).send({ ...STATUSWO_ERROR.ERROR })
             }
 
         }
     },
-
-   
-
     create: async function (req, res) {
         try {
-            let nombre_contemp = req.body.idcontemp;
-            let contemp = await Contemp.findOne({ where: { idcontemp: nombre_contemp } });
-            if (contemp) {
-                throw new ContempError(CONTEMP_ERROR.DUPLICATE);
+            let nombre_statuswo = req.body.stwosub ;
+            let statuswo = await Statuswosub.findOne({ where: { stwosub: nombre_statuswo } });
+            if (statuswo) {
+                throw new StatuswoError(STATUSWO_ERROR.DUPLICATE);
             }
-            let new_contemp = new Contemp(req.body);
-            const response = await new_contemp.save();
+            let new_statuswo = new Statuswosub(req.body);
+            const response = await new_statuswo.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -121,13 +115,13 @@ module.exports = {
 
     delete: async function (req, res) {
         try {
-            const response = await Contemp.destroy({
-                where: { idcontemp: req.params.id }
+            const response = await Statuswosub.destroy({
+                where: { idstwosub: req.params.id }
             })
             res.status(200).send({ code: 200, message: 'Contacto eliminadao', response })
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -139,13 +133,13 @@ module.exports = {
 
     update: async function (req, res) {
         try {
-            let contemp = await Contemp.update(req.body, {
-                where: { idcontemp: req.params.id }
+            let statuswo = await Statuswosub.update(req.body, {
+                where: { idstwosub: req.params.id }
             });
-            res.status(200).send({ code: 200, message: 'Empresa modificada', contemp })
+            res.status(200).send({ code: 200, message: 'Orden de Manufactura modificada', statuswo })
         } catch (e) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -154,21 +148,21 @@ module.exports = {
         }
     },
 
-    readContemp: async function (req, res) {
+    read: async function (req, res) {
         try {
-            let response = await Contemp.findOne({
+            let response = await Statuswosub.findOne({
 
-                where: { idcontemp: req.params.id }
+                where: { idstwosub: req.params.id }
 
             });
             if (response) {
                 res.status(200).send({ code: 200, response });
             } else {
-                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
+                throw new StatuswoError(STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);

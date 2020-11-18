@@ -8,7 +8,10 @@ const { ensureAuth } = auth;
 
 router.route('/get')
 .get(ensureAuth,producto.get)
-.post(ensureAuth,producto.create);
+    .post(ensureAuth, producto.create);
+
+router.route('/buscar')
+    .get(ensureAuth, producto.get2)
 
 router.route('/read/:id')
 .put(ensureAuth,producto.update)

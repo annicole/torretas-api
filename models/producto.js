@@ -37,6 +37,8 @@ module.exports = (sequelize, DataTypes) => {
 
     Producto.associate = function (models) {
         Producto.belongsTo(models.Um, { foreignKey: 'um_producto' });
+
+        Producto.hasOne(models.Wosub, { foreignKey: 'idproducto' });
     };
     return Producto;
 }
