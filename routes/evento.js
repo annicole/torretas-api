@@ -6,7 +6,7 @@ const auth = require('../middleware/auth');
 
 const { ensureAuth } = auth;
 
-router.route('/get')
+router.route('/eventos')
 .get(ensureAuth,evento.getEventos);
 
 module.exports = router

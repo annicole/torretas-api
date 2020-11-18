@@ -7,11 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         username: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
         email:{
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         password:{
             type: DataTypes.STRING,
@@ -19,11 +19,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         create_time:{
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         last_update:{
             type: DataTypes.DATE,
-            allowNull: false
+            allowNull: true
         },
         nivelseg:{
             type: DataTypes.INTEGER(11)
@@ -38,21 +38,18 @@ module.exports = (sequelize, DataTypes) => {
         celular:{
             type: DataTypes.STRING
         },
-        nip: {
-            type: DataTypes.INTEGER(11),
-            allowNull: false
+        nip:{
+            type: DataTypes.INTEGER(4)
         },
-        idevento: {
-            type: DataTypes.INTEGER(11),
-            // references: { 
-            //     model:'evento',
-            //     key: 'idevento'
-            // },
-            allowNull: false
+        idevento:{
+            type: DataTypes.INTEGER(3),
+            references: { 
+                model:'evento',
+                key: 'idevento'
+            }
         },
         Username_last:{
             type: DataTypes.STRING,
-            allowNull: false
         }
     }, {
             defaultScope: {
@@ -67,8 +64,8 @@ module.exports = (sequelize, DataTypes) => {
 
         Usuario.associate = function (models) {
             Usuario.belongsTo(models.Departamento, { foreignKey: 'iddep' });
-            //Usuario.hasOne(models.Wo);
-            //Usuario.belongsTo(models.Evento, { foreignKey: 'idevento' });
+            Usuario.hasOne(models.Wo);
+            Usuario.belongsTo(models.Evento, { foreignKey: 'idevento' });
         };
     return Usuario;
 }
