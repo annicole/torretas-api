@@ -25,7 +25,9 @@ const condpago = require('./condpago')
 const contemp = require('./contemp')
 const empresa = require('./empresa')
 const wo = require('./wo')
+const wosub = require('./wosub')
 const statuswo = require('./statuswo')
+const statuswosub = require('./statuswosub')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -56,6 +58,8 @@ module.exports = function (app) {
     app.use('/contemp', contemp),
     app.use('/empresa', empresa),
     app.use('/wo', wo),
+    app.use('/wosub', wosub),
     app.use('/statuswo', statuswo),
+    app.use('/statuswosub', statuswosub),
   app.use(router)
 }

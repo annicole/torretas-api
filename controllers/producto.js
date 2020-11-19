@@ -101,7 +101,44 @@ module.exports = {
 
         }
     },
+    get2: async function (req, res) {
+        try {
+            let query = {};
+            let emp = req.query.emp;
+            if (emp != '') {
+                query = {
+                    idempresa: {
+                        [op.substring]: emp
+                    }
+                }
+            }
+            let response = await Producto.findAll({
+                attributes: ['idproducto', 'producto', 'desc_producto', 'te_producto', 'idempresa', 'um_producto'],
+                where: query,
+                include: [{
+                    model: Um,
+                    required: false,
+                }]
+            })
+            if (response) {
+                res.status(200).send({
+                    code: 200, response
+                })
+            } else {
+                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+            }
 
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof PerfilConfigError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...PERFIL_CONFIG_ERROR.ERROR })
+            }
+
+        }
+    },
     create: async function (req, res) {
         try {
             let response_new = new Producto(req.body);

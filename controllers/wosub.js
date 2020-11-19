@@ -1,14 +1,16 @@
 'use strict'
-const Empresa = require('../models').Empresa;
-const Wo = require('../models').Wo;
 
-const Contemp = require('../models').Contemp;
+const Wosub = require('../models').Wosub;
+const Producto = require('../models').Producto;
+const Um = require('../models').Um;
+const Statuswosub = require('../models').Statuswosub;
+
 const models = require('../models');
 const sequelize = models.Sequelize;
 const op = sequelize.Op;
 
 
-const CONTEMP_ERROR = {
+const STATUSWO_ERROR = {
     ERROR: {
         status: 500,
         message: 'Error al guardar los cambios'
@@ -23,10 +25,10 @@ const CONTEMP_ERROR = {
         message: 'Auth Failed',
         code: 'AUTH_FAILED'
     },
-    CONTEMP_NOT_FOUND: {
+    STATUSWO_NOT_FOUND: {
         status: 404,
-        message: 'Contacto no encontrado',
-        code: 'CONTEMP_NOT_FOUND'
+        message: 'Status no encontrado',
+        code: 'STATUSWO_NOT_FOUND'
     },
     LIMIT: {
         status: 403,
@@ -44,13 +46,13 @@ const CONTEMP_ERROR = {
         status: 401,
         message: 'Unauthorized'
     },
-    CONTEMP_REGISTERED: {
+    STATUSWO_REGISTERED: {
         status: 403,
         message: 'El contacto ya existe'
     }
 }
 
-function ContempError(error) {
+function StatuswoError(error) {
     const { status, message } = error
     this.status = status
     this.message = message
@@ -59,58 +61,72 @@ function ContempError(error) {
 
 module.exports = {
 
-    getContemp: async function (req, res) {
+    get: async function (req, res) {
         try {
             let query = {};
-            let contemp = req.query.busqueda;
-            if (contemp != '') {
+            let wosub = req.query.busqueda;
+            if (wosub != '') {
                 query = {
-                    idempresa: {
-                        [op.substring]: contemp
+                    idwo: {
+                        [op.substring]: wosub
                     }
                 }
             }
-           
-            let rescontemp = await Contemp.findAll({
-                attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp'],
+            let response = await Wosub.findAll({
+                attributes: ['idwosub', 'idwo', 'cantwosub', 'descwosub', 'idproducto', 'puwosub', 'descuentoemp', 'idstwosub'],
                 where: query,
+                include: [{
+                    model: Producto,
+                    required: false,
+                    attributes: ['idproducto', 'producto', 'desc_producto', 'te_producto', 'um_producto'],
 
+                    include: [{
+                        model: Um,
+                        required: false,
+                        attributes: ['um'],
+                    }]
+
+                },
+                {
+                    model: Statuswosub,
+                    required: false,
+                    attributes: ['idstwosub', 'stwosub'],
+                },
+
+                ],
             })
-            if (rescontemp) {
+            if (response) {
                 res.status(200).send({
-                    code: 200, rescontemp
+                    code: 200, response
                 })
             } else {
-                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
+                throw new StatuswoError(STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
 
         }
         catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
-                res.status(500).send({ ...CONTEMP_ERROR.ERROR })
+                res.status(500).send({ ...STATUSWO_ERROR.ERROR })
             }
 
         }
     },
-
-   
-
     create: async function (req, res) {
         try {
-            let nombre_contemp = req.body.idcontemp;
-            let contemp = await Contemp.findOne({ where: { idcontemp: nombre_contemp } });
-            if (contemp) {
-                throw new ContempError(CONTEMP_ERROR.DUPLICATE);
+            let nombre_wosub = req.body.idwosub;
+            let wosub = await Wosub.findOne({ where: { idwosub: nombre_wosub } });
+            if (wosub) {
+                throw new StatuswoError(STATUSWO_ERROR.DUPLICATE);
             }
-            let new_contemp = new Contemp(req.body);
-            const response = await new_contemp.save();
+            let new_wosub = new Wosub(req.body);
+            const response = await new_wosub.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -121,13 +137,13 @@ module.exports = {
 
     delete: async function (req, res) {
         try {
-            const response = await Contemp.destroy({
-                where: { idcontemp: req.params.id }
+            const response = await Wosub.destroy({
+                where: { idwosub: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Contacto eliminadao', response })
+            res.status(200).send({ code: 200, message: 'Orden eliminadana', response })
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -139,13 +155,13 @@ module.exports = {
 
     update: async function (req, res) {
         try {
-            let contemp = await Contemp.update(req.body, {
-                where: { idcontemp: req.params.id }
+            let wosub = await Wosub.update(req.body, {
+                where: { idwosub: req.params.id }
             });
-            res.status(200).send({ code: 200, message: 'Empresa modificada', contemp })
+            res.status(200).send({ code: 200, message: 'Orden modificada', wosub })
         } catch (e) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
@@ -154,21 +170,21 @@ module.exports = {
         }
     },
 
-    readContemp: async function (req, res) {
+    read: async function (req, res) {
         try {
-            let response = await Contemp.findOne({
+            let response = await Wosub.findOne({
 
-                where: { idcontemp: req.params.id }
+                where: { idwosub: req.params.id }
 
             });
             if (response) {
                 res.status(200).send({ code: 200, response });
             } else {
-                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
+                throw new StatuswoError(STATUSWO_ERROR.STATUSWO_NOT_FOUND)
             }
         } catch (error) {
             console.error(error)
-            if (error instanceof ContempError) {
+            if (error instanceof StatuswoError) {
                 res.status(error.status).send(error)
             } else {
                 console.log(error);
