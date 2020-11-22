@@ -26,6 +26,7 @@ const contemp = require('./contemp')
 const empresa = require('./empresa')
 const wo = require('./wo')
 const statuswo = require('./statuswo')
+const skuMaquina = require('./skuMaquina')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -57,5 +58,6 @@ module.exports = function (app) {
     app.use('/empresa', empresa),
     app.use('/wo', wo),
     app.use('/statuswo', statuswo),
+    app.use('/skuMaquina',skuMaquina),
   app.use(router)
 }
