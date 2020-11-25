@@ -11,8 +11,13 @@ router.route('/get')
 .post(ensureAuth,sku.create);
 
 router.route('/read/:id')
-.put(ensureAuth,sku.update)
 .get(ensureAuth,sku.read)
 .delete(ensureAuth,sku.delete);
+
+router.route('/updateDown/:id')
+.put(ensureAuth,sku.updateDown)
+
+router.route('/updateUp/:id')
+.put(ensureAuth,sku.update)
 
 module.exports = router

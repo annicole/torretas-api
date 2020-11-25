@@ -34,7 +34,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'El sensor ya existe'
+        message: 'La prioridad ya existe'
     },
     CODE_INVALID: {
         status: 403,
@@ -93,6 +93,13 @@ module.exports = {
 
     create: async function (req, res) {
         try {
+            let sku = await SKU.findOne({ where: { 
+                idproducto: idproducto,
+                prioridad: skuPrioridad
+             } });
+             if(sku){
+                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.DUPLICATE)
+             }
             let response_new = new SKU(req.body);
             const response = await response_new.save();
             res.status(200).send({ code: 200, status: response.status });
@@ -125,9 +132,55 @@ module.exports = {
 
     update: async function (req, res) {
         try {
+            let skuPrioridad = req.body.prioridad;
+            let idproducto= req.body.idproducto;
+            skuPrioridad --;
+            let skuUP = await SKU.findOne({ where: { 
+                idproducto: idproducto,
+                prioridad: skuPrioridad
+             } });
+            req.body.prioridad = skuPrioridad;
             const resp = await SKU.update(req.body, {
                 where: { idskumaquina: req.params.id }
             })
+             if(skuUP){
+                skuPrioridad++;
+             const response = await SKU.update(
+                 {prioridad: skuPrioridad}, {
+                where: { idskumaquina: skuUP.idskumaquina }
+            })
+            }   
+            res.status(200).send({ code: 200, message: 'Registro modificado', resp })
+        } catch (error) {
+            console.error(error)
+            if (error instanceof PerfilConfigError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+            }
+        }
+    },
+    updateDown:async function(req,res){
+        try {
+            let skuPrioridad = req.body.prioridad;
+            let idproducto= req.body.idproducto;
+            skuPrioridad ++;
+            req.body.prioridad = skuPrioridad;
+            let skuUP = await SKU.findOne({ where: { 
+                idproducto: idproducto,
+                prioridad: skuPrioridad
+             } });
+            const resp = await SKU.update(req.body, {
+                where: { idskumaquina: req.params.id }
+            })
+             if(skuUP){
+                skuPrioridad--;
+             const response = await SKU.update(
+                 {prioridad: skuPrioridad}, {
+                where: { idskumaquina: skuUP.idskumaquina }
+            })
+            }   
             res.status(200).send({ code: 200, message: 'Registro modificado', resp })
         } catch (error) {
             console.error(error)
