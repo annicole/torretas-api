@@ -70,15 +70,6 @@ function UsuarioError(error) {
 
 module.exports = {
     getUsuarios: async function (req, res) {
-        // let query = {};
-        // let busqueda = req.query.busqueda;
-        // if (busqueda != '') {
-        //     query = {
-        //         username: {
-        //             [op.substring]: busqueda
-        //         }
-        //     }
-        // }
         
         let query = {};
         let busqueda = req.query.busqueda;
@@ -99,16 +90,6 @@ module.exports = {
         } else if (evento != '') {
             query = { idevento: evento }
         }
-
-        
-        // let busquedaEvento = req.query.busquedaEvento;
-        // if (busquedaEvento != '') {
-        //     query = {
-        //         idevento: {
-        //             [op]: busquedaEvento
-        //         }
-        //     }
-        // }
         try {
             let usuario = await Usuario.findAll({
                 attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
@@ -143,7 +124,7 @@ module.exports = {
             }
 
         }
-    },
+    }, 
 
     createUsuario: async function (req, res) {
         try {
