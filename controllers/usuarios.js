@@ -113,50 +113,21 @@ module.exports = {
 
         }
     },
-     /*
-    getUsuarios: async function (req, res) {
-        // let query = {};
-        // let busqueda = req.query.busqueda;
-        // if (busqueda != '') {
-        //     query = {
-        //         username: {
-        //             [op.substring]: busqueda
-        //         }
-        //     }
-        // }
-        
+
+    getUsuario: async function (req, res) {
+
         let query = {};
         let busqueda = req.query.busqueda;
-        let evento = req.query.evento;
-        if (busqueda != '' &&  evento != '') {
-            query = {
-                idevento: evento,
-                username: {
-                    [op.substring]: busqueda
-                }
-            }
-        } else  if (busqueda != '' ) {
+        if (busqueda != '') {
             query = {
                 username: {
                     [op.substring]: busqueda
                 }
             }
-        } else if (evento != '') {
-            query = { idevento: evento }
         }
-
-        
-        // let busquedaEvento = req.query.busquedaEvento;
-        // if (busquedaEvento != '') {
-        //     query = {
-        //         idevento: {
-        //             [op]: busquedaEvento
-        //         }
-        //     }
-        // }
         try {
             let usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep', 'celular', 'nip', 'idevento', 'Username_last'],
                 where: query,
                 include: [{
                     model: Departamento,
@@ -168,7 +139,7 @@ module.exports = {
                     required: true,
                     attributes: ['idevento', 'evento', 'color']
                 }
-            ]
+                ]
             })
             if (usuario) {
                 res.status(200).send({
@@ -188,7 +159,7 @@ module.exports = {
             }
 
         }
-    }, */
+    }, 
 
     createUsuario: async function (req, res) {
         try {
