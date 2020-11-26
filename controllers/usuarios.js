@@ -70,45 +70,29 @@ function UsuarioError(error) {
 
 module.exports = {
     getUsuarios: async function (req, res) {
-        // let query = {};
-        // let busqueda = req.query.busqueda;
-        // if (busqueda != '') {
-        //     query = {
-        //         username: {
-        //             [op.substring]: busqueda
-        //         }
-        //     }
-        // }
         
-        let query = {};
-        let busqueda = req.query.busqueda;
-        let evento = req.query.evento;
-        if (busqueda != '' &&  evento != '') {
-            query = {
-                idevento: evento,
-                username: {
-                    [op.substring]: busqueda
-                }
-            }
-        } else  if (busqueda != '' ) {
-            query = {
-                username: {
-                    [op.substring]: busqueda
-                }
-            }
-        } else if (evento != '') {
-            query = { idevento: evento }
-        }
 
-        
-        // let busquedaEvento = req.query.busquedaEvento;
-        // if (busquedaEvento != '') {
-        //     query = {
-        //         idevento: {
-        //             [op]: busquedaEvento
-        //         }
-        //     }
-        // }
+            let query = {};
+            let busqueda = req.query.busqueda;
+            let evento = req.query.evento;
+            if (busqueda != '' && evento != '') {
+                query = {
+                    idevento: evento,
+                    username: {
+                        [op.substring]: busqueda
+                    }
+                }
+            } else if (busqueda != '') {
+                query = {
+                    username: {
+                        [op.substring]: busqueda
+                    }
+
+                }
+            } else if (evento != '') {
+                query = { idevento: evento }
+            }
+
         try {
             let usuario = await Usuario.findAll({
                 attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
@@ -143,7 +127,58 @@ module.exports = {
             }
 
         }
+
     },
+
+
+    getUsuario: async function (req, res) {
+
+        let query = {};
+        let busqueda = req.query.busqueda;
+        if (busqueda != '') {
+            query = {
+                username: {
+                    [op.substring]: busqueda
+                }
+            }
+        }
+        try {
+            let usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep', 'celular', 'nip', 'idevento', 'Username_last'],
+                where: query,
+                include: [{
+                    model: Departamento,
+                    required: true,
+                    attributes: ['iddep', 'departamento', 'idcia']
+                },
+                {
+                    model: Evento,
+                    required: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }
+                ]
+            })
+            if (usuario) {
+                res.status(200).send({
+                    code: 200, usuario
+                })
+            } else {
+                throw new UsuarioError(USUARIO_ERROR.USUARIO_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof UsuarioError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...USUARIO_ERROR.ERROR })
+            }
+
+        }
+
+    }, 
+
 
     createUsuario: async function (req, res) {
         try {

@@ -15,19 +15,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         calleemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         numextemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         numintemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         colemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         cpemp: {
             type: DataTypes.STRING,
@@ -56,15 +56,15 @@ module.exports = (sequelize, DataTypes) => {
         },
         pbx1emp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         pbx2emp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         webemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         idrelacion: {
             type: DataTypes.INTEGER(11),
@@ -83,11 +83,11 @@ module.exports = (sequelize, DataTypes) => {
         },
         numfiscalemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         taxemp: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         },
         idcondpago: {
             type: DataTypes.INTEGER(11),

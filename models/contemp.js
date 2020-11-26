@@ -28,19 +28,19 @@ module.exports = (sequelize, DataTypes) => {
             },
             pbxcontemp: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             extcontemp: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             movcontemp: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
             emailcontemp: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             }
         },
 

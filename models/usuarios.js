@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
 
         Usuario.associate = function (models) {
             Usuario.belongsTo(models.Departamento, { foreignKey: 'iddep' });
-            Usuario.hasOne(models.Wo);
+           // Usuario.hasOne(models.Wo);
             Usuario.belongsTo(models.Evento, { foreignKey: 'idevento' });
         };
     return Usuario;
