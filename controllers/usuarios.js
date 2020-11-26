@@ -71,6 +71,7 @@ function UsuarioError(error) {
 module.exports = {
     getUsuarios: async function (req, res) {
         
+
             let query = {};
             let busqueda = req.query.busqueda;
             let evento = req.query.evento;
@@ -86,25 +87,27 @@ module.exports = {
                     username: {
                         [op.substring]: busqueda
                     }
+
                 }
             } else if (evento != '') {
                 query = { idevento: evento }
             }
-        
+
         try {
-            const usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep', 'celular', 'nip', 'idevento', 'Username_last'],
+            let usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
                 where: query,
                 include: [{
                     model: Departamento,
                     required: true,
                     attributes: ['iddep', 'departamento', 'idcia']
-                }, {
-                        model: Evento,
-                        required: true,
-                        attributes: ['idevento', 'evento', 'color']
-                    }
-                ]
+                },
+                {
+                    model: Evento,
+                    required: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }
+            ]
             })
             if (usuario) {
                 res.status(200).send({
@@ -124,7 +127,9 @@ module.exports = {
             }
 
         }
+
     },
+
 
     getUsuario: async function (req, res) {
 
@@ -171,7 +176,9 @@ module.exports = {
             }
 
         }
+
     }, 
+
 
     createUsuario: async function (req, res) {
         try {
