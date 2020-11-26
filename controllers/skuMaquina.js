@@ -93,9 +93,9 @@ module.exports = {
 
     create: async function (req, res) {
         try {
+            let idmaquina= req.body.idmaquina;
             let sku = await SKU.findOne({ where: { 
-                idproducto: idproducto,
-                prioridad: skuPrioridad
+                idmaquina: idmaquina
              } });
              if(sku){
                 throw new PerfilConfigError(PERFIL_CONFIG_ERROR.DUPLICATE)
