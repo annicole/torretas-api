@@ -70,15 +70,27 @@ function UsuarioError(error) {
 
 module.exports = {
     getUsuarios: async function (req, res) {
-        let query = {};
-        let busqueda = req.query.busqueda;
-        if (busqueda != '') {
-            query = {
-                username: {
-                    [op.substring]: busqueda
+        
+            let query = {};
+            let busqueda = req.query.busqueda;
+            let evento = req.query.evento;
+            if (busqueda != '' && evento != '') {
+                query = {
+                    idevento: evento,
+                    username: {
+                        [op.substring]: busqueda
+                    }
                 }
+            } else if (busqueda != '') {
+                query = {
+                    username: {
+                        [op.substring]: busqueda
+                    }
+                }
+            } else if (evento != '') {
+                query = { idevento: evento }
             }
-        }
+        
         try {
             const usuario = await Usuario.findAll({
                 attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep', 'celular', 'nip', 'idevento', 'Username_last'],
