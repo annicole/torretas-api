@@ -101,15 +101,14 @@ module.exports = {
 
         }
     },
+
     get2: async function (req, res) {
         try {
             let query = {};
             let emp = req.query.emp;
             if (emp != '') {
                 query = {
-                    idempresa: {
-                        [op.substring]: emp
-                    }
+                    idempresa: emp
                 }
             }
             let response = await Producto.findAll({
