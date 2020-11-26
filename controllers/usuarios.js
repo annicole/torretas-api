@@ -125,7 +125,52 @@ module.exports = {
 
         }
     }, 
+    getUsuario: async function (req, res) {
 
+        let query = {};
+        let busqueda = req.query.busqueda;
+        if (busqueda != '') {
+            query = {
+                username: {
+                    [op.substring]: busqueda
+                }
+            }
+        }
+        try {
+            let usuario = await Usuario.findAll({
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep', 'celular', 'nip', 'idevento', 'Username_last'],
+                where: query,
+                include: [{
+                    model: Departamento,
+                    required: true,
+                    attributes: ['iddep', 'departamento', 'idcia']
+                },
+                {
+                    model: Evento,
+                    required: true,
+                    attributes: ['idevento', 'evento', 'color']
+                }
+                ]
+            })
+            if (usuario) {
+                res.status(200).send({
+                    code: 200, usuario
+                })
+            } else {
+                throw new UsuarioError(USUARIO_ERROR.USUARIO_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof UsuarioError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...USUARIO_ERROR.ERROR })
+            }
+
+        }
+    },
     createUsuario: async function (req, res) {
         try {
             const usuario = await Usuario.findOne({ 
