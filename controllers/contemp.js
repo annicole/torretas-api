@@ -136,6 +136,23 @@ module.exports = {
         }
     },
 
+    deleteall: async function (req, res) {
+        try {
+            const response = await Contemp.destroy({
+                where: { idempresa: req.params.id }
+            })
+            res.status(200).send({ code: 200, message: 'Contactos eliminadao', response })
+        } catch (error) {
+            console.error(error)
+            if (error instanceof ContempError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+            }
+        }
+    },
+
 
     update: async function (req, res) {
         try {

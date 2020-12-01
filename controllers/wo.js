@@ -77,22 +77,22 @@ module.exports = {
                 include: [
                     {
                         model: Empresa,
-                        required: false,
+                        required: true,
                         attributes: ['idempresa', 'nomemp'],
                     },
                     {
-                     model: Contemp,
-                    required: false,
-                    attributes: ['idcontemp', 'nomcontemp'],
+                        model: Contemp,
+                        required: true,
+                        attributes: ['idcontemp', 'nomcontemp'],
                     },
                     {
                         model: Usuario,
-                        required: false,
+                        required: true,
                         attributes: ['id', 'username'],
                     },
                     {
                         model: Statuswo,
-                        required: false,
+                        required: true,
                         attributes: ['idstatuswo', 'statuswo'],
                     },
                     
@@ -103,7 +103,7 @@ module.exports = {
                     code: 200, response
                 })
             } else {
-                throw new (WO_ERROR.WO_NOT_FOUND)
+                throw new WoError(WO_ERROR.WO_NOT_FOUND)
             }
 
         }
@@ -1316,22 +1316,22 @@ module.exports = {
                 include: [
                     {
                         model: Empresa,
-                        required: false,
+                        required: true,
                         attributes: ['idempresa', 'nomemp'],
                     },
                     {
                         model: Contemp,
-                        required: false,
+                        required: true,
                         attributes: ['idcontemp', 'nomcontemp'],
                     },
                     {
                         model: Usuario,
-                        required: false,
+                        required: true,
                         attributes: ['id', 'username'],
                     },
                     {
                         model: Statuswo,
-                        required: false,
+                        required: true,
                         attributes: ['idstatuswo', 'statuswo'],
                     },
 

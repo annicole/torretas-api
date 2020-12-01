@@ -9,6 +9,9 @@ router.route('/contemp')
     .get(ensureAuth, contemp.getContemp)
     .post(ensureAuth, contemp.create);
 
+router.route('/del/:id')
+    .delete(ensureAuth, contemp.deleteall);
+
 router.route('/read/:id')
     .put(ensureAuth, contemp.update)
     .delete(ensureAuth, contemp.delete)
