@@ -115,9 +115,20 @@ module.exports = {
     },
     delete: async function (req, res) {
         try {
+            console.log(req.query)
+            let prioridad = req.query.sku.prioridad;
+            let idproducto = req.query.sku.idproducto;
             const response = await SKU.destroy({
                 where: { idskumaquina: req.params.id }
             })
+            let skuList = await SKU.update({prioridad:sequelize.literal('prioridad +1')},
+            {where:{
+                idproducto: idproducto,
+                prioridad:{
+                    [op.gte]:prioridad
+            }
+            }})
+            // select and increment 1  sku where prioridad > priodad and idproduct= idproduct
             res.status(200).send({ code: 200, message: 'Registro eliminado', response })
         } catch (error) {
             console.error(error)
