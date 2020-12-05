@@ -67,7 +67,7 @@ module.exports = {
                     ['prioridad', 'ASC']
                 ],include:[{
                     model: Maquina,
-                    required: false,
+                    required: true,
                     attributes:['maquina']
                 }]
                 })
@@ -115,13 +115,12 @@ module.exports = {
     },
     delete: async function (req, res) {
         try {
-            console.log(req.query)
-            let prioridad = req.query.sku.prioridad;
-            let idproducto = req.query.sku.idproducto;
+            let prioridad = req.query.prioridad;
+            let idproducto = req.query.idproducto;
             const response = await SKU.destroy({
                 where: { idskumaquina: req.params.id }
             })
-            let skuList = await SKU.update({prioridad:sequelize.literal('prioridad +1')},
+            let skuList = await SKU.update({prioridad:sequelize.literal('prioridad -1')},
             {where:{
                 idproducto: idproducto,
                 prioridad:{
