@@ -72,7 +72,7 @@ module.exports = {
             }
            
             let rescontemp = await Contemp.findAll({
-                attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp'],
+                attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp','activocontemp'],
                 where: query,
 
             })

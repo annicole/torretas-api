@@ -10,6 +10,9 @@ router.route('/empresa')
     .get(ensureAuth, empresa.getEmpresa)
     .post(ensureAuth, empresa.create);
 
+router.route('/get')
+    .get(ensureAuth, empresa.getEmpresa2)
+
 router.route('/read/:id')
     .get(ensureAuth, empresa.read)
     .put(ensureAuth, empresa.update)
