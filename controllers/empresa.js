@@ -68,8 +68,49 @@ module.exports = {
                     }
                 }
             }
+           
             let response = await Empresa.findAll({
-                attributes: ['idempresa', 'nomemp', 'nombcortemp', 'calleemp'],
+                attributes: ['idempresa', 'nomemp', 'nombcortemp', 'calleemp','activoemp'],
+                where: query,
+                include: [{
+                    model: Relcomp,
+                    required: false,
+                    attributes: ['idrelcomercial', 'relcomercial'],
+                }]
+            })
+            if (response) {
+                res.status(200).send({
+                    code: 200, response
+                })
+            } else {
+                throw new EmpresaError(EMPRESA_ERROR.EMPRESA_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof EmpresaError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...EMPRESA_ERROR.ERROR })
+            }
+
+        }
+    },
+
+    getEmpresa2: async function (req, res) {
+        try {
+            let query = {};
+            let empresa = req.query.busqueda;
+            if(empresa != '') {
+            query = {
+                activoemp: {
+                    [op.substring]: empresa
+                      },
+                }
+              }
+            let response = await Empresa.findAll({
+                attributes: ['idempresa', 'nomemp', 'nombcortemp', 'calleemp', 'activoemp'],
                 where: query,
                 include: [{
                     model: Relcomp,

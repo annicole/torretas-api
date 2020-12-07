@@ -96,6 +96,10 @@ module.exports = (sequelize, DataTypes) => {
                 key: 'idcondpago'
             }
         },
+        activoemp: {
+            type: DataTypes.INTEGER(11),
+            allowNull: true
+        },
     }, {
         defaultScope: {
             attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },

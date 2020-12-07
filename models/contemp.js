@@ -41,6 +41,10 @@ module.exports = (sequelize, DataTypes) => {
             emailcontemp: {
                 type: DataTypes.STRING,
                 allowNull: true
+            },
+            activocontemp: {
+                type: DataTypes.INTEGER(11),
+                allowNull: true
             }
         },
 

@@ -73,7 +73,7 @@ module.exports = {
                 }
             }
             let response = await Wosub.findAll({
-                attributes: ['idwosub', 'idwo', 'cantwosub', 'descwosub', 'idproducto', 'puwosub', 'descuentoemp', 'idstwosub'],
+                attributes: ['idwosub', 'idwo', 'cantwosub', 'descwosub', 'idproducto', 'puwosub', 'descuentoemp', 'idstwosub','tipowosub'],
                 where: query,
                 include: [{
                     model: Producto,
