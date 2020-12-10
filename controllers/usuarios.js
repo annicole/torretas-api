@@ -95,7 +95,7 @@ module.exports = {
 
         try {
             let usuario = await Usuario.findAll({
-                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last'],
+                attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last','activousr'],
                 where: query,
                 include: [{
                     model: Departamento,
