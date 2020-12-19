@@ -12,8 +12,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(10)
         },
         idwosub: {
-            type: DataTypes.INTEGER(10),
-            allowNull: false
+            type: DataTypes.INTEGER(10)
         },
         idstatus: {
             type: DataTypes.INTEGER(11)

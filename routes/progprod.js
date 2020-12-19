@@ -19,6 +19,7 @@ router.route('/getprogprodwo')
 .get(ensureAuth,progprod.getprogprodwo);
 
 router.route('/read/:id')
+.put(ensureAuth,progprod.update)
 .delete(ensureAuth,progprod.delete);
 
 router.route('/updateDown/:id')
