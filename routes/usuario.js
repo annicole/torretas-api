@@ -11,6 +11,9 @@ router.route('/usuarios')
 .get(ensureAuth,usuario.getUsuarios)
 .post(ensureAuth, usuario.createUsuario)
 
+router.route('/usuariossistema')
+.get(ensureAuth,usuario.getUsuariosSistema)
+.post(ensureAuth, usuario.createUsuario)
 
 router.route('/get')
 .get(ensureAuth, usuario.getUsuario)
