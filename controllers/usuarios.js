@@ -129,6 +129,71 @@ module.exports = {
         }
 
     },
+    getUsuariosSistema: async function (req, res) {
+        
+        let query = {};
+        let busqueda = req.query.busqueda;
+        let status = req.query.status;
+        if (busqueda != '' && status!= '') {
+            query = {
+                nivelseg:{[op.gte]:1},
+                activousr: status,
+                username: {
+                    [op.substring]: busqueda
+                }
+            }
+        } else if (busqueda != '') {
+            query = {
+                nivelseg:{[op.gte]:1},
+                username: {
+                    [op.substring]: busqueda
+                }
+
+            }
+        } else if (status != '') {
+            query = { 
+                nivelseg:{[op.gte]:1},
+                activousr: status }
+        } else{
+            query = {nivelseg:{[op.gte]:1}}
+        }
+
+    try {
+        let usuario = await Usuario.findAll({
+            attributes: ['id', 'username', 'email', 'password', 'nivelseg', 'iddep','celular', 'nip', 'idevento', 'Username_last','activousr'],
+            where: query,
+            include: [{
+                model: Departamento,
+                required: true,
+                attributes: ['iddep', 'departamento', 'idcia']
+            },
+            {
+                model: Evento,
+                required: true,
+                attributes: ['idevento', 'evento', 'color']
+            }
+        ]
+        })
+        if (usuario) {
+            res.status(200).send({
+                code: 200, usuario
+            })
+        } else {
+            throw new UsuarioError(USUARIO_ERROR.USUARIO_NOT_FOUND)
+        }
+
+    }
+    catch (error) {
+        console.error(error)
+        if (error instanceof UsuarioError) {
+            res.status(error.status).send(error)
+        } else {
+            res.status(500).send({ ...USUARIO_ERROR.ERROR })
+        }
+
+    }
+
+},
 
 
     getUsuario: async function (req, res) {
