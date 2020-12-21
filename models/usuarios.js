@@ -50,6 +50,9 @@ module.exports = (sequelize, DataTypes) => {
         },
         Username_last:{
             type: DataTypes.STRING,
+        },
+        activousr:{
+            type: DataTypes.STRING,
         }
     }, {
             defaultScope: {
