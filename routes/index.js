@@ -29,6 +29,8 @@ const wosub = require('./wosub')
 const statuswo = require('./statuswo')
 const skuMaquina = require('./skuMaquina')
 const statuswosub = require('./statuswosub')
+const turnos = require('./turnos')
+const diaturno = require('./diaturno')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -63,5 +65,7 @@ module.exports = function (app) {
     app.use('/statuswo', statuswo),
     app.use('/skuMaquina',skuMaquina),
     app.use('/statuswosub', statuswosub),
+    app.use('/turnos', turnos),
+    app.use('/diaturno', diaturno),
   app.use(router)
 }

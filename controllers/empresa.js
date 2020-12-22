@@ -193,6 +193,7 @@ module.exports = {
             }
         }
     },
+
     delete: async function (req, res) {
         try {
             const response = await Empresa.destroy({

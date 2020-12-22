@@ -159,7 +159,24 @@ module.exports = {
             let contemp = await Contemp.update(req.body, {
                 where: { idcontemp: req.params.id }
             });
-            res.status(200).send({ code: 200, message: 'Empresa modificada', contemp })
+            res.status(200).send({ code: 200, message: 'Contacto modificado', contemp })
+        } catch (e) {
+            console.error(error)
+            if (error instanceof ContempError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+            }
+        }
+    },
+
+    updateS: async function (req, res) {
+        try {
+            let contemp = await Contemp.update(req.body, {
+                where: { idempresa: req.params.id }
+            });
+            res.status(200).send({ code: 200, message: 'Contacto modificado', contemp })
         } catch (e) {
             console.error(error)
             if (error instanceof ContempError) {

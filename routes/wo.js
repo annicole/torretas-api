@@ -13,6 +13,8 @@ router.route('/wo')
 router.route('/buscar')
     .get(ensureAuth, wo.get2)
 
+router.route('/empresa')
+    .get(ensureAuth, wo.getE);
 
 router.route('/read/:id')
     .get(ensureAuth, wo.read)

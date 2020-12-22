@@ -12,6 +12,9 @@ router.route('/contemp')
 router.route('/del/:id')
     .delete(ensureAuth, contemp.deleteall);
 
+router.route('/status/:id')
+    .put(ensureAuth, contemp.updateS);
+
 router.route('/read/:id')
     .put(ensureAuth, contemp.update)
     .delete(ensureAuth, contemp.delete)

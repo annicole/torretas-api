@@ -118,7 +118,63 @@ module.exports = {
         }
     },
 
+    getE: async function (req, res) {
+        try {
+            let query = {};
+            
+            let woe = req.query.woe;
+           if (woe != '') {
+                query = {
+                    idempresa: woe
 
+                }
+            }
+            let response = await Wo.findAll({
+                attributes: ['idwo', 'woasig', 'idempresa', 'idcontacto', 'idempleado', 'fechasol', 'ocliente', 'idstatuswo', 'fechavenoc'],
+                where: query,
+                include: [
+                    {
+                        model: Empresa,
+                        required: true,
+                        attributes: ['idempresa', 'nomemp'],
+                    },
+                    {
+                        model: Contemp,
+                        required: true,
+                        attributes: ['idcontemp', 'nomcontemp'],
+                    },
+                    {
+                        model: Usuario,
+                        required: true,
+                        attributes: ['id', 'username'],
+                    },
+                    {
+                        model: Statuswo,
+                        required: true,
+                        attributes: ['idstatuswo', 'statuswo'],
+                    },
+
+                ]
+            })
+            if (response) {
+                res.status(200).send({
+                    code: 200, response
+                })
+            } else {
+                throw new WoError(WO_ERROR.WO_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof WoError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...WO_ERROR.ERROR })
+            }
+
+        }
+    },
     get2: async function (req, res) {
         try {
             let query = {};
