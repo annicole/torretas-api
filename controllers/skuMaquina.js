@@ -34,7 +34,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'La prioridad ya existe'
+        message: 'La máquina ya existe para este producto'
     },
     CODE_INVALID: {
         status: 403,
@@ -94,8 +94,10 @@ module.exports = {
     create: async function (req, res) {
         try {
             let idmaquina= req.body.idmaquina;
+            let idproducto = req.body.idproducto;
             let sku = await SKU.findOne({ where: { 
-                idmaquina: idmaquina
+                idmaquina: idmaquina,
+                idproducto:idproducto
              } });
              if(sku){
                 throw new PerfilConfigError(PERFIL_CONFIG_ERROR.DUPLICATE)
