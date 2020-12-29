@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'Funcionusuario'
     });
 
-    Funcusu.associate = function (models) {
-        Funcusu.hasOne(models.Usuario);
-    };
+    // Funcusu.associate = function (models) {
+    //     Funcusu.hasOne(models.Usuario);
+    // };
     return Funcusu;
 }
