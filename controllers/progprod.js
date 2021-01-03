@@ -98,7 +98,7 @@ module.exports = {
             let idMaquina = req.query.idMaquina == '' ? '-1' : req.query.idMaquina ;
             let idEmpresa = req.query.idEmpresa == '' ? '-1' : req.query.idEmpresa;
             let idProducto = req.query.idProducto == '' ? '-1' : req.query.idProducto;
-            const progprod =await _sequelize.query('CALL progprodf(:idMaquina,:idEmpresa,:idProducto)',{replacements: { idMaquina: idMaquina,idEmpresa:idEmpresa,idProducto:idProducto}});
+            const progprod =await _sequelize.query('CALL progprodf(:idEmpresa,:idMaquina,:idProducto)',{replacements: { idEmpresa: idEmpresa,idMaquina:idMaquina,idProducto:idProducto}});
           if(progprod){
               res.status(200).send({code:200,progprod});
           }else{
