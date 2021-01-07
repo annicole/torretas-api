@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
             primaryKey: true,
             type: DataTypes.INTEGER(11)
         },
-        diaturno: {
+        idturno: {
             type: DataTypes.INTEGER(11),
             allowNull: false
         },
@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         tiposeg: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false
+        },
+        diaturno: {
             type: DataTypes.INTEGER(11),
             allowNull: false
         },
