@@ -56,8 +56,18 @@ function TurnoError(error) {
 module.exports = {
     get: async function (req, res) {
         try {
+            let query = {};
+            let diaturno = req.query.busqueda;
+            if (diaturno != '') {
+                query = {
+                    idturno: {
+                        [op.substring]: diaturno
+                    }
+                }
+            }
             let response = await Diaturno.findAll({
-                attributes: ['iddiaturno', 'idturno','diasem','hrenttur','duracion','tiempoefec','tiposeg']
+                attributes: ['iddiaturno', 'idturno', 'diasem', 'hrenttur', 'duracion', 'tiempoefec', 'tiposeg', 'diaturno'],
+                where: query,
             })
             if (response) {
                 res.status(200).send({

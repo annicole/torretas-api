@@ -96,7 +96,45 @@ module.exports = {
         }
     },
 
-   
+    getContemp2: async function (req, res) {
+        try {
+            let query = {};
+            let contemp = req.query.busqueda;
+            let activo = req.query.activoc;
+            if (contemp != '' && activo != '') {
+                query = {
+                    activocontemp: activo,
+                    idempresa: {
+                        [op.substring]: contemp
+                    },
+
+                }
+            }
+
+            let rescontemp = await Contemp.findAll({
+                attributes: ['idcontemp', 'idempresa', 'nomcontemp', 'depcontemp', 'puestocontemp', 'pbxcontemp', 'extcontemp', 'movcontemp', 'emailcontemp', 'activocontemp'],
+                where: query,
+
+            })
+            if (rescontemp) {
+                res.status(200).send({
+                    code: 200, rescontemp
+                })
+            } else {
+                throw new ContempError(CONTEMP_ERROR.CONTEMP_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof ContempError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...CONTEMP_ERROR.ERROR })
+            }
+
+        }
+    },
 
     create: async function (req, res) {
         try {

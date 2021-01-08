@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11)
         },
         woasig: {
-            type: DataTypes.INTEGER(11),
+            type: DataTypes.STRING,
             allowNull: true
         },
         idempresa: {
