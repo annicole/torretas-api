@@ -66,7 +66,7 @@ module.exports = {
                 }
             }
             let response = await Diaturno.findAll({
-                attributes: ['iddiaturno', 'idturno', 'diasem', 'hrenttur', 'duracion', 'tiempoefec', 'tiposeg', 'diaturno'],
+                attributes: ['iddiaturno', 'idturno', 'diasem', 'hrenttur', 'diasemter', 'hrentturter', 'duracion', 'tiempoefec', 'tiposeg', 'diaturno'],
                 where: query,
             })
             if (response) {

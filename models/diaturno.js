@@ -17,9 +17,17 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        diasemter: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false
+        },
+        hrentturter: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         duracion: {
             type: DataTypes.INTEGER(15),
-            allowNull: false
+            allowNull: true
         },
         tiempoefec: {
             type: DataTypes.INTEGER(11),
