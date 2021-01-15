@@ -3,6 +3,7 @@
 
 const ProgProd = require('../models').ProgProd;
 const models = require('../models');
+const SKU = require('../models').SKU;
 const sequelize = models.Sequelize;
 let op = sequelize.Op;
 const _sequelize = models.sequelize;
@@ -10,7 +11,7 @@ const _sequelize = models.sequelize;
 const CONST_ERROR = {
     ERROR: {
         status: 500,
-        message: 'No se pudo guardar el sensor '
+        message: 'No se pudo guardar el registro '
     },
     PASSWORD_FAIL: {
         status: 406,
@@ -46,6 +47,10 @@ const CONST_ERROR = {
     REGISTERED: {
         status: 403,
         message: 'Sensor ya existe'
+    },
+    NOT_MAQUINA:{
+        status:403,
+        message:'No hay máquinas asignadas para el producto'
     }
     
 }
@@ -131,7 +136,6 @@ module.exports = {
     delete: async function (req, res) {
         try {
             let idmaquina= req.query.idmaquina;
-            let idwosub= req.query.idwosub;
             let prioridad = req.query.prioridad;
             const response = await ProgProd.destroy({
                 where: { idprogprod: req.params.id }
@@ -139,7 +143,6 @@ module.exports = {
             let progProd = await ProgProd.update({prioridad:sequelize.literal('prioridad -1')},
             {where:{
                 idmaquina: idmaquina,
-                idwosub:idwosub,
                 prioridad:{
                     [op.gte]:prioridad
             } }})
@@ -159,12 +162,10 @@ module.exports = {
         try {
             let prioridad = req.body.prioridad;
             let idmaquina= req.body.idmaquina;
-            let idwosub= req.body.idwosub;
             prioridad --;
             let progProd = await ProgProd.update({prioridad:sequelize.literal('prioridad +1')},
             {where:{
                 idmaquina: idmaquina,
-                idwosub:idwosub,
                 prioridad:prioridad
              }})
              let resp = await ProgProd.update({prioridad:sequelize.literal('prioridad - 1')},
@@ -186,13 +187,11 @@ module.exports = {
         try {
             let prioridad = req.body.prioridad;
             let idmaquina= req.body.idmaquina;
-            let idwosub = req.body.idwosub;
             prioridad ++;
             req.body.prioridad = prioridad;
             let progprod = await ProgProd.findOne({ where: { 
                 idmaquina: idmaquina,
-                prioridad: prioridad,
-                idwosub: idwosub
+                prioridad: prioridad
              } });
             const resp = await ProgProd.update(req.body, {
                 where: { idprogprod: req.params.id }
