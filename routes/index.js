@@ -33,6 +33,7 @@ const turnos = require('./turnos')
 const diaturno = require('./diaturno')
 const progprod = require('./progprod')
 const funcusu = require('./funcusu')
+const produccion = require('./produccion')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -71,5 +72,6 @@ module.exports = function (app) {
     app.use('/diaturno', diaturno),
     app.use('/progprod',progprod)
     app.use('/funcusu', funcusu),
+    app.use('/produccion', produccion),
   app.use(router)
 }
