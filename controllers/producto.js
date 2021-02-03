@@ -78,9 +78,9 @@ module.exports = {
                     required: false,
                 },{
                     model:Empresa,
-                    required:false
-                }
-            ]
+                    required:false,
+                } ],
+                order: [[Empresa,'nomemp', 'asc']]
             })
             if (response) {
                 res.status(200).send({
