@@ -75,22 +75,46 @@ module.exports = {
             let query = {};
             let busqueda = req.query.busqueda;
             let evento = req.query.evento;
-            if (busqueda != '' && evento != '') {
+            let status = req.query.status;
+            if (busqueda != '' && evento != '' && status!='') {
                 query = {
-                    idevento: evento,
                     username: {
                         [op.substring]: busqueda
-                    }
+                    },
+                    idevento: evento,
+                    activousr: status,
                 }
-            } else if (busqueda != '') {
+            } else if (busqueda != '' && evento != '') {
+                query = {
+                    username: {
+                        [op.substring]: busqueda
+                    },
+                    idevento: evento,
+                }
+            } else if (busqueda != '' && status != '') {
+                query = {
+                    username: {
+                        [op.substring]: busqueda
+                    },
+                    idevento: status,
+
+                }
+            }else if (evento != '' && status != '') {
+                query = {
+                    idevento: evento,
+                    activousr: status,
+                }
+            }else if (busqueda != '') {
                 query = {
                     username: {
                         [op.substring]: busqueda
                     }
 
                 }
-            } else if (evento != '') {
-                query = { idevento: evento }
+            }else if (evento != '') {
+                query = { idevento: evento, }
+            }else if (status != '') {
+                query = { activousr: status, }
             }
 
         try {
