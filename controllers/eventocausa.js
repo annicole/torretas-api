@@ -53,11 +53,13 @@ module.exports = {
         try {
             let query = {};
             let eventocausa = req.query.busqueda;
-            if (eventocausa != '') {
+            let equipo = req.query.equipo;
+            if (eventocausa != '' && equipo != '') {
                 query = {
+                    idtipo: equipo,
                     Idevento: {
                         [op.substring]: eventocausa
-                    }
+                    },
                 }
             }
             let response = await Eventocausa.findAll({

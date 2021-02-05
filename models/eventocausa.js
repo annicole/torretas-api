@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         Idevento: {
             type: DataTypes.INTEGER(11),
             allowNull: false
+        },idtipo: {
+            type: DataTypes.INTEGER(11),
+            allowNull: false
         },
         Codfalla: {
             type: DataTypes.STRING,
