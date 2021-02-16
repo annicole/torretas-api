@@ -34,7 +34,7 @@ const CONST_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'El sensor ya existe'
+        message: 'La máquina ya tiene una orden en proceso'
     },
     CODE_INVALID: {
         status: 403,
@@ -106,6 +106,23 @@ module.exports = {
             const progprod =await _sequelize.query('CALL progprodf(:idEmpresa,:idMaquina,:idProducto)',{replacements: { idEmpresa: idEmpresa,idMaquina:idMaquina,idProducto:idProducto}});
           if(progprod){
               res.status(200).send({code:200,progprod});
+          }else{
+              throw new Error(CONST_ERROR.NOT_FOUND)
+          }
+        } catch (error) {
+          console.error(error)
+          if (error instanceof Error) {
+            res.status(error.status).send(error)
+          } else {
+            res.status(500).send({ ...CONST_ERROR.ERROR })
+          }
+        }
+      },
+      getprogprodprioridad: async function (req, res) {
+        try {
+          const progprodwo =await _sequelize.query('CALL progprodprioridad();');
+          if(progprodwo){
+              res.status(200).send({code:200,progprodwo});
           }else{
               throw new Error(CONST_ERROR.NOT_FOUND)
           }
@@ -218,6 +235,42 @@ module.exports = {
     update: async function (req, res) {
         try {
             const resp = await ProgProd.update(req.body, {
+                where: { idprogprod: req.params.id }
+            })
+            res.status(200).send({ code: 200, message: 'Registro modificado', resp })
+        } catch (error) {
+            console.error(error)
+            if (error instanceof Error) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Something Went Wrong' })
+            }
+        }
+    },
+    updateStatus: async function (req, res) {
+        try {
+            let obj = req.body;
+            //Solo una orden de la misma maquina puede tener status en ejecucion
+            if(obj.idstatus === 0){
+             let progprod = await ProgProd.findOne({ attributes: ['idmaquina', 'idwosub', 'idprogprod', 'prioridad'], where:
+              { idmaquina: obj.idmaquina,idstatus:0 , 
+                idprogprod:{ [op.not]: obj.idprogprod }} });
+            if (progprod) {
+                throw new Error(CONST_ERROR.DUPLICATE);
+            } 
+            }
+            if(obj.idstatus === 2){
+                let progprod = await ProgProd.findOne({ 
+                    attributes: [
+                        sequelize.fn('MAX', sequelize.col('prioridad'))
+                     ],
+                    where: { 
+                    idmaquina: req.body.idmaquina
+                 } });
+                obj.prioridad = progprod.prioridad; 
+            }
+            const resp = await ProgProd.update(obj, {
                 where: { idprogprod: req.params.id }
             })
             res.status(200).send({ code: 200, message: 'Registro modificado', resp })
