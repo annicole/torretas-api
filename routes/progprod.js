@@ -18,6 +18,9 @@ router.route('/getprogprodfprod')
 router.route('/getprogprodwo')
 .get(ensureAuth,progprod.getprogprodwo);
 
+router.route('/getprogprodprioridad')
+.get(ensureAuth,progprod.getprogprodprioridad);
+
 router.route('/read/:id')
 .put(ensureAuth,progprod.update)
 .delete(ensureAuth,progprod.delete);
@@ -27,5 +30,8 @@ router.route('/updateDown/:id')
 
 router.route('/updateUp/:id')
 .put(ensureAuth,progprod.updateUp)
+
+router.route('/updateStatus/:id')
+.put(ensureAuth,progprod.updateStatus)
 
 module.exports = router
