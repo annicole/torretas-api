@@ -6,6 +6,7 @@ const PerfilConfig = require('../models').PerfilConfig;
 const models = require('../models');
 const sequelize = models.Sequelize;
 let op = sequelize.Op;
+const _sequelize = models.sequelize;
 
 
 const MODULO_ERROR = {
@@ -104,7 +105,23 @@ module.exports = {
 
         }
     },
-
+    getModinterfazlista: async function (req, res) {
+        try {
+          const modulo =await _sequelize.query('CALL Modinterfazlista();');
+          if(modulo){
+              res.status(200).send({code:200,modulo});
+          }else{
+              throw new Error(MODULO_ERROR.NOT_FOUND)
+          }
+        } catch (error) {
+          console.error(error)
+          if (error instanceof Error) {
+            res.status(error.status).send(error)
+          } else {
+            res.status(500).send({ ...MODULO_ERROR.ERROR })
+          }
+        }
+      },
     createModulo: async function (req, res) {
         try {
             let serial = req.body.serial;

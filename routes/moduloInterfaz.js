@@ -14,4 +14,7 @@ router.route('/read/:id')
 .put(ensureAuth,moduloI.update)
 .get(ensureAuth,moduloI.read)
 
+router.route('/getModinterfazlista')
+.get(ensureAuth,moduloI.getModinterfazlista)
+
 module.exports = router
