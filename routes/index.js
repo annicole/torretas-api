@@ -35,6 +35,9 @@ const progprod = require('./progprod')
 const funcusu = require('./funcusu')
 const produccion = require('./produccion')
 const eventocausa = require('./eventocausa')
+const prodregisro = require('./prodregisro')
+const acumcal = require('./acumcal')
+const acumscrap = require('./acumscrap')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -75,6 +78,9 @@ module.exports = function (app) {
     app.use('/funcusu', funcusu),
     app.use('/produccion', produccion),
     app.use('/eventocausa', eventocausa),
+    app.use('/prodregisro', prodregisro),
+    app.use('/acumcal', acumcal),
+    app.use('/acumscrap', acumscrap),
 
   app.use(router)
 }

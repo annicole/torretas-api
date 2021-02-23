@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         Intervalo:{
             type:DataTypes.STRING,
-            allowNull: false
+            allowNull: true
         }
     }, {
             defaultScope: {
