@@ -1,7 +1,8 @@
 
 'use strict'
+
+const Acumcal = require('../models').Acumcal;
 const models = require('../models');
-const Produccion = require('../models').Produccion;
 const sequelize = models.Sequelize;
 let op = sequelize.Op;
 
@@ -9,7 +10,7 @@ let op = sequelize.Op;
 const PERFIL_CONFIG_ERROR = {
     ERROR: {
         status: 500,
-        message: 'No se pudo guardar el sensor '
+        message: 'No se pudo guardar el registro'
     },
     PASSWORD_FAIL: {
         status: 406,
@@ -23,7 +24,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     PERFIL_NOT_FOUND: {
         status: 404,
-        message: 'No se pudo encontrar el sensor',
+        message: 'No se pudo encontrar el registro',
         code: 'SENSOR_NOT_FOUND'
     },
     LIMIT: {
@@ -32,7 +33,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     DUPLICATE: {
         status: 403,
-        message: 'El sensor ya existe'
+        message: 'Este registro ya existe'
     },
     CODE_INVALID: {
         status: 403,
@@ -44,7 +45,7 @@ const PERFIL_CONFIG_ERROR = {
     },
     PERFIL_REGISTERED: {
         status: 403,
-        message: 'Sensor ya existe'
+        message: 'El registro ya existe'
     }
 }
 
@@ -62,17 +63,14 @@ module.exports = {
             let busqueda = req.query.busqueda;
             if (busqueda != '') {
                 query = {
-                    lote: {
-                    [op.substring]: busqueda
-                  }
+                    Idprogprod: {
+                        [op.substring]: busqueda
+                    }
                 }
-              }
-            let response = await Produccion.findAll({
-                order: [['idproduccion','DESC']],
-                limit: 10,
-                attributes: ['idproduccion', 'Fecha', 'Cantidad', 'Intervalo','lote'],
+            }
+            let response = await Acumcal.findAll({
+                attributes: [ 'Idacdef', 'Idprogprod', 'acdef', 'Feacdef'],
                 where: query,
-
             })
             if (response) {
                 res.status(200).send({
@@ -96,7 +94,7 @@ module.exports = {
 
     create: async function (req, res) {
         try {
-            let response_new = new Produccion(req.body);
+            let response_new = new Acumcal(req.body);
             const response = await response_new.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
@@ -111,10 +109,10 @@ module.exports = {
     },
     delete: async function (req, res) {
         try {
-            const response = await Produccion.destroy({
-                where: { idproduccion: req.params.id }
+            const response = await Acumcal.destroy({
+                where: { Idacdef: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Producto eliminado', response })
+            res.status(200).send({ code: 200, message: 'Registro eliminado', response })
         } catch (error) {
             console.error(error)
             if (error instanceof PerfilConfigError) {
@@ -128,10 +126,10 @@ module.exports = {
 
     update: async function (req, res) {
         try {
-            const resp = await Produccion.update(req.body, {
-                where: { idproduccion: req.params.id }
+            const resp = await Acumcal.update(req.body, {
+                where: { Idacdef: req.params.id }
             })
-            res.status(200).send({ code: 200, message: 'Producto modificado', resp })
+            res.status(200).send({ code: 200, message: 'Registro modificado', resp })
         } catch (error) {
             console.error(error)
             if (error instanceof PerfilConfigError) {
@@ -144,7 +142,9 @@ module.exports = {
     },
     read: async function (req, res) {
         try {
-            let response = await Producto.findOne({ where: { idproducto: req.params.id } });
+            let response = await Acumcal.findOne({
+                where: { Idacdef: req.params.id }
+            });
             if (response) {
                 res.status(200).send({ code: 200, response });
             } else {
