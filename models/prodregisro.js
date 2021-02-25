@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11)
         },
         cant: {
-            type: DataTypes.DECIMAL(10,2)
+            type: DataTypes.DECIMAL(10)
         },
         prioridad: {
             type: DataTypes.INTEGER(10)
@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
         },
         idempresa:{
             type:DataTypes.INTEGER(11)
-        }
+        },
+        tcarga:{
+            type:DataTypes.INTEGER(11)
+        },
     }, {
             defaultScope: {
                 attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
