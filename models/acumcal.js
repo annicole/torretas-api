@@ -13,10 +13,6 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER(11),
             allowNull: false
         },
-        Feacdef: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
     }, {
         defaultScope: {
             attributes: { exclude: ['createdAt', 'updatedAt', 'deletedAt'] },
