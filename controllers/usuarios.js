@@ -96,7 +96,7 @@ module.exports = {
                     username: {
                         [op.substring]: busqueda
                     },
-                    idevento: status,
+                    activousr: status,
 
                 }
             }else if (evento != '' && status != '') {
@@ -287,6 +287,39 @@ module.exports = {
             new_usuario.nivelseg = 1;
             new_usuario.create_time =moment().format();  
             new_usuario.last_update =moment().format();  
+            const response = await new_usuario.save();
+            res.status(200).send({ code: 200, status: response.status });
+        } catch (error) {
+            console.error(error)
+            if (error instanceof UsuarioError) {
+                res.status(error.status).send(error)
+            } else {
+                console.log(error);
+                res.status(500).send({ code: 500, message: 'Error al guardar el usuario' })
+            }
+        }
+    },
+    createUsuarioInf: async function (req, res) {
+        try {
+            const usuario = await Usuario.findOne({
+                where: {
+                    [op.or]: [
+                        {
+                            email: req.body.email
+                        },
+                        {
+                            //username: req.body.username
+                        }]
+                }
+            });
+            if (usuario) {
+                throw new UsuarioError(USUARIO_ERROR.DUPLICATE);
+            }
+            let new_usuario = new Usuario(req.body);
+           
+            new_usuario.nivelseg = 1;
+            new_usuario.create_time = moment().format();
+            new_usuario.last_update = moment().format();
             const response = await new_usuario.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {

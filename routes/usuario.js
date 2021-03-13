@@ -17,6 +17,7 @@ router.route('/usuariossistema')
 
 router.route('/get')
 .get(ensureAuth, usuario.getUsuario)
+.post(ensureAuth, usuario.createUsuarioInf)
 
 router.route('/read/:id')
 .get(ensureAuth,usuario.readUsuario)
