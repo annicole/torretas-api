@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        Fecha: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         Intervalo:{
             type:DataTypes.STRING,
             allowNull: true

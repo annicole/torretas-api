@@ -305,10 +305,7 @@ module.exports = {
                 where: {
                     [op.or]: [
                         {
-                            email: req.body.email
-                        },
-                        {
-                            //username: req.body.username
+                            username: req.body.username
                         }]
                 }
             });
