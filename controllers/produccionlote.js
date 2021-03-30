@@ -1,7 +1,7 @@
 
 'use strict'
 
-const Prodregisro = require('../models').Prodregisro;
+const Produccionlote = require('../models').Produccionlote;
 const models = require('../models');
 const SKU = require('../models').SKU;
 const sequelize = models.Sequelize;
@@ -63,11 +63,48 @@ function Error(error) {
 }
 
 module.exports = {
+    get: async function (req, res) {
+        try {
+            let query = {};
+            let busqueda = req.query.busqueda;
+            if (busqueda != '') {
+                query = {
+                    lote: {
+                    [op.substring]: busqueda
+                  }
+                }
+              }
+            let response = await Produccionlote.findAll({
+               // order: [['idproduccion','DESC']],
+               // limit: 10,
+                attributes: ['idproduccion', 'idmaquina', 'lote', 'Fecha', 'Cantidad', 'Intervalo','lote'],
+                where: query,
 
-      get: async function (req, res) {
+            })
+            if (response) {
+                res.status(200).send({
+                    code: 200, response
+                })
+            } else {
+                throw new PerfilConfigError(PERFIL_CONFIG_ERROR.PERFIL_NOT_FOUND)
+            }
+
+        }
+        catch (error) {
+            console.error(error)
+            if (error instanceof PerfilConfigError) {
+                res.status(error.status).send(error)
+            } else {
+                res.status(500).send({ ...PERFIL_CONFIG_ERROR.ERROR })
+            }
+
+        }
+    },
+
+      getlote: async function (req, res) {
         try {
           let  idprogprod = req.query.idprogprod;
-          const prodregisro =await _sequelize.query('CALL prodregisro(:idprogprod)',{replacements: { idprogprod: idprogprod}});
+          const prodregisro =await _sequelize.query('CALL produccionlote(:idprogprod)',{replacements: { idprogprod: idprogprod}});
           if(prodregisro){
               res.status(200).send({code:200,prodregisro});
           }else{
