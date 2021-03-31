@@ -38,6 +38,7 @@ const eventocausa = require('./eventocausa')
 const prodregisro = require('./prodregisro')
 const acumcal = require('./acumcal')
 const acumscrap = require('./acumscrap')
+const produccionlote = require('./produccionlote')
 //all of the routing will be done here
 
 module.exports = function (app) {
@@ -81,6 +82,7 @@ module.exports = function (app) {
     app.use('/prodregisro', prodregisro),
     app.use('/acumcal', acumcal),
     app.use('/acumscrap', acumscrap),
+    app.use('/produccionlote', produccionlote),
 
   app.use(router)
 }

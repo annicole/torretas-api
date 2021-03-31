@@ -120,9 +120,29 @@ module.exports = {
         }
       },
 
+      getpreparacion: async function (req, res) {
+        try {
+            let tname = req.query.tname == '' ? '-1' : req.query.tname;
+            let tnamep = req.query.tnamp == '' ? '-1' : req.query.tnamep;
+            const progprod =await _sequelize.query('CALL preparacion(:tname,:tnamep)',{replacements: { tname: tname,tnamep: tnamep}});
+          if(progprod){
+              res.status(200).send({code:200,progprod});
+          }else{
+              throw new Error(CONST_ERROR.NOT_FOUND)
+          }
+        } catch (error) {
+          console.error(error)
+          if (error instanceof Error) {
+            res.status(error.status).send(error)
+          } else {
+            res.status(500).send({ ...CONST_ERROR.ERROR })
+          }
+        }
+      },
+
     create: async function (req, res) {
         try {
-            let response_new = new ProgProd(req.body);
+            let response_new = new Produccionlote(req.body);
             const response = await response_new.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {

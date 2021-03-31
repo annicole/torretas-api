@@ -6,13 +6,15 @@ const auth = require('../middleware/auth');
 
 const { ensureAuth } = auth;
 
+router.route('/getpro')
+.get(ensureAuth,produccionlote.getpreparacion);
+
 router.route('/get')
 .get(ensureAuth,produccionlote.get)
 .post(ensureAuth, produccionlote.create);
 
 router.route('/read/:id')
 .put(ensureAuth,produccionlote.update)
-.get(ensureAuth,produccionlote.read)
 .delete(ensureAuth,produccionlote.delete);
 
 module.exports = router
