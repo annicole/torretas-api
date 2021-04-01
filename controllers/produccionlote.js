@@ -2,6 +2,7 @@
 'use strict'
 
 const Produccionlote = require('../models').Produccionlote;
+const preparacion = require('../models').preparacion;
 const models = require('../models');
 const SKU = require('../models').SKU;
 const sequelize = models.Sequelize;
@@ -103,10 +104,13 @@ module.exports = {
 
       getlote: async function (req, res) {
         try {
-          let  idprogprod = req.query.idprogprod;
-          const prodregisro =await _sequelize.query('CALL produccionlote(:idprogprod)',{replacements: { idprogprod: idprogprod}});
-          if(prodregisro){
-              res.status(200).send({code:200,prodregisro});
+          let  tname = req.query.tname == '' ? '-1' : req.query.tname ;
+          let  tnamep = req.query.tnamep == '' ? '-1' : req.query.tnamep;
+          let  product = req.query.product == '' ? '-1' : req.query.product;
+          let  cantidadpiezas = req.query.cantidadpiezas  == '' ? '-1' :  req.query.cantidadpiezas;
+          const produccionlote =await _sequelize.query('CALL Produccionlote(:tname,:tnamep,:product,:cantidadpiezas)',{replacements: { tname:tname,tnamep:tnamep,product:product,cantidadpiezas:cantidadpiezas}});
+          if(produccionlote){
+              res.status(200).send({code:200,produccionlote});
           }else{
               throw new Error(CONST_ERROR.NOT_FOUND)
           }
@@ -140,9 +144,9 @@ module.exports = {
         }
       },
 
-    create: async function (req, res) {
+      create: async function (req, res) {
         try {
-            let response_new = new Produccionlote(req.body);
+            let response_new = new produccionlote(req.body);
             const response = await response_new.save();
             res.status(200).send({ code: 200, status: response.status });
         } catch (error) {
