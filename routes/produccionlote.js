@@ -10,7 +10,7 @@ router.route('/getpro')
 .get(ensureAuth,produccionlote.getpreparacion);
 
 router.route('/get')
-.get(ensureAuth,produccionlote.get)
+.get(ensureAuth,produccionlote.getlote)
 .post(ensureAuth, produccionlote.create);
 
 router.route('/read/:id')
